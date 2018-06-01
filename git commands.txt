@@ -1,0 +1,11 @@
+Git commands:
+
+# This will revert your project to a previous commit on a temporary branch // https://git-scm.com/docs/git-checkout
+git checkout -b <SHA_hash>
+
+# Remove all untracked files; d=recursive, f=force, x=ignore .gitignore
+git clean -dfx
+
+# Long path shenanigans, may require admin privileges
+git config --system core.longpaths true
+
