@@ -1,0 +1,26 @@
+Windows:
+	Wise System Monitor: WiseCleaner
+	Ditto Clipboard: Scott Brogden
+	AutoHotkey: AutoHotkey Foundation LLC
+	Macro Recorder: JitBit
+	ConEmu: Maximus5
+‎	WinSCP: Martin Prikryl
+	Open++: Tucows
+		Include batch in context menu:
+		Program: cmd
+		Arguments: /c <FILE>.bat %FilePaths%
+		Working directory: <FILE_DIR>
+		Associate with: With single	File or Folder
+
+Android:
+	Xodo PDF Reader & Editor: Xodo Technologies Inc.
+	Evernote - Organizer, Planner for Notes & Memos: Evernote Corporation
+	Google Keep?
+	EAS: Easy App Switcher: Echoff Inc.
+	Gboard - the Google Keyboard: Google LLC
+	Blue Light Filter - Night Mode, Eye Care: Leap Fitness Group
+	KillApps: Close all apps running: Youssef Ouadban
+	All-In-One Toolbox: Cleaner, Booster, App Manager: AIO Software Technology CO., Ltd. 
+	TorrDroid - Torrent Downloader: IntelliGems
+	Evie Launcher: Evie Labs Inc.
+	White Noise Generator: Relaxio

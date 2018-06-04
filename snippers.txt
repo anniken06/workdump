@@ -1,0 +1,26 @@
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+...
+
+String jsonStr = "{\"what\": \"is love\", \"baby\": true, \"dont\": {\"hurt\": \"me\", \"1\": 2}}";
+ObjectMapper mapper = new ObjectMapper();
+JsonNode tree = mapper.readTree(jsonStr);
+JsonNode found = tree.findPath("hurt");
+System.out.println(found);
+
+Map<String, String> map = mapper.readValue(tree.findPath("dont").traverse(), new TypeReference<Map<String, String>>(){});
+System.out.println(map);
+
+
+npm cache verify
+npm set registry https://registry.npmjs.org/
+npm config set @infor:registry http://npm.infor.com:4873
+npm install --loglevel warn
+npm cache verify
+
+npm cache verify
+npm set registry https://registry.npmjs.org/
+npm config set @infor:registry http://npm.infor.com:4873
+npm install --loglevel warn
+npm cache verify
