@@ -1,0 +1,1 @@
+https://app.pluralsight.com/player?course=python-fundamentals&author=austin-bingham&name=python-fundamentals-m04-objects&clip=3&mode=live
