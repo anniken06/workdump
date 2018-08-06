@@ -1,6 +1,5 @@
 #! python
 
-# Comments are preceded by the symbol #
 # The first line is a shebang, it tells the system how to run the script
 
 

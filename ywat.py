@@ -53,12 +53,42 @@ float('inf') + float('-inf') # This is an indeterminate
 None
 X = None
 
-# Built-in collections
+# Built-in string
+"Hi. I'm JP"
+'"Hello JP", said JP'
+multiline1 = """ Zen of Python #8
+Special cases aren't special enough to break the rules."""
+multiline2 = ''' Zen of Python #9
+Although practicality beats purity.'''
+print(multiline1)
+print(multiline2)
 
+print("escape\nMaster \' \" \\") # Special characters escape
+print(r"raw\nMaster \!@#$%^&*()_:") # Raw / No escape characters
 
+str(1)
+str(3*10e8)
+str(False)
 
-# Built-in bool
+my_string = "H\u00e5llo world!"
+my_bytes = my_string.encode("utf-8") # Data usually gets transferred over networks in bytes, not unicode characters
+print(my_string)
+print(my_bytes)
+my_bytes.decode("utf-8") == my_string
+
+# Built-in lists
+my_list = [1, "apple", True, ["metalist",]]
+my_list[0]
+my_list[-1]
+
+# Built-in dictionary
+my_dictionary = {1: 2, "hello": "world", 8: "sqrtMaster"}
+my_dictionary[64**0.5]
+my_dictionary["hello"]
+
+# Built-in bool and conditionals
 True
+1 < 2 <= 3 > -1 >= -2 != -3 == -3
 bool(None)
 bool(0)
 bool(-42)
@@ -74,8 +104,7 @@ bool((1,2,3))
 bool({})
 bool({"hello": "world"})
 
-1 < 2 <= 3 > -1 >= -2 != -3 == -3
-
+# If statements
 if False:
     print(1)
 elif True:
@@ -83,6 +112,59 @@ elif True:
 else:
     print(3)
 
+# While statements
+while True:
+    print("break here")
+    break
+else:
+    print("Entered else?")
+
+i = 3
+while i < 0:
+    print(i)
+    i -= 1
+else:
+    print("executed while loop with no breaks")
+
+# For statements
+for i in [1,2,"3",4]:
+    if type(i) == str:
+        print("Strings have no power here, breaking...")
+        break
+    print(i**0.5)
+else:
+    print("Entered else?")
+
+for c in "hi":
+    print(c)
+else:
+    print("Did not break")
+
+
+
+
+
+
 (lambda x: x**2) (20)
 (lambda x, y, z: x(y(z))) (lambda a: a + 1, (2).__pow__, 3)
 (lambda xi: (xi) (xi)) (lambda xip1: (xip1) (xip1))
+
+https://app.pluralsight.com/player?course=python-fundamentals&author=austin-bingham&name=python-fundamentals-m02-strings&clip=0&mode=live
+
+def numbers(i=0):
+    while True:
+        yield i
+        i += 1
+
+y = numbers()
+next(y)
+next(y)
+next(y)
+next(y) # which magic method
+
+
+# COMPLEX - LARGE RANGE
+# COMPLICATED - LARGE NUMBER OF SPECIAL CASES
+
+import this
+import antigravity

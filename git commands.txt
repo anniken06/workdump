@@ -1,5 +1,7 @@
 Git commands:
 
+git clean -dfx -e '*.project' -e '*.settings' -e '.classpath' -n
+
 # Using git cherry-pick The command git cherry-pick commit applies the changes introduced by the named commit on the current branch.
 git cherry-pick <SHA-hash>
 
