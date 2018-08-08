@@ -1,8 +1,10 @@
 #SingleInstance force
 
 :*:;=::=================================================================================================================
+:*:;pycode::import code; code.interact(local={{}**locals(), **globals(){}})
 :*:;mci::mvn clean install
 :*:;smci::mvn clean install -DskipTests
+:*:;gcd::cd ~/git/coleman.ui/
 :*:;gf::git fetch --all
 :*:;gs::git stash
 :*:;grh::git reset --hard

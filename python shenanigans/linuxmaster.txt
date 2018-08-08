@@ -1,0 +1,95 @@
+ps aux | grep <regex>
+
+clear!!
+> nohup.out
+tail -f /proc/<pid>/fd/1
+
+
+export sourcePath="/c/Users/jguzman2/OneDrive - Infor/Desktop/python shenanigans/filter_tail.py"
+
+export targetPath="ec2-user@manila1.cpaas.awsiondev.infor.com:/home/ec2-user/"
+
+scp -i ~/Navodar.pem "${sourcePath}" "${targetPath}"
+
+
+
+scp -i ~/Navodar.pem ec2-user@coleman2.awsiondev.infor.com:~/nohup.branch_master.out ~/test.txt
+
+
+spark    11115  0.8  4.1 3640872 338788 ?      Sl   00:40   0:17 /usr/lib/jvm/java-openjdk/bin/java -cp /usr/lib/spark/conf/:/usr/lib/spark/jars/*:/etc/hado$
+hadoop   11252  0.9  6.3 2854024 516584 ?      Sl   00:41   0:18 /etc/alternatives/jre/bin/java -Xmx1000m -server -XX:OnOutOfMemoryError=kill -9 %p -Dhadoop$
+hadoop   21052  0.0  0.0 110468  2192 pts/0    S+   01:13   0:00 grep --color=auto spark
+
+sudo find / -iname '*log' | grep 'spark\|hadoop\|log4j\|java' | sudo xargs cat | grep 'java:106'
+
+sudo tail -f /proc/11252/fd/1
+
+
+sudo find / -iname '*log' | sudo xargs cat | grep 'java:106'	
+
+ ls -t -l
+
+
+[‎7/‎24/‎2018 3:36 PM]  
+Hi David, I committed changes you suggested in COLEMANPAAS-162. However, I don't know how to check if it works as expected. 
+ 
+[‎7/‎24/‎2018 3:41 PM]  David Sauer:  
+Hi, try to run any Quest that has an external dataset (e.g. a dataset NOT loaded from Datalake) as the input. The best is dataset `test3` @coleman2 - because it failed previously.
+ 
+[‎7/‎24/‎2018 3:45 PM]  
+I see, alright I'll try that. Thanks!
+ 
+[‎7/‎25/‎2018 5:21 PM]  
+HI David, could I ask how are you able to monitor/peak inside the scripts that are being submitted to the EMR instance? Is there some file in EMR's EC2 instance that I could tail?
+ 
+[‎7/‎25/‎2018 5:24 PM]  David Sauer:  
+Hello, it is not the best way monitoring, but there is a log for EMR step.
+Navigate please to amazon console -> EMR -> Clustees -> [choose the cluster] -> Steps -> View logs -> error output from the script is in stderr.
+
+You can also run the script again via spark-submit, the scripts are not deleted after a run, the script location is in the log.
+ 
+[‎7/‎25/‎2018 5:26 PM]  David Sauer:  
+Note that log output visible in AWS console has a certain delay, AWS copies EMR logs to web interface in batches.
+ 
+[‎7/‎25/‎2018 5:29 PM]  
+Oh cool! I do see mentions of some .py scripts in these logs.
+ 
+[‎7/‎25/‎2018 5:30 PM]  David Sauer:  
+if you ran it again you would need to add -jackoffall library to the path and also set certain prosperties.
+See com.infor.coleman.backend.execution.spark_emr.executor.LocalSparkQuestRunner#submitCode  for the example.
+prosperties  -> properties
+ 
+[‎7/‎25/‎2018 5:32 PM]  
+I see, I'll keep these in mind.
+ 
+[‎7/‎25/‎2018 5:33 PM]  
+Thanks very much!
+ 
+[‎7/‎25/‎2018 5:33 PM]  David Sauer:  
+You are welcome.
+ 
+
+
+
+
+
+[‎7/‎25/‎2018 5:36 PM]  Annika Pearl Colar:  
+tapos kapag working na sa coleman2 magmerge request ka sa qa branch kung testable na
+para may mag email na sa qa hahaha
+ 
+
+/mnt/var/lib/hadoop/steps/
+
+SPARK_HOME=/usr/lib/spark && \
+spark-submit \
+--master yarn \
+--executor-memory 500m --driver-memory 500m \
+--jars com.infor.colemanui.execution.emr-1.0.0-SNAPSHOT-jackofall.jar \
+--conf "spark.driver.extraJavaOptions -Dredis.host=coleman-demo.nkeiwn.0001.euw1.cache.amazonaws.com -Dredis.port=6379" \
+runme.py
+
+
+        except Exception as e:
+            print(e)
+
+            L49
