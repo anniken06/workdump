@@ -69,7 +69,16 @@ def main():
 
     try:
         tail_command = "{} '{}'".format(tail_template, log_path)
-        trigger_save = lambda line: (trigger_pattern.match(line))
+        trigger_save = lambda line: (
+            trigger_pattern.match(line) 
+            and "Cannot convert null object to JSON" not in line
+            and "Invalid UUID string" not in line
+            and "quest/new" not in line
+            and "Exception occurred accessing endpoint user in null.null" not in line
+            and "HTTP 404 Not Found" not in line
+            and not line.startswith(" ")
+            and not line.startswith("\t")
+            and not continuation_pattern.match(line))
         continuation_save = lambda line: (continuation_pattern.match(line))
 
         lines_lookbehind = []

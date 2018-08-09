@@ -11,10 +11,11 @@
 :*:;gru::git reset --hard @{{}u{}}
 :*:;gcb::git checkout 
 :*:;gt::git tag ""{Left}
+:*:;gad::git add 
+:*:;gcom::git commit -m ""{LEFT}
 :*:;gpl::git pull 
 :*:;gph::git push 
 :*:;glog::git log --oneline 
-:*:;gcommitcount::git rev-list --left-right --count 
 
 :*:;sp::
 {

@@ -5,18 +5,18 @@ import subprocess
 import time
 
 
-def run_subprocess_and_get_results(command, max_length=256, timeout=1):
+def run_subprocess_and_get_results(command, max_length=1024, timeout=1):
+    print(">> Running: ", str(command)[ :max_length])
     args = shlex.split(command)
     process = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     (out, err, rc) = *process.communicate(), process.returncode
-    #time.sleep(timeout)
-    print(">> Running: ", str(command)[ :max_length])
+    time.sleep(timeout)
     print(">> Results: ", str((out, err, rc))[ :max_length])
     return {'command': command, 'stdout': out, 'stderr': err, 'returncode': rc}
 
 
 class CurlGenerator:
-    def __init__(self, curl_template, replace_dict={"": [""]}, handle_responses=lambda responses: None):
+    def __init__(self, curl_template, replace_dict={"": [""]}, handle_responses=lambda responses: print("Handler not implemented. Simply printing responses:\n\n", "\n\n".join(map(lambda response: str(response), responses)))):
         ## Copy from Chrome > F12 > Network > particular request > Right-click > Copy > Copy as cURL (bash)
         self.curl_template = curl_template
         self.replace_dict = replace_dict
@@ -57,8 +57,9 @@ if __name__ == '__main__':
             print(e)
             print(responses[0]['stderr'].decode('utf-8'))
         return quests
-    get_generator = CurlGenerator(curl_template=get_template, replace_dict=get_replace_dict, handle_responses=get_handler)
-    quests = get_generator.process_responses()
+    if True or input("Run get tasks (y/n)? ") == "y":
+        get_generator = CurlGenerator(curl_template=get_template, replace_dict=get_replace_dict, handle_responses=get_handler)
+        quests = get_generator.process_responses()
 
 
     # # #  Save queried quests  # # # 
@@ -81,8 +82,9 @@ if __name__ == '__main__':
                 print(e)
                 print(result['stderr'].decode('utf-8'))
         return "Finished saving backups to: /{}/.".format(backup_directory)
-    save_generator = CurlGenerator(curl_template=save_template, replace_dict=save_replace_dict, handle_responses=save_handler)
-    print("Backup status: {}".format(save_generator.process_responses()))
+    if input("Run save tasks (y/n)? ") == "y":
+        save_generator = CurlGenerator(curl_template=save_template, replace_dict=save_replace_dict, handle_responses=save_handler)
+        print("Backup status: {}".format(save_generator.process_responses()))
 
 
     # # #  Delete queried quests  # # # 
@@ -91,22 +93,25 @@ if __name__ == '__main__':
         "<API_URL>": ["https://manila1.cpaas.awsiondev.infor.com:18010/coleman/api/quest"],
         "<DS_ID>": [quest['id'] for quest in quests],
     }
-    def delete_handler(responses):
-        print("Processing responses from: delete curls.")
-        return "Finished deleting {} quests.".format(len(responses))
-    delete_generator = CurlGenerator(curl_template=delete_template, replace_dict=delete_replace_dict, handle_responses=delete_handler)
-    print("Delete status: {}".format(delete_generator.process_responses()))
+    if input("Run delete tasks (y/n)? ") == "y":
+        delete_generator = CurlGenerator(curl_template=delete_template, replace_dict=delete_replace_dict)
+        print("Delete status: {}".format(delete_generator.process_responses()))
 
+
+    # # #  Update queried quests  # # # 
+    new_quests = []
+    for quest in quests:
+        new_quest = quest
+        new_quest['name'] = "[edited]" + quest['name']
+        new_quests += [new_quest]
+    update_template = "curl -v '<API_URL>' -X POST -H 'Content-Type: application/json' -H 'Accept: application/json, text/plain, */*' --data-binary '<QUEST_JSON>' --insecure"
+    update_replace_dict = {
+        "<API_URL>": ["https://manila1.cpaas.awsiondev.infor.com:18010/coleman/api/quest"],
+        "<QUEST_JSON>": [json.dumps({"quest": quest}) for quest in new_quests],
+    }
+    if input("Run update tasks (y/n)? ") == "y":
+        update_generator = CurlGenerator(curl_template=update_template, replace_dict=update_replace_dict)
+        import code; code.interact(local={**locals(), **globals()})
+        print("Update status: {}".format(update_generator.process_responses()))
 
     print("Done!")
-
-
-""" SAMPLE
-updated_quest = quest
-updated_quest . add/remove col
-
-update quest template = "... <API>/<ID> ... <NEW_CONTENTS>"
-{"<NEW CONENTS>": updated_quest}
-
-process_responses()
-"""
