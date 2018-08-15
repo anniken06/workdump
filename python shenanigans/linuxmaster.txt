@@ -4,16 +4,52 @@ clear!!
 > nohup.out
 tail -f /proc/<pid>/fd/1
 
+echo "123" | sed "s|1|A|g"
+echo "123" | sed "s|1|$HOME|g"
+
+
+sudo find /. -name "*.py"
+
+sudo find /. -name "*.py" | grep hadoop | xargs -n 1 -I{} cp {} ~/
+
 
 export sourcePath="/c/Users/jguzman2/OneDrive - Infor/Desktop/python shenanigans/filter_tail.py"
-
 export targetPath="ec2-user@manila1.cpaas.awsiondev.infor.com:/home/ec2-user/"
-
 scp -i ~/Navodar.pem "${sourcePath}" "${targetPath}"
 
 
-
 scp -i ~/Navodar.pem ec2-user@coleman2.awsiondev.infor.com:~/nohup.branch_master.out ~/test.txt
+
+
+(echo Line1a ; echo Line2b && echo Line3a || echo "Last Line") | grep a
+(echo Line1a ; echo Line2b && echo Line3a || echo "Last Line") | head -n 2
+echo "blipblip" | xargs -I{} echo {} "toryah" {}
+
+
+ls -t | head -n 1 | xargs -I{} tail -f -n +0 {} | nl | grep -E "EMR cluster"
+
+
+reset && ls -t | head -n 1 | xargs -I{} tail -f -n +0 {} | nl | grep -v -E "getQuest()" | grep -E "EMR cluster|9055dcb2-e1e2-4af2-be4d-9b1aa8c8c4f0" | cut -c 1-512 | xargs -d '\n' -I{} printf "{}\n\n"
+
+[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}
+
+export grep_me="EMR cluster|9055dcb2-e1e2-4af2-be4d-9b1aa8c8c4f0|4099d18b-88c7-b2ec-b86f-c5e2aa4ee4be|49b590b7-c314-0b4e-3df7-2f773a566592|578ac445-b03f-d021-3ede-ee80ef279de9|a952c5e6-92c8-c13f-d42f-1af75b6b5191|7eecbec8-9854-55d5-3470-e6d8e8bd5d37|a1986082-01d7-7055-775c-1daf46bd5c65|5e5441cf-de39-8b06-003e-c2ef142f2138|9b24140c-22c9-e2fd-035b-d6b21c027eb6|1a99956c-1c66-ca3d-6023-44626d559492|e78b8cf7-a5db-57c0-ddcb-d5feb8647b4f|17bbf228-d8cf-e3b0-ae4a-3e5551b13dc0|c019bff9-05c8-86bf-dfd6-0d2d2455f32d|8fa6e0a2-63c0-7cf6-d203-ad102c6491a7|982a0f51-e871-fe9d-f2e6-f32bed9ebbd6|547678ec-d044-b56b-d152-84d5e8f22a6a|22463cf0-a1b9-4da1-a6e1-f2e185675482|c69c547f-9bcb-448c-ad7a-6bdee0b5a6cc|5d7ccab2-8890-a818-60e7-6a1ac064c785|d2a39894-62be-98fc-770f-608b4e0ebcff|c009ce5d-3ef0-31ce-15b6-8724c68e7650|0c839eb3-0c6e-b640-e9cd-753ffafd0d13|2fd633f6-2601-7bdf-2013-d1ede2bf8e30|963f991f-fae3-e217-1710-ab1711c57ac7|ef5c7307-3dbc-0417-6a3d-180caa715275|fd0d439b-2678-d27b-6816-30068e684a05|f7897b10-8321-d3ac-d066-a74a2750c5a0|12d1f471-c7bb-a6b1-34ab-049edc434a1c|e719514c-5960-bfff-6180-03fa385ee83a|0f0b8ae2-3d57-e18b-62ad-be1d2c489322|91ebb0c3-af2d-ae57-8b9a-6517085a84fd|35189eb2-8c97-2b25-c2ad-3565bb26cc22|65015716-c4a2-f8ff-446d-60a7db04eaf5|a65b084c-bd3f-5f2c-1e8e-7b576d8e8606|56f47ab7-2746-9a26-05d9-ef6347fc4a21|f8a4843a-ffe4-9f20-14d9-21862b3a1584|271ff8d0-9e34-e9a6-1694-5d3b02063540|ab266095-3bb8-f709-b047-09aba0288192|ff3175b2-8645-962b-faa4-6fce68ecd5dc|b61e412e-7084-2f24-418a-c08d699f0666|13f53146-008d-30b8-a049-d07c826b42af|8c3dbdec-3567-46a9-9c16-bb0dc5d0c8dd|6cd69d2d-5c4f-2c12-6c52-b2f6c3d3c746|74497bba-dbdf-fa0b-f831-2d8ad50504fd|e715af4d-e5a7-d308-1cc4-5633f09c0582|32412378-fcd7-28c4-0e17-5d1c406d7047|f1111d94-161a-15ac-8cb9-36bab6790c43|c386c53d-8640-f530-49fa-224ac3fbb63c|5d52dda0-7046-e180-d1dc-1141909c9c51|c9f79ad7-bcb5-2f68-33dc-2b6ed43632e8|e8bb4ede-3d87-7c07-6bf8-429e40488ef6|6a5ce254-3805-ee83-a610-90c9af36b0a3|65015716-c4a2-f8ff-446d-60a7db04eaf5|4099d18b-88c7-b2ec-b86f-c5e2aa4ee4be|7a94ec76-55c1-a469-4268-60d571bcd0ad|6cd69d2d-5c4f-2c12-6c52-b2f6c3d3c746|c69c547f-9bcb-448c-ad7a-6bdee0b5a6cc|cbb5ce80-480c-acae-80b2-0b14daabebd2|5d7ccab2-8890-a818-60e7-6a1ac064c785|56f47ab7-2746-9a26-05d9-ef6347fc4a21|16e2a0ab-d0ad-5fc3-7ca6-653ad9536fcc|e78b8cf7-a5db-57c0-ddcb-d5feb8647b4f|91ebb0c3-af2d-ae57-8b9a-6517085a84fd|8383f6ef-c975-b94a-714e-b53ccdd5191f|f1111d94-161a-15ac-8cb9-36bab6790c43|7eecbec8-9854-55d5-3470-e6d8e8bd5d37|96740bc8-da4a-b3dd-c1ac-ef0aaec6f69a|0c839eb3-0c6e-b640-e9cd-753ffafd0d13|8c3dbdec-3567-46a9-9c16-bb0dc5d0c8dd|c2e51595-892e-9781-ef61-b33424968b6b|f1111d94-161a-15ac-8cb9-36bab6790c43|35189eb2-8c97-2b25-c2ad-3565bb26cc22|0e9f08c5-3d96-fb96-cd30-2b62b78279bf|e719514c-5960-bfff-6180-03fa385ee83a|32412378-fcd7-28c4-0e17-5d1c406d7047|4c7e6b82-a5be-2692-ea0c-257be7bb9e04|a1986082-01d7-7055-775c-1daf46bd5c65|963f991f-fae3-e217-1710-ab1711c57ac7|ab738f36-dbe2-7883-ed9c-4b4b3807b7af|c9f79ad7-bcb5-2f68-33dc-2b6ed43632e8|1a99956c-1c66-ca3d-6023-44626d559492|8fbd289e-f7b3-4e3c-e8f8-9f87540e38a1|982a0f51-e871-fe9d-f2e6-f32bed9ebbd6|c009ce5d-3ef0-31ce-15b6-8724c68e7650|0cb21ce3-67a4-e0bc-d779-bbd826055615|c386c53d-8640-f530-49fa-224ac3fbb63c|9b24140c-22c9-e2fd-035b-d6b21c027eb6|8ae830f0-ccaf-894b-1494-f7bf457331f8|c386c53d-8640-f530-49fa-224ac3fbb63c|ff3175b2-8645-962b-faa4-6fce68ecd5dc|630bfb5e-e2b9-b1ee-f06e-d03f2d0bd344|c019bff9-05c8-86bf-dfd6-0d2d2455f32d|ab266095-3bb8-f709-b047-09aba0288192|9197ca5f-8741-7b55-86d6-6199e9f7f7d9|f8a4843a-ffe4-9f20-14d9-21862b3a1584|f7897b10-8321-d3ac-d066-a74a2750c5a0|965cb843-f59a-5661-3c4b-41322f361555|b61e412e-7084-2f24-418a-c08d699f0666|a952c5e6-92c8-c13f-d42f-1af75b6b5191|8fa6e0a2-63c0-7cf6-d203-ad102c6491a7|17bbf228-d8cf-e3b0-ae4a-3e5551b13dc0|5e5441cf-de39-8b06-003e-c2ef142f2138|2fd633f6-2601-7bdf-2013-d1ede2bf8e30|13f53146-008d-30b8-a049-d07c826b42af|d2a39894-62be-98fc-770f-608b4e0ebcff|578ac445-b03f-d021-3ede-ee80ef279de9|e8bb4ede-3d87-7c07-6bf8-429e40488ef6|271ff8d0-9e34-e9a6-1694-5d3b02063540|5d52dda0-7046-e180-d1dc-1141909c9c51|fd0d439b-2678-d27b-6816-30068e684a05|e715af4d-e5a7-d308-1cc4-5633f09c0582|a65b084c-bd3f-5f2c-1e8e-7b576d8e8606|547678ec-d044-b56b-d152-84d5e8f22a6a|0f0b8ae2-3d57-e18b-62ad-be1d2c489322|93e1d16f-d2a4-4522-9504-5743b54d75f8"
+reset && ls -t | head -n 1 | xargs -I{} tail -f -n +0 {} | nl | grep -v -E "getQuest()" | grep -E ${grep_me} | cut -c 1-512 | xargs -d '\n' -I{} printf "{}\n\n"
+
+reset && ls -t | head -n 1 | xargs -I{} tail -f -n +0 {} | nl | grep -E "Exception|sparksubmit|failed|FAILED" | cut -c 1-512 | xargs -d '\n' -I{} printf "{}\n\n"
+
+ls -t | head -n 1 | xargs -I{} tail -f -n +0 {} | cut -c 1-1024 | nl | grep -v -E "getQuest()" | grep -E "EMR cluster|81df81fb-90cf-4625-ac78-b8b8bb005c5d|965cb843-f59a-5661-3c4b-41322f361555|9197ca5f-8741-7b55-86d6-6199e9f7f7d9|9c4991cf-3547-6c37-2c8d-011700efd27d|630bfb5e-e2b9-b1ee-f06e-d03f2d0bd344|a6b58c4b-c117-1a29-d055-df095b062145" | grep -E "Exception|FAILED|failed"
+
+
+
+export line=323142
+ls -t | head -n 1 | xargs -I{} vim -R +${line} {}
+ls -t | head -n 1 | xargs -I{} vim -R +1139 {}
+
+
+
+ls -t | head -n 1 | xargs -I{} cat {} | grep -n -E "uploaded part" | wc -l
+
 
 
 spark    11115  0.8  4.1 3640872 338788 ?      Sl   00:40   0:17 /usr/lib/jvm/java-openjdk/bin/java -cp /usr/lib/spark/conf/:/usr/lib/spark/jars/*:/etc/hado$

@@ -36,6 +36,12 @@
 	Return
 }
 
+:*:;rungit::
+{
+	Run "C:\Program Files\Git\git-bash.exe"
+	Return
+}
+
 ^SPACE:: Winset, Alwaysontop, , A
 ^UP:: WinSet, Style, +0xC00000, A
 ^DOWN:: WinSet, Style, -0xC00000, A

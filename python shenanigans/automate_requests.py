@@ -7,7 +7,7 @@ import time
 
 def run_subprocess_and_get_results(command, max_length=1024, timeout=1):
     print(">> Running: ", str(command)[ :max_length])
-    args = shlex.split(command)
+    args = shlex.split(command) ## while err??
     process = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     (out, err, rc) = *process.communicate(), process.returncode
     time.sleep(timeout)
@@ -43,10 +43,11 @@ class CurlGenerator:
 if __name__ == '__main__':
     backup_directory = "backups"
 
+
     # # #  Query quests  # # # 
     get_template = "curl -v '<API_URL>' -H 'Accept: application/json, text/plain, */*' --insecure"
     get_replace_dict = {
-        "<API_URL>": ["https://manila1.cpaas.awsiondev.infor.com:18010/coleman/api/quest"],
+        "<API_URL>": ["https://coleman2.awsiondev.infor.com:18010/coleman/api/quest"],
     }
     def get_handler(responses):
         print("Processing responses from: get curls.")
@@ -57,7 +58,7 @@ if __name__ == '__main__':
             print(e)
             print(responses[0]['stderr'].decode('utf-8'))
         return quests
-    if True or input("Run get tasks (y/n)? ") == "y":
+    if input("Run get tasks (y/n)? ") == "y":
         get_generator = CurlGenerator(curl_template=get_template, replace_dict=get_replace_dict, handle_responses=get_handler)
         quests = get_generator.process_responses()
 
@@ -65,7 +66,7 @@ if __name__ == '__main__':
     # # #  Save queried quests  # # # 
     save_template = "curl -v '<API_URL>/<DS_ID>?render=true' -H 'Accept: application/json, text/plain, */*' --insecure"
     save_replace_dict = {
-        "<API_URL>": ["https://manila1.cpaas.awsiondev.infor.com:18010/coleman/api/quest"],
+        "<API_URL>": ["https://coleman2.awsiondev.infor.com:18010/coleman/api/quest"],
         "<DS_ID>": [quest['id'] for quest in quests],
     }
     def save_handler(responses):
@@ -90,8 +91,9 @@ if __name__ == '__main__':
     # # #  Delete queried quests  # # # 
     delete_template = "curl -v '<API_URL>/<DS_ID>' -X DELETE -H 'Accept: application/json, text/plain, */*' --insecure"
     delete_replace_dict = {
-        "<API_URL>": ["https://manila1.cpaas.awsiondev.infor.com:18010/coleman/api/quest"],
-        "<DS_ID>": [quest['id'] for quest in quests],
+        "<API_URL>": ["https://coleman2.awsiondev.infor.com:18010/coleman/api/quest"],
+        #"<DS_ID>": [quest['id'] for quest in quests],
+        #"<DS_ID>": [quest['id'] for quest in quests if len(quest['activities']) < 2],
     }
     if input("Run delete tasks (y/n)? ") == "y":
         delete_generator = CurlGenerator(curl_template=delete_template, replace_dict=delete_replace_dict)
@@ -99,19 +101,18 @@ if __name__ == '__main__':
 
 
     # # #  Update queried quests  # # # 
-    new_quests = []
-    for quest in quests:
-        new_quest = quest
-        new_quest['name'] = "[edited]" + quest['name']
-        new_quests += [new_quest]
+    for quest in quests:  # Edit quests here
+        quest['name'] = "[edited]" + quest['name']
+        # del quest['delete_column']
+        # quest['new_column'] = 'new_value'
+    
     update_template = "curl -v '<API_URL>' -X POST -H 'Content-Type: application/json' -H 'Accept: application/json, text/plain, */*' --data-binary '<QUEST_JSON>' --insecure"
     update_replace_dict = {
-        "<API_URL>": ["https://manila1.cpaas.awsiondev.infor.com:18010/coleman/api/quest"],
-        "<QUEST_JSON>": [json.dumps({"quest": quest}) for quest in new_quests],
+        "<API_URL>": ["https://coleman2.awsiondev.infor.com:18010/coleman/api/quest"],
+        "<QUEST_JSON>": [json.dumps({"quest": quest}) for quest in quests],
     }
     if input("Run update tasks (y/n)? ") == "y":
         update_generator = CurlGenerator(curl_template=update_template, replace_dict=update_replace_dict)
-        import code; code.interact(local={**locals(), **globals()})
         print("Update status: {}".format(update_generator.process_responses()))
 
     print("Done!")

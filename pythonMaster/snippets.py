@@ -93,3 +93,10 @@ def f():
 
 f()
 help(f)
+
+[i + 1 for i in [1,2,3,1]]
+*(i + 1 for i in [1,2,3,1]),
+{str(i) + " is the key": i + 1 for i in [1,2,3,1]}
+
+(i + 1 for i in [1,2,3])
+{i + 1 for i in [1,2,3,1]}
