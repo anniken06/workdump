@@ -1,5 +1,10 @@
 ## Comments are preceded by the symbol #
 
+EVERYTHING IS AN OBJECT
+FUNCTIONS ARE OBJECTS
+LAMBDAS ARE OBJECTS
+CLASSES ARE OBJECTS
+
 ## None Literals
 None
 

@@ -15,7 +15,9 @@
 :*:;gcom::git commit -m ""{LEFT}
 :*:;gpl::git pull 
 :*:;gph::git push 
-:*:;glog::git log --oneline 
+:*:;glog::git log --oneline
+:*:;uuid::[a-z0-9]{{}8{}}-[a-z0-9]{{}4{}}-[a-z0-9]{{}4{}}-[a-z0-9]{{}4{}}-[a-z0-9]{{}12{}}
+:*:;bbp:: && ~/beep.sh
 
 :*:;sp::
 {
@@ -36,7 +38,7 @@
 	Return
 }
 
-:*:;rungit::
+:*:;rg::
 {
 	Run "C:\Program Files\Git\git-bash.exe"
 	Return
