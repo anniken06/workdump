@@ -14,6 +14,7 @@ class Talker(object):
     
     def talk(self):
         data = self.get_clipboard()
+        data = data.replace("\r", "").replace("\n", " ").replace("  ", " ")
         print("Saying: \n", data)
         self.engine.say(data)
         self.engine.runAndWait()
@@ -27,12 +28,13 @@ import keyboard  # pip install keyboard
 import time
 
 poll_time = 0.25
-talker = Talker()
+rate_offset = 25
+talker = Talker(rate_offset=25)
 try:
     while True:
-        if keyboard.is_pressed('t') and keyboard.is_pressed('s'):
+        if keyboard.is_pressed('win') and keyboard.is_pressed('t'):
             talker.talk()
-        print("polling...")
+        #print("polling...")
         time.sleep(poll_time)
 except Exception as e:
     print("Exception", e)
