@@ -1,5 +1,12 @@
 Git commands:
 
+git checkout 5c6bebc -- ./com.infor.colemanui.backend/rest-service/src/main/java/com/infor/colemanui/backend/rest/service/DatasetService.java
+
+git merge branch
+git reset --soft origin/master
+git commit -m "newcommit"
+git push
+
 git clean -dfx -e '*.project' -e '*.settings' -e '.classpath' -n
 
 git rev-list --left-right --count <BRANCH_LEFT>...<BRANCH_RIGHT>

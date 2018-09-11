@@ -1,3 +1,15 @@
+CHROME filter: /^(.(?!instance|available))+$/
+
+^    (?!(@Path)).*\n./
+^.*(?<!GeneralWeb)Exception\(.*$
+
+
+do date -u +"%F %T.%N"
+while true; do date -u +"%F %T.%N"; sleep 1; done;
+
+
+$ echo "date -u +'%F %T.%N'" | xargs -I{} (while true; do {}; sleep 1; done;)
+
 ps aux | grep <regex>
 
 mvn versions:display-dependency-updates | grep -B 0 -A 1 -E "jersey|spring-boot"
@@ -48,6 +60,7 @@ sudo find /. -name "*.py"
 
 sudo find /. -name "*.py" | grep hadoop | xargs -n 1 -I{} cp {} ~/
 
+scp -i ~/Navodar.pem ~/pretty_egrep.sh ec2-user@coleman2.awsiondev.infor.com:~/
 
 export sourcePath="/c/Users/jguzman2/OneDrive - Infor/Desktop/python shenanigans/filter_tail.py"
 scp -i ~/Navodar.pem ec2-user@manila1.cpaas.awsiondev.infor.com:~/nohup.branch_master.out ~/test.txt
@@ -55,7 +68,12 @@ scp -i ~/Navodar.pem ec2-user@manila1.cpaas.awsiondev.infor.com:~/nohup.branch_m
 scp -i ~/Navodar.pem ec2-user@manila1.cpaas.awsiondev.infor.com:~/nohup.branch_qa.out ./downloaded_logs.txt
 
 ssh -i ~/Navodar.pem ec2-user@coleman2.awsiondev.infor.com
-W
+
+
+scp -i ~/Navodar.pem ec2-user@manila1.cpaas.awsiondev.infor.com:~/nohup.pipeline_12471.out ./downloaded_logs.txt
+scp -i ~/Navodar.pem ec2-user@manila1.cpaas.awsiondev.infor.com:~/nohup.pipeline_12471.ASDASDASD ./downloaded_logs.txt
+
+ls -t | grep ".out" | head -n 1 | xargs -I{} cat {} | grep -E "questId=ac87b1de-d758-4218-9063-fac67cb2b3bb(.*)portId=(.*)status=FAILED" | grep -o -E "activityId=[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}" | uniq
 
 export targetPath="ec2-user@manila1.cpaas.awsiondev.infor.com:/home/ec2-user/"
 export sourcePath="/c/Users/jguzman2/git/coleman.ui/com.infor.colemanui.spring.backend/deploy/"
@@ -66,6 +84,8 @@ printf ${sourceFiles} | grep ".sh" | xargs -n 1 -I{} echo ${sourcePath}{} | xarg
 printf ${sourceFiles} | xargs -n 1 -I{} echo ${sourcePath}{} | xargs -d '\n' -I{} scp -i ~/Navodar.pem {} "${targetPath}"
 
 
+ssh -i ~/Navodar.pem ec2-user@manila1.cpaas.awsiondev.infor.com 'ls -t | grep .out | head -n 1'
+
 
 (echo Line1a ; echo Line2b && echo Line3a || echo "Last Line") | grep a
 (echo Line1a ; echo Line2b && echo Line3a || echo "Last Line") | head -n 2
@@ -74,13 +94,13 @@ echo "blipblip" | xargs -I{} echo {} "toryah" {}
 
 ls -t | head -n 1 | xargs -I{} tail -f -n +0 {} | nl | grep -E "EMR cluster"
 
-////////
-ls -t | grep ".out" | head -n 1 | xargs -I{} tail -f -n +0 {} | nl | grep -E "7"
+ls -t | grep ".out" | head -n 1 | xargs -I{} cat {} | grep -E "questId=ac87b1de-d758-4218-9063-fac67cb2b3bb(.*)portId=(.*)status=FAILED" | grep -o -E "activityId=[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}" | uniqnano
 
 
-reset && ls -t | grep -E ".out$" | head -n 1 | xargs -I{} tail -f -n +0 {} | nl | grep -v -E "getQuest()" | grep -E "8d6e5efa-df5a-4ff0-95a3-4bf10e9403a5" | cut -c 1-512 | xargs -d '\n' -I{} printf "{}\n\n"
+reset && ls -t | grep -E ".out$" | head -n 1 | xargs -I{} tail -f -n +0 {} | nl | grep -v -E ": get.*():" | grep -E "9055dcb2-e1e2-4af2-be4d-9b1aa8c8c4f0" | cut -c 1-512 | xargs -d '\n' -I{} printf "{}\n\n"
 
-date
+
+reset && ls -t | grep -E ".out$" | head -n 1 | xargs -I{} cat {} | nl | grep -v -E ": get.*():" | grep -E "9055dcb2-e1e2-4af2-be4d-9b1aa8c8c4f0" | cut -c 1-512 | xargs -d '\n' -I{} printf "{}\n\n"
 
 reset && ls -t | grep -E ".out$" | head -n 1 | xargs -I{} tail -f -n +0 {} | nl | grep -v -E "getQuest()" | grep -E "0614955d-979f-4566-9149-f9742d93fed4|4099d18b-88c7-b2ec-b86f-c5e2aa4ee4be|49b590b7-c314-0b4e-3df7-2f773a566592|578ac445-b03f-d021-3ede-ee80ef279de9|a952c5e6-92c8-c13f-d42f-1af75b6b5191|7eecbec8-9854-55d5-3470-e6d8e8bd5d37|a1986082-01d7-7055-775c-1daf46bd5c65|5e5441cf-de39-8b06-003e-c2ef142f2138|9b24140c-22c9-e2fd-035b-d6b21c027eb6|1a99956c-1c66-ca3d-6023-44626d559492|e78b8cf7-a5db-57c0-ddcb-d5feb8647b4f|17bbf228-d8cf-e3b0-ae4a-3e5551b13dc0|982a0f51-e871-fe9d-f2e6-f32bed9ebbd6|547678ec-d044-b56b-d152-84d5e8f22a6a|34437561-b594-4c8e-bd10-148117997bdd|c69c547f-9bcb-448c-ad7a-6bdee0b5a6cc|5d7ccab2-8890-a818-60e7-6a1ac064c785|d2a39894-62be-98fc-770f-608b4e0ebcff|a7272b42-739c-84c2-5a1d-0ba743c121fe|5b9c08f6-9707-4ccf-706a-c17a42594453|c009ce5d-3ef0-31ce-15b6-8724c68e7650|0c839eb3-0c6e-b640-e9cd-753ffafd0d13|2fd633f6-2601-7bdf-2013-d1ede2bf8e30|b1557d2f-a973-6110-99e1-b78654ce0066|f7fc3d5d-cd48-6657-96ca-e9d1cc20c9e9|b974cf90-a7dd-63b9-3b77-da51e05c0e90|961e913a-ed7b-dd23-35bf-914038307aa8|b551b06c-f631-f030-db87-319f3acdb8a2|ed3959ac-0436-c46c-c68f-3ebefa85cef0|963f991f-fae3-e217-1710-ab1711c57ac7|ef5c7307-3dbc-0417-6a3d-180caa715275|fd0d439b-2678-d27b-6816-30068e684a05|f7897b10-8321-d3ac-d066-a74a2750c5a0|12d1f471-c7bb-a6b1-34ab-049edc434a1c|e719514c-5960-bfff-6180-03fa385ee83a|0f0b8ae2-3d57-e18b-62ad-be1d2c489322|91ebb0c3-af2d-ae57-8b9a-6517085a84fd|35189eb2-8c97-2b25-c2ad-3565bb26cc22|65015716-c4a2-f8ff-446d-60a7db04eaf5|a65b084c-bd3f-5f2c-1e8e-7b576d8e8606|56f47ab7-2746-9a26-05d9-ef6347fc4a21|f8a4843a-ffe4-9f20-14d9-21862b3a1584|271ff8d0-9e34-e9a6-1694-5d3b02063540|ab266095-3bb8-f709-b047-09aba0288192|ff3175b2-8645-962b-faa4-6fce68ecd5dc|b61e412e-7084-2f24-418a-c08d699f0666|13f53146-008d-30b8-a049-d07c826b42af|32412378-fcd7-28c4-0e17-5d1c406d7047|f1111d94-161a-15ac-8cb9-36bab6790c43|c386c53d-8640-f530-49fa-224ac3fbb63c|5d52dda0-7046-e180-d1dc-1141909c9c51|c9f79ad7-bcb5-2f68-33dc-2b6ed43632e8|e8bb4ede-3d87-7c07-6bf8-429e40488ef6|6a5ce254-3805-ee83-a610-90c9af36b0a3|65015716-c4a2-f8ff-446d-60a7db04eaf5|4099d18b-88c7-b2ec-b86f-c5e2aa4ee4be|cbb5ce80-480c-acae-80b2-0b14daabebd2|5d7ccab2-8890-a818-60e7-6a1ac064c785|56f47ab7-2746-9a26-05d9-ef6347fc4a21|16e2a0ab-d0ad-5fc3-7ca6-653ad9536fcc|e78b8cf7-a5db-57c0-ddcb-d5feb8647b4f|91ebb0c3-af2d-ae57-8b9a-6517085a84fd|8383f6ef-c975-b94a-714e-b53ccdd5191f|f1111d94-161a-15ac-8cb9-36bab6790c43|7eecbec8-9854-55d5-3470-e6d8e8bd5d37|4d620cf0-6fed-b258-81e5-94e2a6756d05|a7272b42-739c-84c2-5a1d-0ba743c121fe|ab266095-3bb8-f709-b047-09aba0288192|edf03797-4403-019d-e6ec-3f6ee35e34d7|0c839eb3-0c6e-b640-e9cd-753ffafd0d13|c69c547f-9bcb-448c-ad7a-6bdee0b5a6cc|9fe95b33-0d60-eb2b-a728-5783192f0ac7|ef5c7307-3dbc-0417-6a3d-180caa715275|f7fc3d5d-cd48-6657-96ca-e9d1cc20c9e9|c2e51595-892e-9781-ef61-b33424968b6b|f1111d94-161a-15ac-8cb9-36bab6790c43|35189eb2-8c97-2b25-c2ad-3565bb26cc22|0e9f08c5-3d96-fb96-cd30-2b62b78279bf|e719514c-5960-bfff-6180-03fa385ee83a|32412378-fcd7-28c4-0e17-5d1c406d7047|ba2342d9-bbf8-9ef6-0de4-855c93160e6c|49b590b7-c314-0b4e-3df7-2f773a566592|b1557d2f-a973-6110-99e1-b78654ce0066|4c7e6b82-a5be-2692-ea0c-257be7bb9e04|a1986082-01d7-7055-775c-1daf46bd5c65|963f991f-fae3-e217-1710-ab1711c57ac7|ab738f36-dbe2-7883-ed9c-4b4b3807b7af|c9f79ad7-bcb5-2f68-33dc-2b6ed43632e8|1a99956c-1c66-ca3d-6023-44626d559492|8fbd289e-f7b3-4e3c-e8f8-9f87540e38a1|982a0f51-e871-fe9d-f2e6-f32bed9ebbd6|c009ce5d-3ef0-31ce-15b6-8724c68e7650|0cb21ce3-67a4-e0bc-d779-bbd826055615|c386c53d-8640-f530-49fa-224ac3fbb63c|9b24140c-22c9-e2fd-035b-d6b21c027eb6|8ae830f0-ccaf-894b-1494-f7bf457331f8|c386c53d-8640-f530-49fa-224ac3fbb63c|ff3175b2-8645-962b-faa4-6fce68ecd5dc|9197ca5f-8741-7b55-86d6-6199e9f7f7d9|f8a4843a-ffe4-9f20-14d9-21862b3a1584|f7897b10-8321-d3ac-d066-a74a2750c5a0|965cb843-f59a-5661-3c4b-41322f361555|b61e412e-7084-2f24-418a-c08d699f0666|a952c5e6-92c8-c13f-d42f-1af75b6b5191|5b9c08f6-9707-4ccf-706a-c17a42594453|17bbf228-d8cf-e3b0-ae4a-3e5551b13dc0|5e5441cf-de39-8b06-003e-c2ef142f2138|2fd633f6-2601-7bdf-2013-d1ede2bf8e30|13f53146-008d-30b8-a049-d07c826b42af|d2a39894-62be-98fc-770f-608b4e0ebcff|578ac445-b03f-d021-3ede-ee80ef279de9|e8bb4ede-3d87-7c07-6bf8-429e40488ef6|271ff8d0-9e34-e9a6-1694-5d3b02063540|5d52dda0-7046-e180-d1dc-1141909c9c51|fd0d439b-2678-d27b-6816-30068e684a05|ed3959ac-0436-c46c-c68f-3ebefa85cef0|a65b084c-bd3f-5f2c-1e8e-7b576d8e8606|547678ec-d044-b56b-d152-84d5e8f22a6a|0f0b8ae2-3d57-e18b-62ad-be1d2c489322|e7fb7ba6-7e62-4567-b82d-f94dd3b00a09" | cut -c 1-512 | xargs -d '\n' -I{} printf "{}\n\n"
 
