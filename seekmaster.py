@@ -7,6 +7,11 @@ import time
 import urllib.parse
 
 
+class infidict(dict):
+    def get(self, key):
+        result = super(infidict, self).get(key, None)
+        return infidict() if result == None else result 
+
 class CommandGenerator:
     def __init__(self, command_template, replace_dict={"": [""]}, handle_responses=lambda responses: responses):
         self.command_template = command_template
@@ -79,7 +84,7 @@ def view_listings(ids):
         responses = view_generator.process_responses()
         return responses
 
-# get application details (???)
+# get application details (questionnaire)
 def view_applications(ids):
     view_template = 'curl "https://ca-jobapply-ex-api.cloud.seek.com.au/jobs/<ID>/" -H "Origin: https://www.seek.com.au" -H "Accept-Encoding: gzip, deflate, br" -H "Accept-Language: en-US,en;q=0.9" -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36" -H "Accept: application/json, text/plain, */*" -H "Referer: https://www.seek.com.au/job-apply/<ID>" -H "Connection: keep-alive" -H "X-Seek-Site: SEEK JobApply" --compressed'
     view_replace_dict = {
@@ -113,7 +118,9 @@ if __name__ == '__main__':
 
     lll = views_listings[0]
     aaa = views_applications[0]
-    xxx = [q for q in aaa['questionnaire']['questions'] if q['id'] == '6'] # try some lambda here, might be cleaner
+    xxx = [q for q in infidict(aaa).get('questionnaire').get('questions') if q.get('id') == '6'] # try some lambda here, might be cleaner
+
+    [(app, DM) for app in views_applications for DM in infidict(app).get('questionnaire').get('questions') if DM.get('id') == '6']
 
     print(">> Entering Interactive mode: Input Ctrl + Z to exit.")
     import code; code.interact(local={**locals(), **globals()})
