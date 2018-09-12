@@ -1,5 +1,6 @@
 import json
 import os
+import sys
 import shlex
 import subprocess
 import time
@@ -44,10 +45,12 @@ class CommandGenerator:
         return self.handle_responses(responses)
 
 class Config:
+    dir_path = os.path.abspath(os.path.dirname(sys.argv[0]))
     auto_y = True
     max_query_size = float('inf')  # 100
     cooldown_time = 1
 
+# get job listings (keywords)
 def search_jobs(keywords, page=1, data_collection=[]):
     search_template = "curl 'https://chalice-search-api.cloud.seek.com.au/search?siteKey=AU-Main&sourcesystem=houston&userqueryid=97ec6621797cfebd8a0f96a5bc59d139-1449239&userid=2734ad6f-4c64-49e0-aff0-6f615ec2cb82&usersessionid=2734ad6f-4c64-49e0-aff0-6f615ec2cb82&eventCaptureSessionId=bdbc2f3d-c84b-40c1-bf60-bad7564b3380&where=All+Australia&page=<PAGE>&seekSelectAllPages=true&keywords=<KEYWORDS>&include=seodata&isDesktop=true' -H 'Origin: https://www.seek.com.au' -H 'Accept-Encoding: gzip, deflate, br' -H 'Accept-Language: en-US,en;q=0.9' -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36' -H 'Accept: application/json, text/plain, */*' -H 'Referer: https://www.seek.com.au/java-java-jobs' -H 'Connection: keep-alive' -H 'X-Seek-Site: Chalice' --compressed"
     search_replace_dict = {
@@ -65,13 +68,34 @@ def search_jobs(keywords, page=1, data_collection=[]):
         return data_collection
     return data_collection
 
+# get listing details (mobileAdTemplate)
+def view_listings(ids):
+    view_template = 'curl "https://chalice-experience.cloud.seek.com.au/job/<ID>?isDesktop=true^&locale=AU" -H "Origin: https://www.seek.com.au" -H "Accept-Encoding: gzip, deflate, br" -H "Accept-Language: en-US,en;q=0.9" -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36" -H "Accept: application/json, text/plain, */*" -H "Referer: https://www.seek.com.au/job/<ID>?type=standout" -H "If-None-Match: W/^\^"e86-I553tIAg7654QmbWH+FrADxPO7I^\^"" -H "Connection: keep-alive" -H "X-Seek-Site: Chalice" --compressed'
+    view_replace_dict = {
+        "<ID>": ids,
+    }
+    if Config.auto_y or input("Run view listings jobs (y)? ") == 'y':
+        view_generator = CommandGenerator(command_template=view_template, replace_dict=view_replace_dict)
+        responses = view_generator.process_responses()
+        return responses
+
+# get application details (???)
+def view_applications(ids):
+    view_template = 'curl "https://ca-jobapply-ex-api.cloud.seek.com.au/jobs/<ID>/" -H "Origin: https://www.seek.com.au" -H "Accept-Encoding: gzip, deflate, br" -H "Accept-Language: en-US,en;q=0.9" -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36" -H "Accept: application/json, text/plain, */*" -H "Referer: https://www.seek.com.au/job-apply/<ID>" -H "Connection: keep-alive" -H "X-Seek-Site: SEEK JobApply" --compressed'
+    view_replace_dict = {
+        "<ID>": ids,
+    }
+    if Config.auto_y or input("Run view applications (y)? ") == 'y':
+        view_generator = CommandGenerator(command_template=view_template, replace_dict=view_replace_dict)
+        responses = view_generator.process_responses()
+        return responses
 
 if __name__ == '__main__':
-    pprint = lambda o: print(json.dumps(o, indent=2))
-    do_listings_query = False
-    external_file_path = "listings.json"
+    pprint = lambda obj: print(json.dumps(obj, indent=2))
+    do_query_listings = False
+    external_file_path = os.path.join(Config.dir_path, "listings.json")
 
-    if do_listings_query:
+    if do_query_listings:
         listings = search_jobs("java")
         with open(external_file_path, 'w') as outfile: json.dump(listings, outfile, indent=4)
         print(">> Listing saved to external file")
@@ -79,13 +103,18 @@ if __name__ == '__main__':
         with open(external_file_path, 'r') as infile: listings = json.load(infile)
         print(">> Listing loaded from external file")
 
-    unique_ids = set([listing['id'] for listing in listings])
+    listings_filtered = listings[ :3]  # TODO
 
+    views_listings_raw = view_listings(["37162625"] + [str(fl['id']) for fl in listings_filtered])
+    views_listings = [json.loads(vlr['stdout'].decode('utf-8')) for vlr in views_listings_raw]
+
+    views_applications_raw = view_applications(["37162625"] + [str(fl['id']) for fl in listings_filtered])
+    views_applications = [json.loads(var['stdout'].decode('utf-8')) for var in views_applications_raw]
+
+    lll = views_listings[0]
+    aaa = views_applications[0]
+    xxx = [q for q in aaa['questionnaire']['questions'] if q['id'] == '6'] # try some lambda here, might be cleaner
 
     print(">> Entering Interactive mode: Input Ctrl + Z to exit.")
     import code; code.interact(local={**locals(), **globals()})
     print(">> Done!")
-
-#curl "https://chalice-experience.cloud.seek.com.au/job/37162625?isDesktop=true^&locale=AU" -H "Origin: https://www.seek.com.au" -H "Accept-Encoding: gzip, deflate, br" -H "Accept-Language: en-US,en;q=0.9" -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36" -H "Accept: application/json, text/plain, */*" -H "Referer: https://www.seek.com.au/job/37162625?type=standout" -H "If-None-Match: W/^\^"e86-I553tIAg7654QmbWH+FrADxPO7I^\^"" -H "Connection: keep-alive" -H "X-Seek-Site: Chalice" --compressed
-
-#curl "https://ca-jobapply-ex-api.cloud.seek.com.au/jobs/37162625/" -H "Origin: https://www.seek.com.au" -H "Accept-Encoding: gzip, deflate, br" -H "Accept-Language: en-US,en;q=0.9" -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36" -H "Accept: application/json, text/plain, */*" -H "Referer: https://www.seek.com.au/job-apply/37162625" -H "Connection: keep-alive" -H "X-Seek-Site: SEEK JobApply" --compressed
