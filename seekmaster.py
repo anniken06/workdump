@@ -20,14 +20,14 @@ class CommandGenerator:
 
     def run_subprocess_and_get_results(self, command, max_length=1024, timeout=1):
         print(">> Running: ", str(command)[ :max_length])
-        args = shlex.split(command) ## while err??
+        args = shlex.split(command)
         process = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         (out, err, rc) = *process.communicate(), process.returncode
-        time.sleep(timeout)
+        time.sleep(Config.cooldown_time)
         print(">> Results: ", str((out, err, rc))[ :max_length])
         if rc != 0:
             print(">> Command failed!")
-            if auto_y or input("Retry command (y)?: ") == 'y':
+            if Config.auto_y or input("Retry command (y)?: ") == 'y':
                 return self.run_subprocess_and_get_results(command)
         return {'command': command, 'stdout': out, 'stderr': err, 'returncode': rc}
 
@@ -43,74 +43,48 @@ class CommandGenerator:
         print("Printing responses:\n\n", "\n\n".join(map(lambda response: str(response), responses)))
         return self.handle_responses(responses)
 
+class Config:
+    auto_y = True
+    max_query_size = float('inf')  # 100
+    cooldown_time = 1
 
-def get_quests():
-    get_template = "curl -v '<API_URL>' -H 'Accept: application/json, text/plain, */*' --insecure"
-    get_replace_dict = {
-        "<API_URL>": ["https://manila1.cpaas.awsiondev.infor.com:18010/coleman/api/quest"],
-    }
-    def get_handler(responses):
-        print("Processing responses from: get commands.")
-        try:
-            quests = json.loads(responses[0]['stdout'].decode('utf-8'))
-            print("Finished looking for {} quests: {}.".format(len(quests), [quest['name'] for quest in quests]))
-        except Exception as e:
-            print(e)
-            print(responses[0]['stderr'].decode('utf-8'))
-        return quests
-    if input("Run get tasks (y)? ") == 'y':
-        get_generator = CommandGenerator(command_template=get_template, replace_dict=get_replace_dict, handle_responses=get_handler)
-        quests = get_generator.process_responses()
-        return quests
-
-def save_quests(quests):
-    save_template = "curl -v '<API_URL>/<DS_ID>?render=true' -H 'Accept: application/json, text/plain, */*' --insecure"
-    save_replace_dict = {
-        "<API_URL>": ["https://manila1.cpaas.awsiondev.infor.com:18010/coleman/api/quest"],
-        "<DS_ID>": [quest['id'] for quest in quests],
-    }
-    def save_handler(responses):
-        print("Processing responses from: save commands.")
-        if not os.path.exists(backup_directory): os.makedirs(backup_directory)
-        for result in responses:
-            try:
-                saved_quest =  json.loads(result['stdout'].decode('utf-8'))['quest']
-                backup_file = os.path.join(backup_directory, "backup_{}_{}.json".format(saved_quest["name"], saved_quest["id"]))
-                with open(backup_file, 'wb') as out_file:
-                    out_file.write(result['stdout'])
-                print("Successfully saved: {}".format(backup_file))
-            except Exception as e:
-                print(e)
-                print(result['stderr'].decode('utf-8'))
-        return "Finished saving backups to: /{}/.".format(backup_directory)
-    if input("Run save tasks (y)? ") == 'y':
-        save_generator = CommandGenerator(command_template=save_template, replace_dict=save_replace_dict, handle_responses=save_handler)
-        print("Backup status: {}".format(save_generator.process_responses()))
-
-
-def search_jobs(keywords):
-    search_template = "curl 'https://chalice-search-api.cloud.seek.com.au/search?siteKey=AU-Main&sourcesystem=houston&userqueryid=97ec6621797cfebd8a0f96a5bc59d139-1449239&userid=2734ad6f-4c64-49e0-aff0-6f615ec2cb82&usersessionid=2734ad6f-4c64-49e0-aff0-6f615ec2cb82&eventCaptureSessionId=bdbc2f3d-c84b-40c1-bf60-bad7564b3380&where=All+Australia&page=1&seekSelectAllPages=true&keywords=<KEYWORDS>&include=seodata&isDesktop=true' -H 'Origin: https://www.seek.com.au' -H 'Accept-Encoding: gzip, deflate, br' -H 'Accept-Language: en-US,en;q=0.9' -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36' -H 'Accept: application/json, text/plain, */*' -H 'Referer: https://www.seek.com.au/java-java-jobs' -H 'Connection: keep-alive' -H 'X-Seek-Site: Chalice' --compressed"
+def search_jobs(keywords, page=1, data_collection=[]):
+    search_template = "curl 'https://chalice-search-api.cloud.seek.com.au/search?siteKey=AU-Main&sourcesystem=houston&userqueryid=97ec6621797cfebd8a0f96a5bc59d139-1449239&userid=2734ad6f-4c64-49e0-aff0-6f615ec2cb82&usersessionid=2734ad6f-4c64-49e0-aff0-6f615ec2cb82&eventCaptureSessionId=bdbc2f3d-c84b-40c1-bf60-bad7564b3380&where=All+Australia&page=<PAGE>&seekSelectAllPages=true&keywords=<KEYWORDS>&include=seodata&isDesktop=true' -H 'Origin: https://www.seek.com.au' -H 'Accept-Encoding: gzip, deflate, br' -H 'Accept-Language: en-US,en;q=0.9' -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36' -H 'Accept: application/json, text/plain, */*' -H 'Referer: https://www.seek.com.au/java-java-jobs' -H 'Connection: keep-alive' -H 'X-Seek-Site: Chalice' --compressed"
     search_replace_dict = {
-        "<KEYWORDS>": [urllib.parse.quote_plus(keywords)]
+        "<KEYWORDS>": [urllib.parse.quote_plus(keywords)],
+        "<PAGE>": [str(page)],
     }
-    def search_handler(responses):
+    if Config.auto_y or input("Run search jobs (y)? ") == 'y':
+        search_generator = CommandGenerator(command_template=search_template, replace_dict=search_replace_dict)
+        responses = search_generator.process_responses()
         json_response = json.loads(responses[0]['stdout'].decode('utf-8'))
-        return json_response['data']
-    if auto_y or input("Run search jobs (y)? ") == 'y':
-        search_generator = CommandGenerator(command_template=search_template, replace_dict=search_replace_dict, handle_responses=search_handler)
-        query = search_generator.process_responses()
+        data_collection += json_response['data']
+        print("Current data_collection size: ", len(data_collection))
+        if len(data_collection) < Config.max_query_size and len(data_collection) < json_response['totalCount']:
+            return search_jobs(keywords, page + 1, data_collection)
+        return data_collection
+    return data_collection
 
 
 if __name__ == '__main__':
-    auto_y = True
     pprint = lambda o: print(json.dumps(o, indent=2))
+    do_listings_query = False
+    external_file_path = "listings.json"
 
-    listings = search_jobs("java")
-    # TODO hack pagination
+    if do_listings_query:
+        listings = search_jobs("java")
+        with open(external_file_path, 'w') as outfile: json.dump(listings, outfile, indent=4)
+        print(">> Listing saved to external file")
+    else:
+        with open(external_file_path, 'r') as infile: listings = json.load(infile)
+        print(">> Listing loaded from external file")
 
-    print("Entering Interactive mode: Input Ctrl + Z to exit.")
+    unique_ids = set([listing['id'] for listing in listings])
+
+
+    print(">> Entering Interactive mode: Input Ctrl + Z to exit.")
     import code; code.interact(local={**locals(), **globals()})
-    print("Done!")
+    print(">> Done!")
 
 #curl "https://chalice-experience.cloud.seek.com.au/job/37162625?isDesktop=true^&locale=AU" -H "Origin: https://www.seek.com.au" -H "Accept-Encoding: gzip, deflate, br" -H "Accept-Language: en-US,en;q=0.9" -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36" -H "Accept: application/json, text/plain, */*" -H "Referer: https://www.seek.com.au/job/37162625?type=standout" -H "If-None-Match: W/^\^"e86-I553tIAg7654QmbWH+FrADxPO7I^\^"" -H "Connection: keep-alive" -H "X-Seek-Site: Chalice" --compressed
 
