@@ -75,7 +75,7 @@ scp -i ~/Navodar.pem ec2-user@manila1.cpaas.awsiondev.infor.com:~/nohup.pipeline
 
 ls -t | grep ".out" | head -n 1 | xargs -I{} cat {} | grep -E "questId=ac87b1de-d758-4218-9063-fac67cb2b3bb(.*)portId=(.*)status=FAILED" | grep -o -E "activityId=[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}" | uniq
 
-export targetPath="ec2-user@manila1.cpaas.awsiondev.infor.com:/home/ec2-user/"
+export targetPath="ec2-user@manil1a.cpaas.awsiondev.infor.com:/home/ec2-user/"
 export sourcePath="/c/Users/jguzman2/git/coleman.ui/com.infor.colemanui.spring.backend/deploy/"
 export sourceFiles="application.properties.template\ndeploy.sh\nrestart.sh"
 

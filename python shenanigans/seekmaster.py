@@ -7,10 +7,17 @@ import time
 import urllib.parse
 
 
+class Config:
+    proxy_cache = ""
+    dir_path = os.path.abspath(os.path.dirname(sys.argv[0]))
+    auto_y = True
+    max_query_size = float('inf')  # 100
+    cooldown_time = 1
+
 class infidict(dict):
     def get(self, key):
         result = super(infidict, self).get(key, None)
-        return infidict() if result == None else result 
+        return infidict() if result == None else infidict(result)
 
 class CommandGenerator:
     def __init__(self, command_template, replace_dict={"": [""]}, handle_responses=lambda responses: responses):
@@ -25,6 +32,7 @@ class CommandGenerator:
         return commands
 
     def run_subprocess_and_get_results(self, command, max_length=1024, timeout=1):
+        command = command + Config.proxy_cache
         print(">> Running: ", str(command)[ :max_length])
         args = shlex.split(command)
         process = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -33,6 +41,7 @@ class CommandGenerator:
         print(">> Results: ", str((out, err, rc))[ :max_length])
         if rc != 0:
             print(">> Command failed!")
+            import code; code.interact(local={**locals(), **globals()})
             if Config.auto_y or input("Retry command (y)?: ") == 'y':
                 return self.run_subprocess_and_get_results(command)
         return {'command': command, 'stdout': out, 'stderr': err, 'returncode': rc}
@@ -43,17 +52,12 @@ class CommandGenerator:
             responses += [self.run_subprocess_and_get_results(command)]
         return responses
 
-    def process_responses(self):
+    def process_responses(self, workers=1):
         commands = self.generate_commands()
+        # TODO WORKER CODE
         responses = self.generate_responses(commands)
         print("Printing responses:\n\n", "\n\n".join(map(lambda response: str(response), responses)))
         return self.handle_responses(responses)
-
-class Config:
-    dir_path = os.path.abspath(os.path.dirname(sys.argv[0]))
-    auto_y = True
-    max_query_size = float('inf')  # 100
-    cooldown_time = 1
 
 # get job listings (keywords)
 def search_jobs(keywords, page=1, data_collection=[]):
@@ -95,10 +99,26 @@ def view_applications(ids):
         responses = view_generator.process_responses()
         return responses
 
-if __name__ == '__main__':
+def thanks_getproxylist():
+    proxy_generator = CommandGenerator("curl https://api.getproxylist.com/proxy")
+    proxy_json = json.loads(proxy_generator.process_responses()[0]['stdout'].decode('utf-8'))
+    return f" -x {proxy_json['protocol']}://{proxy_json['ip']}:{proxy_json['port']} "
+def thanks_ipify():
+    return CommandGenerator("curl https://api.ipify.org").process_responses()[0]['stdout'].decode('utf-8')
+
+
+if __name__ == '__main__': 
     pprint = lambda obj: print(json.dumps(obj, indent=2))
-    do_query_listings = False
+    do_proxy_ip = True
+    do_query_listings = True
     external_file_path = os.path.join(Config.dir_path, "listings.json")
+
+    if do_proxy_ip:
+        original_ip = thanks_ipify()
+        Config.proxy_cache = thanks_getproxylist()
+        modified_ip = thanks_ipify()
+        print(f"Proxy enabled.\nOriginal ip:\t{original_ip}\nModified ip:\t{modified_ip}")
+        assert original_ip != modified_ip
 
     if do_query_listings:
         listings = search_jobs("java")
@@ -107,7 +127,7 @@ if __name__ == '__main__':
     else:
         with open(external_file_path, 'r') as infile: listings = json.load(infile)
         print(">> Listing loaded from external file")
-
+    """
     listings_filtered = listings[ :3]  # TODO
 
     views_listings_raw = view_listings(["37162625"] + [str(fl['id']) for fl in listings_filtered])
@@ -121,7 +141,7 @@ if __name__ == '__main__':
     xxx = [q for q in infidict(aaa).get('questionnaire').get('questions') if q.get('id') == '6'] # try some lambda here, might be cleaner
 
     [(app, DM) for app in views_applications for DM in infidict(app).get('questionnaire').get('questions') if DM.get('id') == '6']
-
+    """
     print(">> Entering Interactive mode: Input Ctrl + Z to exit.")
     import code; code.interact(local={**locals(), **globals()})
     print(">> Done!")

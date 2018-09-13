@@ -1,5 +1,9 @@
 Git commands:
 
+git diff --cached > mypatch.patch
+git apply mypatch.patch
+then git add commit push
+
 git checkout 5c6bebc -- ./com.infor.colemanui.backend/rest-service/src/main/java/com/infor/colemanui/backend/rest/service/DatasetService.java
 
 git merge branch

@@ -19,10 +19,11 @@ def parse_args(kw, default=None):
 substr = parse_args("substr")
 dist = parse_args("dist", "2")
 file = parse_args("file")
-recomp = regex.compile("(?:(?<![a-z0-9]){SUBSTR}(?![a-z0-9])){{e<={EDIT_DIST}}}".format(SUBSTR=substr.lower(), EDIT_DIST=dist))
+recomp = regex.compile("(?:(?<![a-z0-9])(?P<cap>{SUBSTR}?)(?![a-z0-9])){{e<={EDIT_DIST}}}".format(SUBSTR=substr.lower(), EDIT_DIST=dist))
 
 with open(file, "r") as f:
     #print(">> Regex: {}".format(recomp))
     for (line_number, line) in enumerate(f.readlines(), start=1):
         if recomp.search(line.lower()):
             print("\t{}\n{}:\t{}".format(file, line_number, line), end="")
+            import code; code.interact(local={**locals(), **globals()})
