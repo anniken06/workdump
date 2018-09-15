@@ -1,8 +1,10 @@
 import os
 import sys
 
+
 class Config:
-    data_path = os.path.join(os.path.abspath(os.path.dirname(sys.argv[0])), "data")
+    src_path = os.path.abspath(os.path.dirname(sys.argv[0]))
+    data_path = os.path.join(src_path, "data")
     timeout = 1
     wait_time = None
     use_proxy = True

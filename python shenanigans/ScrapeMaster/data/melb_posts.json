@@ -441,6 +441,50 @@
         "hasCustomTemplate": false
     },
     {
+        "id": 37012817,
+        "listingDate": "2018-08-20T15:05:42.000Z",
+        "expiryDate": "2018-09-19T15:05:42.000Z",
+        "title": "Java Developer",
+        "teaser": "Java Developer opportunity within a global FinTech organisation",
+        "advertiser": {
+            "id": 36051102,
+            "description": "Equifax",
+            "searchParams": {
+                "keywords": "Equifax"
+            }
+        },
+        "location": "Melbourne~CBD & Inner Suburbs",
+        "area": "CBD & Inner Suburbs",
+        "locationHierarchy": {
+            "nation": "Australia",
+            "state": "Victoria",
+            "city": "Melbourne",
+            "area": "CBD & Inner Suburbs",
+            "suburb": "melbourne"
+        },
+        "workType": "Full Time",
+        "classification": {
+            "id": 6281,
+            "description": "Information & Communication Technology"
+        },
+        "subClassification": {
+            "id": 6287,
+            "description": "Developers/Programmers"
+        },
+        "salary": null,
+        "automaticInclusion": false,
+        "isLinkOut": false,
+        "isScreenAssigned": false,
+        "isSelectionCriteriaEnabled": false,
+        "status": "Active",
+        "isRightToWorkRequired": false,
+        "hasRoleRequirements": true,
+        "mobileAdTemplate": "<p><strong>Java Developer</strong></p>  <p>Melbourne, Victoria AU</p>  <p><br />As a Java Developer at Equifax, you will be working on the security enhancements of existing projects. In this role you will provide expertise in the development and maintenance of a range of applications developer in Java. You will be expected to be part of the complete SDLC. As a Java Developer, you would be required to work on core development features for our DecisionPoint 3 product.\u00a0<br /><br />\u00a0</p>  <p><strong>Day to day responsibilities of the Java Developer:</strong></p> <ul> <li>You would be working on the Sierra Project (security enhancements)</li> <li>You would be required to Implement the new DP3 core features and maintain the existing DP3 features</li> <li>You would be required to work on the Continuous Build &amp; Integration and Maintenance &amp; Enhancements</li> <li>You would also be responsible for the Product improvements - including performance, security vulnerabilities etc.</li></ul> <p><br />\u00a0</p>  <p><strong>Required skills of the Java Developer:</strong></p> <ul> <li><strong>Experience in Java SE\u00a0/8, Spring Core/Security, SOAP\u00a0and\u00a0REST/JSON\u00a0web service development and testing</strong></li> <li><strong>Extensive experience in XML, XSLT, Hibernate/JPA and database/SQL query design &amp; analysis skills, especially with Oracle and SQL Server</strong></li> <li>Knowledge and awareness of secure coding, i.e. developing software in a way that guards against exposing vulnerabilities</li> <li>Knowledge in testing against security vulnerabilities, as well as understanding third-party vulnerability reports</li> <li><strong>Unix / Linux development experience and Experience in continuous integration and build automation (Maven 3, Jenkins, Cruise Control etc.)</strong></li> <li>Strong ability to understand and complete complex tasks on a mature software product</li> <li>Strong GIT skills and experience</li> <li>Knowledge and use of\u00a0open source\u00a0technologies</li></ul> <p><br />\u00a0</p>  <p><strong>Desired skills of the Java Developer:</strong></p> <ul> <li>Experience in the design and development of complex windows and\u00a0web-based applications</li> <li>Experience with Spring Batch, BASH scripting, Google Web Tool Kit (GWT), Angular front-end framework, JavaScript/HTML/CSS</li> <li>Knowledge of model driven development</li></ul> <p><br /><br /><strong>Why apply for this role and join Equifax?</strong></p> <ul> <li>Opportunity to work in a fast paced environment</li> <li>Extensive career progression opportunities available within a global company</li></ul> <p><br />This really is a great opportunity to join an industry leader not only in the local market but the global market.<br /><br />If you feel you have the required competencies to fulfil our needs we invite you to apply.<br /><br />\u00a0</p>  <p><strong>Primary Location:</strong><br />AUS-Melbourne<br /><br /><strong>Function:</strong><br />Function - IT Product Engineering<br /><br /><strong>Schedule:</strong><br />Full time</p>  <p>\u00a0</p>  <p>Equifax is an Equal Employment Opportunity employer and all qualified applicants will receive consideration for employment without regard to race, color, religion, sex, sexual orientation, gender identity, national origin, protected veteran status, or disability status.</p>",
+        "companyReview": null,
+        "contactMatches": [],
+        "hasCustomTemplate": false
+    },
+    {
         "id": 36980128,
         "listingDate": "2018-08-16T01:21:53.000Z",
         "expiryDate": "2018-09-15T01:21:53.000Z",
@@ -2752,6 +2796,53 @@
         "contactMatches": [],
         "branding": {
             "logo": "https://legacy-branding.seek.com.au/images/logos/jobseeker/694061.jpg"
+        },
+        "hasCustomTemplate": false
+    },
+    {
+        "id": 37123567,
+        "listingDate": "2018-09-03T03:01:29.000Z",
+        "expiryDate": "2018-10-03T03:01:29.000Z",
+        "title": "Enrolled Nurse DIV 2 Aged Care",
+        "teaser": "Seeking Australian aged care experienced ENs with a passion for aged care to assist the RN DIV 1 in clinical support and PCAs in care duties",
+        "advertiser": {
+            "id": 23339963,
+            "description": "Java Dale Pty Ltd",
+            "searchParams": {
+                "keywords": "Java Dale"
+            }
+        },
+        "location": "Melbourne~Northern Suburbs",
+        "area": "Northern Suburbs",
+        "locationHierarchy": {
+            "nation": "Australia",
+            "state": "Victoria",
+            "city": "Melbourne",
+            "area": "Northern Suburbs",
+            "suburb": "coburgnorth"
+        },
+        "workType": "Part Time",
+        "classification": {
+            "id": 1211,
+            "description": "Healthcare & Medical"
+        },
+        "subClassification": {
+            "id": 6339,
+            "description": "Nursing - Aged Care"
+        },
+        "salary": null,
+        "automaticInclusion": false,
+        "isLinkOut": false,
+        "isScreenAssigned": false,
+        "isSelectionCriteriaEnabled": false,
+        "status": "Active",
+        "isRightToWorkRequired": true,
+        "hasRoleRequirements": true,
+        "mobileAdTemplate": "<ul> <li>Exciting opportunities are now available for Enrolled Nurses\u00a0for <strong>permanent part time</strong> shifts at Anzac Lodge:</li></ul> <p>Thursday\u00a01430 to 2145<br />Saturday 0700 to 1500<br />Sunday 1430 to 2145</p> <ul> <li>Anzac Lodge is a well established 120 bed aged care facility in Coburg North with a large percentage of residents from an Italian speaking background. Many of our staff have been with us for several years. Close to Merlynston train station, trams and a soon to be constructed ALDI.</li> <li>Seeking candidates who have the desire to provide the best quality of care for our residents, with dignity and respect, and not simply a job. Candidates should possess good communication skills and need to demonstrate knowledge in accreditation standards, infection control, mandatory reporting, manual handling and ACFI.</li> <li>ENs need to demonstrate excellent leadership qualities, the ability to recognise and manage deteriorating residents, administering medications / injections, supervise a wing of 30 residents and its care staff during AM and PM shifts, supporting the RN in charge when working night shift, ensuring documentation is done to standard and providing quality clinical care.\u00a0</li></ul> <p>Further education opportunities exist for those who demonstrate potential and desire to excel in a variety of areas.</p> <p>EBA rates apply.</p> <p>You may need to provide a Statement of Service from previous employers to demonstrate your level of experience.\u00a0<br /><br />Ability to speak Italian or Greek is a an advantage.</p> <p>Requirements:</p> <ul> <li>Must possess a valid national police check.</li> <li>Computer literacy is essential as all documentation is electronic based.</li> <li>Will be required to maintain First Aid Level 2 / CPR qualifications\u00a0ongoing.</li> <li>Must have unlimited work restrictions to work in Australia.</li></ul> <p><strong>Please state the days and shifts you are available to work when applying.</strong></p> <p>If you believe that you meet the above requirements, please submit a cover letter and a formal resume.</p> <p>APPLY NOW!</p> <p>\u00a0</p> <p>\u00a0</p>",
+        "companyReview": null,
+        "contactMatches": [],
+        "branding": {
+            "logo": "https://legacy-branding.seek.com.au/images/logos/jobseeker/309378.jpg"
         },
         "hasCustomTemplate": false
     },
