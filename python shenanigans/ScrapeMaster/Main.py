@@ -77,9 +77,9 @@ def view_post(ids):
 
 
 if __name__ == '__main__':  # lint using: flake8 --max-line-length=1000
-    do_query_listings = True
-    do_query_applications = True
-    do_query_posts = True
+    do_query_listings = False
+    do_query_applications = False
+    do_query_posts = False
 
     # load data
     queried_jobs = search_jobs("java")
