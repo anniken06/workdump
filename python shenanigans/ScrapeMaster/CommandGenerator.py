@@ -1,5 +1,4 @@
 class CommandGenerator:
-    @staticmethod
     def generate_commands(template, replace_dict={}):
         commands = [template]
         for keyword, replacements in replace_dict.items():

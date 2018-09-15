@@ -1,28 +1,19 @@
-from json import loads
-from multiprocessing import Pool, Manager, Lock, current_process
-from shlex import split as shsplit 
-from subprocess import Popen, PIPE
-from time import sleep, time as cur_time
+import json
+import multiprocessing as mp
+import shlex
+import subprocess as sp
+import time
+import urllib.parse
+
+from Config import Config
 from CommandGenerator import CommandGenerator
-from DictUtils import InfiDict
+from ProxyService import ProxyService
 
-timeout = 1
-timeout2 = None
-get_id = lambda: getattr(current_process(), 'name')
-# TODO fix circular
-def thanks_getproxylist():
-    proxy_results = CommandExecutor().run_command_simple("curl https://api.getproxylist.com/proxy")
-    proxy_json = loads(proxy_results['stdout'].decode('utf-8'))
-    print(proxy_json)
-    return f" -x {proxy_json['protocol']}://{proxy_json['ip']}:{proxy_json['port']} "
-"""
-def thanks_ipify():
-    return CommandGenerator("curl https://api.ipify.org").process_responses()[0]['stdout'].decode('utf-8')
-"""
 
-class CommandExecutor:  # TODO: use generators more
+class CommandExecutor:  # TODO: use generators() more
     def __init__(self):
         self.execution_context = {}
+        self.get_id = lambda: getattr(mp.current_process(), 'name')
 
     def chunk_commands(self, commands, workers):
         k = -(-len(commands) // workers)
@@ -33,53 +24,47 @@ class CommandExecutor:  # TODO: use generators more
         return [result for results_chunk in results_chunks for result in results_chunk]
 
     def run_command_simple(self, command):
-        print(f">> Running {get_id()}: {command}")
-        process = Popen(shsplit(command), stdout=PIPE, stderr=PIPE)
-        start_time = cur_time()
-        (out, err, rc, duration) = (*process.communicate(), process.returncode, cur_time() - start_time)
-        sleep(timeout)
+        print(f">> Running {self.get_id()}: {command}")
+        process = sp.Popen(shlex.shsplit(command), stdout=sp.PIPE, stderr=sp.PIPE)
+        start_time = time.time()
+        (out, err, rc, duration) = (*process.communicate(), process.returncode, time.time() - start_time)
+        time.sleep(Config.timeout)
         result = {'command': command, 'stdout': out, 'stderr': err, 'returncode': rc, 'duration': duration}
-        print(f"<< Results {get_id()}: {result}")
+        print(f"<< Results {self.get_id()}: {result}")
         return result
 
     def run_command_retry(self, md, command):
-        command = command + md[get_id()].get('proxy', "")
+        if Config.use_proxy: command = command + md[self.get_id()].get('proxy', "")
+
         result = self.run_command_simple(command)
         if result['returncode'] != 0:
             print(">><< Command failed since return code is not zero! Retrying with a new context...")
-            md[get_id()] = {'proxy': thanks_getproxylist()}
+            if Config.use_proxy: md[self.get_id()] = {'proxy': ProxyService.generate_proxy()}
             return self.run_command_retry(md, command)
         return result
 
     def run_commands(self, md, commands):
-        md[get_id()] = {'proxy': thanks_getproxylist()}
+        if Config.use_proxy: md[self.get_id()] = {'proxy': ProxyService.generate_proxy()}
 
-        print(f">> Running process on {get_id()}.")
-        calculations = [self.run_command(md, command) for command in commands]
-        print(f"<< Finished process on {get_id()}.")
+        print(f">> Running process on {self.get_id()}.")
+        calculations = [self.run_command_retry(md, command) for command in commands]
+        print(f"<< Finished process on {self.get_id()}.")
         return calculations
 
     def run_commands_on_workers(self, commands, workers):
-        md = Manager().dict()
-        with Pool(processes=workers) as pool:
+        md = mp.Manager().dict()
+        with mp.Pool(processes=workers) as pool:
             print(">> Multiprocessing pool loaded.")
             commands_chunks = self.chunk_commands(commands, workers)
             workers_handles = [pool.apply_async(self.run_commands, args=[md, commands_chunk]) for commands_chunk in commands_chunks]
-            results_chunk = [worker.get(timeout2) for worker in workers_handles]
+            results_chunk = [worker.get(Config.wait_time) for worker in workers_handles]
             results = self.dechunk_results(results_chunk)
             print("<< Multiprocessing pool unloaded.")
-        self.execution_context = dict(md) # InfiDict
+        self.execution_context = dict(md)
+        print(">> Stored execution_context: {}".format(self.execution_context))
         return results
 
 
 if __name__ == '__main__':
-    commands = CommandGenerator.generate_commands(
-        "echo <STR1> <STR2> <STR3>",
-        {"<STR1>": [1,3], "<STR2>": [1,3], "<STR3>": [1,3]}
-    )
-    workers = 10
-    executor = CommandExecutor()
-    raw_executor_results = executor.run_commands_on_workers(commands, workers)
-    executor_results = [result['stdout'].decode('utf-8') for result in raw_executor_results]
-    print(executor.execution_context)
-    import code; code.interact(local={**locals(), **globals()})
+    pass
+    # generate and test
