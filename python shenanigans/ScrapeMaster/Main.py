@@ -8,7 +8,7 @@ from CommandExecutor import CommandExecutor
 
 
 pprint = lambda obj: print(json.dumps(obj, indent=2))
-interact = lambda: exec("print('Entering interactive mode: Press Ctrl+Z to exit.\n');import code;code.interact(local={**locals(), **globals()})")
+interact = lambda: exec("print('Entering interactive mode: Press Ctrl+Z to exit.');import code;code.interact(local={**locals(), **globals()})")
 
 
 def search_jobs(keywords, page=1, data_collection=[]):
@@ -75,11 +75,36 @@ def view_post(ids):
             json.dump(results, outfile, indent=4)
         return results
 
+def search_seek(keywords, start=0, data_collection=[]):  # https://au.indeed.com/viewjob?jk=23b529ed5c26e9af
+    page_entries = 50
+    search_template = "curl 'https://au.indeed.com/jobs?as_and=<KEYWORDS>&as_phr=&as_any=&as_not=&as_ttl=&as_cmp=&jt=all&st=&as_src=&salary=&radius=100&l=Melbourne+City+Centre+VIC&fromage=any&limit=50&start=<START>&sort=&psf=advsrch' -H 'authority: au.indeed.com' -H 'upgrade-insecure-requests: 1' -H 'user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36' -H 'accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8' -H 'accept-encoding: gzip, deflate, br' -H 'accept-language: en-US,en;q=0.9' --compressed"
+    search_replace_dict = {
+        "<KEYWORDS>": [urllib.parse.quote_plus(keywords)],
+        "<PAGE>": [str(start)], }
+    if not do_seek_search: pass
+        #print(">> Loading queries from listings.json")
+        #with open(os.path.join(Config.data_path, "listings.json"), 'r') as infile:
+        #    return json.load(infile)
+    if Config.auto_y or input("Run seek jobs (y)? ") == 'y':
+        executor = CommandExecutor()
+        raw_executor_results = executor.run_commands_on_workers(
+            commands=CommandGenerator.generate_commands(search_template, search_replace_dict),
+            workers=1)
+        #json_response = json.loads(raw_executor_results[0]['stdout'].decode('utf-8'))
+        #data_collection += json_response['data']
+        #print("Current data_collection size: ", len(data_collection))
+        #if len(data_collection) < json_response['totalCount']:
+        #    return search_jobs(keywords, page + 1, data_collection)
+        #print(">> Saving to listings.json")
+        #with open(os.path.join(Config.data_path, "listings.json"), 'w') as outfile:
+        #    json.dump(data_collection, outfile, indent=4)
+        #return data_collection
 
 if __name__ == '__main__':  # lint using: flake8 --max-line-length=1000
     do_query_listings = False
     do_query_applications = False
     do_query_posts = False
+    do_seek_search = True
 
     # load data
     queried_jobs = search_jobs("java")
