@@ -1,17 +1,21 @@
-from multiprocessing import Pool, Manager, Lock, current_process as mpproc
+from json import loads
+from multiprocessing import Pool, Manager, Lock, current_process
 from shlex import split as shsplit 
 from subprocess import Popen, PIPE
 from time import sleep, time as cur_time
 from CommandGenerator import CommandGenerator
+from DictUtils import InfiDict
 
-timeout = 10
+timeout = 1
 timeout2 = None
-god = {}
-"""
+get_id = lambda: getattr(current_process(), 'name')
+# TODO fix circular
 def thanks_getproxylist():
-    proxy_generator = CommandExecutor().run_command("curl https://api.getproxylist.com/proxy")
-    proxy_json = json.loads(proxy_generator.process_responses()[0]['stdout'].decode('utf-8'))
+    proxy_results = CommandExecutor().run_command_simple("curl https://api.getproxylist.com/proxy")
+    proxy_json = loads(proxy_results['stdout'].decode('utf-8'))
+    print(proxy_json)
     return f" -x {proxy_json['protocol']}://{proxy_json['ip']}:{proxy_json['port']} "
+"""
 def thanks_ipify():
     return CommandGenerator("curl https://api.ipify.org").process_responses()[0]['stdout'].decode('utf-8')
 """
@@ -19,16 +23,6 @@ def thanks_ipify():
 class CommandExecutor:  # TODO: use generators more
     def __init__(self):
         self.execution_context = {}
-
-    def safe_get(self, dobj, *indexes):  #TODO!!
-        pass
-        """
-        try:
-            return dobj
-        except:
-            return dobj
-        """
-
 
     def chunk_commands(self, commands, workers):
         k = -(-len(commands) // workers)
@@ -38,39 +32,43 @@ class CommandExecutor:  # TODO: use generators more
     def dechunk_results(self, results_chunks):
         return [result for results_chunk in results_chunks for result in results_chunk]
 
-    def run_command(self, command):
-        print(f">> Running: {command}")
-        print(mpproc().name)
-        self.execution_context[mpproc().name, "proxy"] = "ZZZZZZZZZZZZZZZZZZZZZZZZZ"
-        god[mpproc().name, "proxy"] = "ZZZZZZZZZZZZZZZZZZZZZZZZZ"
+    def run_command_simple(self, command):
+        print(f">> Running {get_id()}: {command}")
         process = Popen(shsplit(command), stdout=PIPE, stderr=PIPE)
         start_time = cur_time()
         (out, err, rc, duration) = (*process.communicate(), process.returncode, cur_time() - start_time)
         sleep(timeout)
         result = {'command': command, 'stdout': out, 'stderr': err, 'returncode': rc, 'duration': duration}
-        print(f"<< Results: {result}")
-        if rc != 0:  # TODO
-            print(">><< Command failed since return code is not zero! Retrying with a new context...")
-            self.execution_context["new"] = "stuff"
-            return self.run_command(command)
+        print(f"<< Results {get_id()}: {result}")
         return result
 
-    def run_commands(self, commands):
-        print(f">> Running process on {mpproc().name}.")
-        calculations = [self.run_command(command) for command in commands]
-        print(f"<< Finished process on {mpproc().name}.")
+    def run_command_retry(self, md, command):
+        command = command + md[get_id()].get('proxy', "")
+        result = self.run_command_simple(command)
+        if result['returncode'] != 0:
+            print(">><< Command failed since return code is not zero! Retrying with a new context...")
+            md[get_id()] = {'proxy': thanks_getproxylist()}
+            return self.run_command_retry(md, command)
+        return result
+
+    def run_commands(self, md, commands):
+        md[get_id()] = {'proxy': thanks_getproxylist()}
+
+        print(f">> Running process on {get_id()}.")
+        calculations = [self.run_command(md, command) for command in commands]
+        print(f"<< Finished process on {get_id()}.")
         return calculations
 
     def run_commands_on_workers(self, commands, workers):
-        #self.m = Manager()
-        #lock = self.m.Lock()
+        md = Manager().dict()
         with Pool(processes=workers) as pool:
             print(">> Multiprocessing pool loaded.")
             commands_chunks = self.chunk_commands(commands, workers)
-            workers_handles = [pool.apply_async(self.run_commands, args=[commands_chunk]) for commands_chunk in commands_chunks]
+            workers_handles = [pool.apply_async(self.run_commands, args=[md, commands_chunk]) for commands_chunk in commands_chunks]
             results_chunk = [worker.get(timeout2) for worker in workers_handles]
             results = self.dechunk_results(results_chunk)
             print("<< Multiprocessing pool unloaded.")
+        self.execution_context = dict(md) # InfiDict
         return results
 
 
@@ -83,4 +81,5 @@ if __name__ == '__main__':
     executor = CommandExecutor()
     raw_executor_results = executor.run_commands_on_workers(commands, workers)
     executor_results = [result['stdout'].decode('utf-8') for result in raw_executor_results]
+    print(executor.execution_context)
     import code; code.interact(local={**locals(), **globals()})
