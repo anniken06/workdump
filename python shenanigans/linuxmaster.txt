@@ -1,8 +1,31 @@
+"""# Utility methods
+# breakpoint() or import code; code.interact(local={**locals(), **globals()})
+
+def obf(obj, name_filter=""):
+    return [v for v in dir(obj) if name_filter in v]
+
+def robl(name, value, level=0):
+    print(name, value)
+    if getattr(value, '__dict__', {}) == {} or (name.startswith("_") or name.endswith("_")) or level > 10:
+        values = str(value)
+    else:
+        values = {k: dictMaster(k, v, level + 1) for (k, v) in value.__dict__.items()}
+    return {name: values}
+"""#
+
+
+ git merge origin/master --no-commit --no-ff
+
+
+
 CHROME filter: /^(.(?!instance|available))+$/
 
 ^    (?!(@Path)).*\n./
 ^.*(?<!GeneralWeb)Exception\(.*$
 
+(?!(notstartingwith).*)
+
+python -c 'import sys; print(hex(sys.maxsize), sys.maxsize > 2**32, sys.version_info, sys.version_info[0] == 3)'
 
 do date -u +"%F %T.%N"
 while true; do date -u +"%F %T.%N"; sleep 1; done;

@@ -1,0 +1,107 @@
+install --upgrade --force-reinstall --no-cache-dir prompt_toolkit jupyter
+
+dynamic / duck typing
+-run time checking of types
+--not compile time checking of types
+
+
+interpreted (auto compile + run)
+-code (.py file) is invisibly compiled or compiles and runs on-the-go
+-in large modules, there are some pre-compilation (.pyc file) for optimization
+
+
+python (intent)
+-clear
+--straight to the point, no jumping through hoops
+---import antigravity
+-readable
+--forces white space blocking
+-expressive
+--more ideas with less code
+
+
+python implementations (mostly used CPython)
+-lowest level is built on C
+
+
+batteries included!
+-__builtins__
+-help('modules')
+
+
+python is not generic programming language #527
+it has character, and philosophy behind it
+-community based (see Python Enhancement Proposals PEP)
+--import this
+
+
+install and run python Read Eval Print Language REPL
+-prints return value
+-_ is a REPL-specific a copy of prev return value
+-real-time interactive code
+-execution code before writing code
+--guarantees code execution
+
+
+indent readability
+-forces indentation (4 spaces - standard)
+-readability is important, you'll indent anyways, no need to braces
+
+
+BATTERIES INCLUDED import
+dir
+help #helps in headless chicken coding
+
+help('modules')
+import statistics
+dir(statistics)
+statistics.stdev
+statistics.stdev("potato")  # doesn't make the machine explode
+help(statistics.stdev)
+statistics.stdev([1,2,1,2,1,2,1,2])
+statistics.stdev([1,2,1,2,1,2,1,2, 100000000])
+
+import math
+dir(math)
+help(math)  # down and q
+math.cos
+math.cos(0)
+(math.e**(1j * math.pi)).real  # Euler (1748)
+
+from math import factorial
+factorial(10)
+
+import math as m
+from math import factorial as f
+
+math == m
+factorial == f
+
+
+BATTERIES INCLUDED arbitrary large data storage
+2 ** 1024  # java ded
+2 ** 102400  # batteries fucking included
+str(_)
+len(_)
+
+aside: my thesis was algo anal using numerical methods # http://www.jsoftware.us/vol12/308-TE023.pdf
+in java, this would have been 
+Decimal(E) = Decimal.exp(Decimal.log(y), Decimal.mul(Decimal(Decimal.log(z), Decimal.add(Decimal(x), Decimal(y)), Decimal.log(y), Decimal.add(Decimal(z), Decimal(y))), Decimal(y))), ........................)
+
+
+EVERYTHING IS AN OBJECT - auto interpreted
+null:
+None
+
+ints:
+10
+0b10 # Base 2
+0o10 # Base 8
+0x10 # Base 16
+
+floats:
+2.5
+3e4
+
+strings:
+"hi I'm"
