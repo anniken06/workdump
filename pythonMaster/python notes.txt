@@ -1,38 +1,10 @@
 install --upgrade --force-reinstall --no-cache-dir prompt_toolkit jupyter
 
-dynamic / duck typing
--run time checking of types
---not compile time checking of types
+
+pip._internal.main(["install", "asd"])
 
 
-interpreted (auto compile + run)
--code (.py file) is invisibly compiled or compiles and runs on-the-go
--in large modules, there are some pre-compilation (.pyc file) for optimization
 
-
-python (intent)
--clear
---straight to the point, no jumping through hoops
----import antigravity
--readable
---forces white space blocking
--expressive
---more ideas with less code
-
-
-python implementations (mostly used CPython)
--lowest level is built on C
-
-
-batteries included!
--__builtins__
--help('modules')
-
-
-python is not generic programming language #527
-it has character, and philosophy behind it
--community based (see Python Enhancement Proposals PEP)
---import this
 
 
 install and run python Read Eval Print Language REPL
@@ -94,10 +66,10 @@ null:
 None
 
 ints:
-10
-0b10 # Base 2
-0o10 # Base 8
-0x10 # Base 16
+10  # Base 10
+0b10  # Base 2
+0o10  # Base 8
+0x10  # Base 16
 
 floats:
 2.5
