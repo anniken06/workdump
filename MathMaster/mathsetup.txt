@@ -1,0 +1,47 @@
+qpdfview - invert + view outline
+ln -s /path/to/file ~/Desktop
+
+while sleep 1; do cat /sys/class/power_supply/BAT0/current_now; done
+upower --enumerate
+upower -i /org/freedesktop/UPower/devices/battery_BAT0
+sudo apt install tlp -y
+sudo tlp true
+wifi on; bluetooth off; wwan off
+
+Ctrl+`
+Ctrl+P
+Ctrl+R
+Ctrl+K, Ctrl+1
+Ctrl+K, Ctrl+J
+Ctrl+Shift+[
+Ctrl+Shift+[
+
+In browse packages: add sublime-completion file
+In user settings:
+{
+	"auto_complete_selector": "source, text",
+	"spelling_selector": "source, text"
+}
+
+###################################################################################################
+
+Firefox -> Customize -> [Themes] Dark %Add-ons -> Dark Night Mode , uBlock Origin %https://m.youtube.com/?o=U&app=m&persist_app=1 , https://m.facebook.com/messages
+
+$sudo apt update
+$sudo apt install texlive latexmk
+$tlmgr init-usertree
+$tlmgr update - -self
+$tlmgr install standalone preview
+
+$sudo snap refresh
+$sudo snap install sublime-text --classic
+Ctrl+Shift+P -> Install Package Control
+Ctrl+Shift+P -> Install Package -> LaTeXTools
+Preferences -> Package Settings -> LaTeX Tools -> [Settings - User] Overwrite the following:
+	"preview_math_mode": "all",
+	"preview_math_scope": "text.tex.latex meta.environment.math",
+	"preview_math_density": 125,
+Ctrl+Shift+P -> LaTeXTools: Check system
+	Packages for equation preview  Status:  should all be green
+	Program      Location            Status: should all be green except xelatex, biber
+[Build] Ctrl+B

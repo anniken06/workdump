@@ -1,0 +1,531 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{verbatim} % for comments
+\usepackage[margin=0.5in]{geometry} % for margins
+\usepackage{amsmath} % for math
+\usepackage{amssymb} % for math
+\usepackage{latexsym} % for math
+\usepackage{mathtools} % for math
+
+\title{Sections and Chapters}
+\author{John Paul Guzman}
+\date{ }
+ 
+\begin{document}
+\maketitle
+%\tableofcontents
+
+
+\section{Basic Logic}
+	======================================================================
+\subsection{(Remark) Modern Logic}
+	-Proof theory - properties of proofs \\
+	- Model theory - properties of interpretations \\
+	- Recursion theory - properties of algorithms \\
+	- Set theory - structureMaster \\
+	======================================================================
+\subsection{(Remark) Bootstrapping}
+	- Informal math contains all the real ideas, while formal math contains encoded symbols \\
+	- Formal math is mere toy-replica of the informal math \\
+	- Properties of the toy can tell us about properties of the real thing \\
+	- Formal reasoning (syntax) is much safer than informal reasoning (syntax + semantics) \\
+	- The informal theory about a formal theory is called a metatheory \\
+	======================================================================
+\subsection{(Remark) Notions in the metatheory are informal}
+	- Metamathematics exists outside and independently of our effort to build this or that formal system \\
+		- - All its constructs are available to us for use in the analysis of the behaviour of a formal system \\
+	- Properties about objects that they must satisfy can only be recognized in the metatheory \\
+		- - Formal theories are pre-built systems that are designed to run not knowing about these properties \\
+	- The formal theory is just a generator of theorems, and not a parser \\
+		- - It cannot remember what it generates nor state the properties of some given string \\
+	======================================================================
+\subsection{(Definition) Pre-requisite informal notions}
+	- Subset $X \subseteq Y$ for sets $X$ and $Y$ iff for all $x \in X$, $x \in Y$ \\
+	- Union $X \cup Y$ for sets $X$ and $Y$ iff for all $x \in X$ and $y \in Y$, $x \in X \cup Y$ and $y \in X \cup Y$ \\
+	- Kleene star $S^*$ is the set of all sequences that can be made from the elements of set $S$ \\
+	- The string $S$ from a set $V$ is defined by $S \in V^*$ \\
+	- String concatenation $A * B$ for strings $A$ and $B$ is defined by $A$ appended with $B$ \\
+	- The empty string $\lambda$ is defined by for all strings $S$, $S = \lambda * S = S * \lambda$ \\
+	- String $A$ occurs in string $B$ iff there exists strings $C$ and $D$, $B = C * A * D$ \\
+	- Variadic notation $[a_i]_{i=1}^n$ is an abbreviation for $a_1, a_2, a_3, ..., a_n$ \\
+	- TODO: rules + rule metatheorems, schema subsitution
+	======================================================================
+\subsection{(Definition) Rule}
+	- The rule $Q$ is a metatheoretical function that takes in a sequence of strings and outputs strings \\
+	- The rule with $n$ arguments and an output is called $(n+1)$-ary \\
+	- The rule has an associated function $Arity$ which outputs the number of arguments for a given function or relation \\
+	- The function $ArityR$ outputs the arity of given a given rule
+	- Rules must be algorithmic and can be executed within a finite number of steps
+	- The immediate predecessors of a string $d$ on the $(n+1)$-ary rule $Q$ are $[s_i]_{i=1}^n$ iff $Q([s_i]_{i=1}^n, d)$ holds
+	======================================================================
+\subsection{(Definition) Closed set under a rule}
+	- TODO: use/meaning/intent - wat
+	- The set $S$ is closed under the $(n+1)$-ary rule $Q$ iff for all $d$ where $Q([s_i]_{i=1}^n, d)$, if $\{[s_i]_{i=1}^n\} \subseteq S$, then $d \in S$ \\
+	======================================================================
+\subsection{(Definition) Rule-defined set}
+	- The rule-defined set $Cl(J, R)$ consists of: \\
+		- - The set of base objects $J$ \\
+			- - $J$ can be treated like a set of rules that takes no arguments \\
+		- - The set of rules for generating inductive objects $R$ \\
+	- Closure $Cl(J, R)$ is the smallest set that satisfies all of the following: \\
+		- - $J \subseteq Cl(J, R)$ \\
+		- - for all $Q \in R$, $closed(Cl(J, R), Q)$ \\
+	- Sets built via rules satisfy a smallest qualifier to remove erroneous structures and elements \\
+	===============================================================
+\subsection{(Metatheorem) Induction on a rule-defined set}
+	- TODO: use/meaning/intent - If a property P holds for all in J, and propagates (true for input (Induction Hypothesis) -> true for output (Inductive Step)) through for all in R, then it holds for the entire closure ???
+	- For any property P and $w \in Cl(J, R)$, P(w) iff
+		- For all $j \in J$, P(j)
+		- For all $r \in R$, P closed blablablablalb TODO fuck this shit
+	- If $J \subseteq T$ (Basis Step) and for any $Q \in R$, $T$ is closed under $Q$ (Inductive Step), then $Cl(J, R) \subseteq T$ \\
+	======================================================================
+\subsection{(Definition) Ambiguous pair}
+	- TODO: use/meaning/intent - ???
+	- The pair $(J, R)$ is ambiguous if there exists $d \in Cl(J, R)$ satisfies any of the following: \\
+		- - There exists $Q \in R$ where $Q([x_i]_{i=1}^{ArityR(Q)})$ and $Q([y_i]_{i=1}^{ArityR(Q)})$ and $\langle [x_i]_{i=1}^{ArityR(Q)} \rangle \neq \langle [y_i]_{i=1}^{ArityR(Q)} \rangle$ \\
+		- - There exists $P \in R$ and $Q \in R$ where $P([s_i]_{i=1}^n, d)$ and $Q([s_i]_{i=1}^n, d)$ and $P \neq Q$ \\
+		- - There exists $Q \in R$ where $Q([s_i]_{i=1}^n, d)$ and $d \in J$ \\
+	======================================================================
+\subsection{(Metatheorem) Definition by recursion} TOFIX
+	- TODO: use/meaning/intent - Cl(J, R) from some unambiguous (J, R) has some nice unique mapping
+	- TODO: [ABSTRACTED]
+	======================================================================
+\subsection{(Remark) The state of the metatheory}
+	- The metatheory houses assumptions or axioms about behavior of theories \\
+	- Is it necessary to prove the consistency of the metatheory? \\
+		- - No because otherwise, it would require a meta-metatheory which would require a meta-meta-metatheory, and so on which would never end \\
+		- - The metatheory should be small and simple and close to intuition such that it would not require formalized verification of its consistency \\
+	- Is it okay to use infinite sets and induction in the metatheory? \\
+		- - This is mostly political, but we should avoid using suspicious inconsistent tools such as full-blown naive set theory \\
+		- - There are ways we could simulate infinite sets using safer finite notions like using finite calculations then arbitrarily large finite can be a stand-in for infinite, but it is not worth it \\
+	======================================================================
+
+\section{First Order Languages}
+	======================================================================
+\subsection{(Definition) Formal theory}
+	- TODO: use/meaning/intent - notionmaster
+	- The formal theory $T$ is defined by $T = (V, Wff, Thm)$ \\ % TODO or maybe just (Thm) + L // Theory (mathematical logic) wikipedia
+	- The alphabet $V$ is defined by the set of all symbols allowed in the theory \\
+	- The set of all strings $String$ from an alphabet $V$ \\
+	- The set of all well-formed formulas $Wff$ is defined by $Wff \subseteq String$ \\
+	- The set of all theorems $Thm$ is defined by $Thm \subseteq Wff$ \\
+	======================================================================
+\subsection{(Definition) Formal language}
+	- The formal language encodes the notions of a theory \\
+	- The formal language $L$ is defined by $L = (V, Term, Wff)$ \\
+	- $Term$ encodes the objects of a theory \\
+	- $Wff$ encodes the statements of a theory \\
+	- $L$ is a (one-sorted) language with only one type of variable in $V$, and then predicates are used to simulate typing \\
+	- $Term$, $Wff$, $Thm$ can be explicitly provided or they can be rule-defined
+	======================================================================
+\subsection{(Definition) Alphabet}
+	- TODO: use/meaning/intent - writeables
+	- An alphabet $V$ consists of elements from $LS$ and $NLS$: \\
+		- - The set of all logical symbols $LS$ consists of: \\
+			- - - Elements from the set of all variables $Var$ \\
+			- - - The boolean connectives $\lnot, \lor$ \\
+			- - - The existential quantifier $\exists$ \\
+			- - - The equality predicate $\equiv$ \\
+		- - The set of all nonlogical symbols $NLS$ consists of: \\
+			- - - Elements from the set of all constants $Const$ \\
+			- - - Elements from the set of all predicates $Pred$ \\
+			- - - Elements from the set of all functions $Func$ \\
+	- $NLS$ can be extended to contain additional symbols \\
+	======================================================================
+\subsection{(Definition) Set of all terms}
+	- TODO: use/meaning/intent - talkables
+	- The set of all terms $Term$ is defined by $Term = Cl(J_{Term}, R_{Term})$ \\
+	- The set of all base terms $J_{Term}$ consists of: \\
+		- - Variables from $Var$ \\
+		- - Constants from $Const$ \\
+	- The set of term generating rules $R_{Term}$ is defined by the rules: \\
+		- - If $f \in Func$ and $\{[t_i]_{i=1}^{Ar(f)}\} \subseteq Term$, then $f [t_i]_{i=1}^{Ar(f)} \in Term$ \\
+	======================================================================
+\subsection{(Definition) Set of all wffs}
+	- TODO: use/meaning/intent - truthables
+	- The set of all wffs $Wff$ is defined by $Wff = Cl(J_{Wff}, R_{Wff})$ \\
+	- The set of all base (or atomic) wffs $J_{Wff}$ is the set of all predicates that take only terms as arguments and it is defined by the rules: \\
+		- - If $\{t, s\} \subseteq Term$, then $(t \equiv s) \in J_{Wff}$ \\
+		- - If $p \in Pred$ and $\{[t_i]_{i=1}^{Ar(p)}\} \subseteq Term$, then $p [t_i]_{i=1}^{Ar(f)} \in J_{Wff}$ \\
+	- The set of wff generating rules $R_{Wff}$ is defined by the rules: \\
+		- - If $A \in Wff$, then $\lnot A \in Wff$ \\
+		- - If $\{A, B\} \subseteq Wff$, then $\lor A B \in Wff$ \\
+		- - If $x \in Var$ and $A \in Wff$, then $\exists_x A \in Wff$ \\
+	- Allowing only variables to be quantified is what makes the language “first-order” \\
+	- First-order languages ...
+	======================================================================
+\subsection{(Definition) Set of all thms}
+	- TODO: use/meaning/intent - truths
+	- The set of all thms $Thm$ is defined by $Thm = Cl(J_{Thm}, R_{Thm})$ \\
+	- The set of all base (or axiomatic) thms $J_{Thm}$ is defined by $J_{Thm} \subseteq Wff$ \\
+	- The set of thm generating rules (or rules of inference) $R_{Thm}$ is defined a set of rules where each rule takes in wffs and outputs a wff \\
+	======================================================================
+
+\section{Constructs for Thm}
+	======================================================================
+\subsection{(Definition) Wff abbreviations}
+	- $(A \lor B)$ is an abbreviation for $\lor A B$ \\
+	- $\forall_x A$ is an abbreviation for $\lnot \exists_x \lnot A$  \\
+	- $(A \land B)$ is an abbreviaton for $\lnot (\lnot A \lor \lnot B)$ \\
+	- $(A \implies B)$ is an abbreviation for $\lnot A \lor B$ \\
+	- $(A \equiv B)$ is an abbreviation for $((A \implies B) \land (B \implies A))$ \\
+	- Precedence: \\
+		- - $\lnot, \land, \lor, \implies, \equiv$ \\
+		- - Equal precedence invokes right associativity \\
+	======================================================================
+\subsection{(Definition) Free and bound variable in a wff}
+	- TODO: use/meaning/intent - ????
+	- The variable $x$ is free in a wff $B$if it satisfies any of the following: \\
+		- - Iff $B$ is an atomic wff and $x$ occurs in $B$ \\
+		- - Iff $B$ is $\lnot C$ and $x$ is free in $C$ \\
+		- - Iff $B$ is $C \lor D$ and ($x$ is free in $C$ or $x$ is free in $D$) \\
+		- - Iff $B$ is $\exists_y(C)$ and $x \neq y$ and x is free in $C$ \\
+	- The variable $x$ is bounded in a wff $B$ iff $x$ occurs in $B$ and $x$ is not free in $B$ \\
+	======================================================================
+\subsection{(Definition) Closed and open wff}
+	- TODO: use/meaning/intent - ???
+	- The wff $C$ is closed iff it contains no free variable \\
+	- The wff $C$ is open iff it contains no quantifier \\
+		- Open wffs are also closed \\
+	======================================================================
+\subsection{(Definition) Variable occurrence notation}
+	- $A[[v_i]_{i=1}^n]$ iff the variables $[v_i]_{i=1}^n$ occur in the wff $A$ \\
+	- $A([v_i]_{i=1}^n)$ iff the variables $[v_i]_{i=1}^n$ occur in the wff $A$ and no other variables occur in $A$ \\
+	======================================================================
+\subsection{(Definition) The set all prime wffs}
+	- TODO: use/meaning/intent - atom truth assignable
+	- The set of all base terms $Prime$ consists of: \\
+		- Atomic wffs from $J_{Wff}$ \\
+		- Inductive wffs under from the $\exists_x A$ rule in $R_{Wff}$ \\
+	======================================================================
+\subsection{(Definition) Propositional valuation}
+	- TODO: use/meaning/intent - ????
+	- The valuation $v$ is a function defined by $v: Prime \rightarrow \{\bot, \top\}$
+	- The propositional valuation $p_v$ from the valuation $v$ is defined by $p_v: Wff \rightarrow \{\bot, \top\}$ and $p_v$ is an extension of $v$ from $Prime$ to $Wff$ \\
+	- If wff $A$ is a prime wff, then $p_v(A) = v(A)$ \\
+	- If wff $A$ is not a prime wff, then $p_v$ is defined as follows: \\
+		- - $p_v(\lnot A) = F_\lnot(A)$ \\
+			- - - $F_\lnot(\top) = \bot$ \\
+			- - - $F_\lnot(\bot) = \top$ \\
+		- - $p_v(A \lor B) = F_\lor(A, B)$ \\
+			- - - $F_\lor(\bot, \bot) = \bot$ \\
+			- - - $F_\lor(\bot, \top) = \top$ \\
+			- - - $F_\lor(\top, \bot) = \top$ \\
+			- - - $F_\lor(\top, \top) = \top$ \\
+	- This definition relies on the definition of prime wff and parsing to be unambiguous
+	======================================================================
+\subsection{(Definition) Tautology}
+	- TODO: use/meaning/intent - ????
+	- The wff $T$ is a tautology $(\vDash_{Taut} T)$ iff for any valuation $v$, the propositional valuation $p_v(T) = \top$ \\
+	======================================================================
+\subsection{(Definition) Satisfiable wff}
+	- TODO: use/meaning/intent - ????
+	- The wff $U$ is wffsatisfiable iff there exists a valuation $v$ where, $p_v(U) = \top$ \\
+	- $v$ wffsatisfies $U$ \\
+	======================================================================
+\subsection{(Definition) Satisfiable set}
+	- TODO: use/meaning/intent - ?????
+	- The set of wffs $\Gamma$ is setsatisfiable iff there exists a valuation $v$ where, for any $A \in \Gamma$, $p_v(A) = \top$ \\
+	- $v$ setsatisfies $\Gamma$ \\
+	======================================================================
+\subsection{(Definition) Unsatisfiable wff}
+	- Inverted version of wffsatisfiable \\
+	- The wff $U$ is wffunsatisfiable iff for any valuation $v$, $p_v(U) = \bot$
+	======================================================================
+\subsection{(Definition) Unsatisfiable set}
+	- Inverted version of setsatisfiable \\
+	- An set of wffs $\Gamma$ is setunsatisfiable iff for any valuation $v$, there exists $A \in \Gamma$ where, $p_v(A) = \bot$ \\
+	======================================================================
+\subsection{(Definition) Tautological implication}
+	- TODO: use/meaning/intent - ??????
+	- The set of wffs $\Gamma$ tautologically implies a wff $A$ ($\Gamma \vDash_{Taut} A$) iff for any valuation $v$, if $v$ setsatisfies $\Gamma$, then $v$ wffsatisfies $A$ \\
+	- This can also be checked via truth tables
+	======================================================================
+\subsection{(Remark) Satisfiable and unsatisfiable}
+	- """"Satisfiable" and "unsatisfiable" are terms introduced here in the propositional or Boolean sense. These terms have a more complicated meaning when we decide to "see" the object variables and quantifiers that occur in formulas.""" TODO
+	======================================================================
+\subsection{(Definition) Substitution of a term for a variable in term}
+	- TODO: use/meaning/intent - nifty rule dependency
+	- The substitution ($s[x \leftarrow t]$) of the variable $x$ by the term $t$ in the term $s$ is defined as following rule: \\
+		- - If $s$ is $x$, then the substitution outputs $t$ \\
+		- - If $s$ is a constant or a variable that is not $x$, then the substitution outpust $s$ \\
+		- - If $s$ is a function $f$ applied to the terms $[t_i]_{i=1}^n$, then the substitution outputs $f [t_i[x \leftarrow t]]_{i=1}^{Arity(f)}$ \\
+	======================================================================
+\subsection{(Metatheorem) Substituted terms are terms}
+	- By induction, this is true for B.S. terms and joining terms I.H. implies joined is also a term I.S. \\
+	======================================================================
+\subsection{(Definition) Substitution of a term for a variable in wff}
+	- TODO: use/meaning/intent - nifty rule
+	- The substitution ($A[x \leftarrow t]$) of the variable $x$ by the term $t$ in the wff $A$ is defined as following rule: \\
+		- - If $A$ is $s \equiv r$ on the terms $s$ and $r$, then the substitution outputs $s[x \leftarrow t] \equiv r[x \leftarrow t]$ \\
+		- - If $A$ is a predicate $p$ applied to the terms $[t_i]_{i=1}^{Arity(p)}$, then the substitution outputs $p [t_i[x \leftarrow t]]_{i=1}^{Arity(p)}$ \\
+		- - If $A$ is $\lnot B$ on the wff $B$, then the substitution outputs $\lnot B[x \leftarrow t]$ \\
+		- - If $A$ is $(B \lor C)$ on the wffs $B$ and $C$, then the substitution outputs $(B[x \leftarrow t] \lor C[x \leftarrow t])$\\
+		- - If $A$ is $\exists_x(B)$ on the wff $B$, then the substitution outputs $A$ \\
+		- - If $A$ is $\exists_y(B)$ on the variable $y$ and the wff $B$ and $y$ is not $x$ and $y$ does not occur in $t$, then the substitution outputs $\exists_y(B[x \leftarrow t])$\\
+	- If $x$ is not quantified over, then all variables in the term $t$ must not be quantified over to allow the wff to preserve its intended meaning \\
+	- The substitution is defined iff it satisfies a defined condition in the rule \\
+		- - Using the substitution notation immediately implies that the substitution output is defined \\
+	- The symbols $[$, $]$, $\leftarrow$ are symbols in the metatheory and they have the higher precedence compared to formal symbols \\
+	- The variable $x$ is substitutable by the term $t$ in the wff $A$ iff $A[x \leftarrow t]$ is defined 
+	======================================================================
+\subsection{(Metatheorem) Substituted wffs are wffs}
+	- By induction, this true for B.S (terms) and joining wffs I.H. implies joined is also a wff I.S. \\
+	======================================================================
+\subsection{(Definition) Simultaneous substitution}
+	- The simultaneous substitution $A[[y_i]_{i=1}^n \leftarrow [t_i]_{i=1}^n]$ of the variables $[y_i]_{i=1}^n$ by the terms $[t_i]_{i=1}^n$ in the wff $A$ is an abbreviation for $A[[y_i \leftarrow t_i]]_{i=1}^n$ \\
+	======================================================================
+\subsection{(Definition) Schemata}
+	- The schemata is a rule written down as a metaformula that consists of metasymbols \\
+	- These metasymbols can be replaced by formal symbols to output a wff called an instance of the schema \\
+		- It is a rule that takes in formal symbols, and substitutes them in place of metavariables, then outputs the instance wff \\
+	======================================================================
+\subsection{(Definition) The set of all axioms}
+	- TODO: use/meaning/intent - assumptions
+	- The set of all axioms $J_{Thm}$ consists of: \\
+		- - Elements from the set of logical axioms $\Lambda$ \\
+		- - Elements from the set of nonlogical axioms $\Gamma$ \\
+\subsection{(Definition) The set of all logical axioms}
+	- TODO: use/meaning/intent - assumed logic behavior
+	- The set of all logical axioms $\Lambda$ is defined by $\Lambda = Cl(J_\Lambda, R_\Lambda)$ \\
+	- The set of all base logical axioms $J_\Lambda$ is the set of all tautological wffs \\
+	- The set of logical axiom generating rules $R_\Lambda$ is defined by the rules: \\
+		- - Substitution Axiom: If $A \in \Lambda$, then for any term $t$ and variable $x$ substitutable for $t$, $(A[x \leftarrow t] \implies \exists_x(A)) \in \Lambda$ \\
+		- - Self-equivalence Axiom: For any variable $x$, $(x \equiv x) \in \Lambda$ \\
+		- - Leibniz Axiom: For any (countable) wff $A$, variable $x$, terms $t$ and $s$, $(t \equiv s \implies (A[x \leftarrow t] \equiv A[x \leftarrow s])) \in \Lambda$ \\
+	- The rules / axioms are what endow the symbols with the intended behavior \\ % TODO: move
+	- The Leibniz Axiom is still first-order because ??? % TODO: see chapter 4
+	======================================================================
+\subsection{(Definition) The set of all nonlogical axioms}
+	- TODO: use/meaning/intent - assumed notions behavior
+	- The set of all nonlogical axioms $\Gamma$ are the wffs that are assumed to be true or the hypotheses
+	======================================================================
+\subsection{(Definition) Rules of inference}
+	- TODO: use/meaning/intent - truth preserving
+	- The rules of inference $R_{Thm}$ is defined by thes rules: \\
+		- - Primary rules of inference: \\
+			- - - Modus Ponens Rule: Given $A$, $A \implies B$, the output is $B$ \\
+			- - - E-Introduction Rule: Given $A \implies B$ and $x$ is not free in $B$, the output is $\exists_x(A) \implies B$ \\
+		- - Derived rules of inference: \\
+			- - - Rules of inference derived from the proofs made by other rules of inference \\
+			- - - The validity of these rules are only provable within the metatheory \\
+			======================================================================
+\subsection{(Definition) The set of all Gamma-Theorems}
+	- TODO: use/meaning/intent - Provable wffs
+	- The set of all Gamma-Theorems $Thm_\Gamma$ is defined by $Thm_\Gamma = Cl(J_{Thm}, R_{Thm})$ \\
+	- The wff $A$ is a Gamma-theorem or $\Gamma \vdash A$ is an abbreviation for $A \in Thm_\Gamma$ \\
+	- $\Gamma \vdash \Lambda $ is an abbreviation for for all $L \in \Lambda$, $L \in Thm_\Gamma$ \\
+	======================================================================
+\subsection{(Definition) Abstract formal theory}
+	- The formal theory $T$ is the set of wffs that are considered to be correct within a theory \\
+	- The formal theory $T$ is defined by $T = Cl(J_{Thm}, R_{Thm})$ \\
+	- The formal theory $T$ is inconsistent if $T = Wff$ \\
+	- We often like to find the smallest set of set of axioms $\Gamma$ for axiomatizing $T$ such that $T = Thm_\Gamma$ \\
+	- The set of axioms $\Gamma$ is recognizable if there exists an algorithmic process to decide if $A \in \Gamma$ \\
+	- The theory $T$ is recursively axiomatized if $\Gamma$ is recognizable \\
+	======================================================================
+
+\section{Constructs and Metatheorems for Provability}
+	======================================================================
+\subsection{(Definition) Derivation and stage}
+	- The (J, R)-derivation is the finite sequence of wffs from the construction of $Cl(J, R)$ \\
+	- The stage $X_i$ is some collection of all wffs from the (J, R)-derivation until step $i$ \\
+	======================================================================
+\subsection{(Metatheorem) Equivalent ways of generating closures}
+	- $Cl(J, R) = {x: x occurs in a (J, R)-derivation} = \cup X_i$ \\
+	- TODO: [ABSTRACTED] duh
+	======================================================================
+\subsection{(Definition) Gamma-proof}
+	- The Gamma-proof of the wff $A$ is some (J, R)-derivation of a \Gamma-Theorem
+	======================================================================
+\subsection{(Metatheorem) Transitivity of vdash}
+	- If $\Gamma \vdash \Delta$ and $\Delta \vdash B$, then $\Gamma \vdash B$ \\
+	- The existing Gamma-proofs can be concatinated to form the Gamma-proof for $B$ \\
+	- This allows us to re-use collections of previously established theorems
+	======================================================================
+\subsection{(Metatheorem) Hypothesis strengthening}
+	- If $\Gamma \subseteq \Delta$ and $\Gamma \vdash A$, then $\Delta \vdash A$ \\
+	- The Gamma-proof for $A$ is also a valid Delta-proof for $A$ since it contains all the required wffs \\
+	======================================================================
+\subsection{(Metatheorem) Post's Tautology Theorem}
+	- If $\{[A_i]_{i=1}^n\} \vDash_{Taut} B$, then $\{[A_i]_{i=1}^n\} \vdash B$ \\
+	- $\vDash_{Taut} [A_i \implies]_{i=1}^n B$ <(1) from Hypothesis 1 and truth table)> \\
+	- $\vdash [A_i \implies]_{i=1}^n B$ <(2) from tautology 1 in $J_{Thm}$> \\
+	- $\{[A_i]_{i=1}^n\} \vdash [A_i \implies]_{i=1}^n B$ <(3) from Hypothesis strenghtening on (2)>\\
+	- $\{[A_i]_{i=1}^n\} \vdash B$ <(4) from Modus Ponens Rule on (3) $n$ times>
+	======================================================================
+\subsection{(Definition) Provably equivalent wffs in a theory}
+	- The wff $A$ and wff $B$ are provably equivalent in the theory $T$ iff $\Gamma \vdash A \equiv B$
+	======================================================================
+\subsection{(Metatheorem) Theorems are provably equivalent}
+	- If $\Gamma \vdash \{A, B\}$, then $\Gamma \vdash (A \equiv B)$ \\
+		- - $\Gamma \vdash A$ <(1) from Hypothesis 1> \\
+		- - $A \vDash_{Taut} B \implies A$ <(2) from tautological implication> \\
+		- - $A \vdash B \implies A$ <(3) from Post's Tautology Theorem on (2)> \\
+		- - $\Gamma \vdash B \implies A$ <(4) from Transitivity of vdash on (1, 3)> \\
+		- - $\Gamma \vdash A \implies B$ <(5) Ditto of (1-4) but utilizing Hypothesis 2> \\
+		- - $\Gamma \vdash \{B \implies A, A \implies B\}$ <(6) Collection of established theorems on (4, 5)> \\
+		- - $\{A \implies B, B \implies A\} \vDash_{Taut} A \equiv B$ <(7) from tautological implication> \\
+		- - $\{A \implies B, B \implies A\} \vdash A \equiv B$ <(8) from Post's Tautology Theorem on (7)> \\
+		- - $\Gamma \vdash A \equiv B$ <(9) Transitivity of vdash on (6, 8)> \\
+	======================================================================
+\subsection{(Metatheorem) A-Introduction}
+	- If the variable $x$ is not free in the wff $\lnot A$, then $A \implies B \vdash A \implies \forall_x(B)$ \\
+		- - $A \implies B \vDash_{Taut} \lnot B \implies \lnot A$ <(1) from tautological implication> \\
+		- - $A \implies B \vdash \lnot B \implies \lnot A$ <(2) from Post's Tautology Theorem on (1)> \\
+		- - $\lnot B \implies \lnot A \vdash \exists_x(\lnot B) \implies \lnot A$ <(3) from E-Introduction WITH Hypothesis 1> \\
+		- - $\exists_x(\lnot B) \implies \lnot A \vDash_{Taut} A \implies \lnot(\exists_x(\lnot B))$ <(4) from tautological implication> \
+		- - $\exists_x(\lnot B) \implies \lnot A \vdash A \implies \lnot(\exists_x(\lnot B))$ <(5) from Post's Tautology Theorem on (4)> \\
+		- - $A \implies \lnot(\exists_x(\lnot B))\vdash A \implies \forall_x(B)$ <(6) from abbreviation of forall on (5)> \\
+		- - $A \implies B \vdash A \implies \forall_x(B)$ <(8) from Transitivity of vdash on (2, 3, 5, 6)> \\
+	======================================================================
+\subsection{(Metatheorem) Specialization}
+	- The succeeding proofs will be less based less on metatheory and based more on derivation \\
+	- For any wff $A$ and term $t$, $\vdash \forall_x(A) \implies A[x \leftarrow t]$ \\
+		- - $(\lnot A)[x \leftarrow t] \implies \exists_x(\lnot A)$ <(1) from Substitution Axiom> \\
+		- - $\lnot \exists_x(\lnot A) \implies A[x \leftarrow t]$ <(2) from tautological implication and Post's Tautology Theorem on (1)> \\
+		- - $\forall_x(A) \implies A[x \leftarrow t]$ <(3) from abbreviation of forall on (2)> \\
+	======================================================================
+\subsection{(Metatheorem) Specialization corollary}
+	- For any wff $A$, $\vdash \forall_x(A) \implies A$ \\
+		- - $\forall_x(A) \implies A[x \leftarrow x]$ <(1) from Specialization>
+		- - $\forall_x(A) \implies A$ <(2) from definition of substitution on (1)>
+	======================================================================
+\subsection{(Metatheorem) Generalization}
+	- For any wff $A$, $\vdash A \implies \forall_x(A)$
+		- - $A \implies A$ <(1) from tautological implication and Post's Tautology Theorem> \\
+		- - $A \implies \forall_x(A)$ <(2) A-Introduction on (1) WITH $x$ is not free in $A$> \\
+	======================================================================
+\subsection{(Metatheorem) Generalization corollary}
+	- For any wff $A$, $\vdash A \equiv \forall_x(A)$ \\
+		- - $\vdash A \implies \forall_x(A)$ <(1) from Generalization> \\
+		- - $\vdash \forall_x(A) \implies \vdash A$ <(2) from Specialization corollary> \\
+		- - $\vdash A \equiv \forall_x(A)$ <(3) from tautological implication on (1, 2) and Post's Tautology Theorem> \\
+	======================================================================
+\subsection{(Metatheorem) CorollaryMaster}
+	- For any wff $A$, $A \vdash \forall_x(A)$ and $\forall_x(A) \vdash A$ \\
+		- - $A \vdash \forall_x(A)$ <(1) from Modus Ponens Rule on ($A \vdash A$, Generalization corollary)> \\
+		- - $\forall_x(A) \vdash A$ <(2) from Modus Ponens Rule on ($\forall_x(A) \vdash \forall_x(A)$, Generalization corollary)> \\
+		- - $\vdash A \equiv \forall_x(A)$ <(3) from tautological implication on (1, 2) and Post's Tautology Theorem> \\
+	======================================================================
+\subsection{(Definition) Universal closure}
+	- The universal closure of a wff $A$ with free variables $[y_i]_{i=1}^n$ is defined to be $[\forall_{y_i}]_{i=1}^n(A)$ \\
+	- Any formula deduces and is deduced by its universal closure <from CorollaryMaster> \\
+	======================================================================
+\subsection{(Metatheorem) Substitution of terms}
+	- For any terms $[t_i]_{i=1}^n$, $A[[x_i]_{i=1}^n] \vdash A[[t_i]_{i=1}^n]$
+		- - $[\forall_{x_i}]_{i=1}^n(A)$ <(1) Generalization on (Hypothesis 1) $n$ times>
+		- - $A[[t_i]_{i=1}^n$ <(2) Specialization on (1) $n$ times>
+	======================================================================
+\subsection{(Metatheorem) Renaming}
+	- For any wff $A$ and variable $z$, if $z$ does not occur in $A$, then $\vdash (\exists_x(A)) \equiv (\exists_z(A[x \leftarrow z]))$
+		- - $A[x \leftarrow z] \implies \exists_x(A)$ <(1) from Substitution Axiom WITH Hypothesis 1 (the variables in $z$ does not occur in $A$)>
+		- - $\exists_z(A[x \leftarrow z]) \implies \exists_x(A)$ <(2) from E-Introduction on (1) WITH Hypothesis 1 ($z$ is not free in $\exists_x(A)$)>
+		- - $A[x \leftarrow z][z \leftarrow x] \implies \exists_z(A[x \leftarrow z])$ <(3) from Substitution Axiom WITH Hypothesis 1 (the variables in $x$ does not occur in $A[x \leftarrow z]$ and the variables in $z$ does not occur in $A$)> \\
+		- - $\exists_x(A) \implies \exists_z(A[x \leftarrow z])$ <(4) from simplification and E-introduction on (3) WITH Hypothesis 1 ($x$ is not free in $\exists_z(A[x \leftarrow z])$)> \\
+		- - $\exists_x(A) \equiv \exists_z(A[x \leftarrow z])$ <(5) from tautological implication on (2, 4) and Post's Tautology Theorem> \\
+	- Since the supply of variables are effectively infinite and Renaming states that a wff is provably equivalent to another wff with a dummy variable, then substitutability can be guaranteed by using dummy variables for variables in the substituted term \\
+	======================================================================
+\subsection{(Definition) Theory extension}
+	- The theory $T'$ is an extension of the theory $T$ iff $T \subseteq T'$ \\
+	- The theory $T'$ is aware of the theory $T$ iff $V \subseteq V'$ \\
+	- Given multiple theories $T$ and $T'$, $\vdash_T A$ is an abbreviation for $A \in T$ and $\vdash_{T'} A$ is an abbreviation for $A \in T'$ \\
+	- The extension $T'$ of the theory $T$ is conservative iff for any $A \in L$, if?f $\vdash_{T'} A$, then $\vdash_T A$ \\
+	======================================================================
+\subsection{(Metatheorem) On constants}
+	- Given that $V' = V \cup \{[e_i]_{i=1}^n\}$ and $\Gamma' = \Gamma$, $\vdash_{L'} A[[e_i]_{i=1}^n]$ iff $\vdash_L A[[e_i]_{i=1}^n]$\\
+	- TODO: [ABSTRACTED] from dummy renaming
+	======================================================================
+\subsection{(Metatheorem) Important corollary}
+	- Given $\{[e_i]_{i=1}^n\} \cap \Gamma = \emptyset$, if $\Gamma \vdash A[[e_i]_{i=1}^n]$, then $\Gamma \vdash [x_i]_{i=1}^n$
+	- TODO: [ABSTRACTED] from dummy renaming, try after deduction theorem
+	======================================================================
+\subsection{(Metatheorem) Deduction theorem}
+	- For any closed wff $A$ and wff $B$ and set of wffs $\Gamma$, if $\Gamma \cup \{A\} \vdash B$, then $\Gamma \vdash A \implies B$ \\
+	- The following is a proof by induction on $\vdash$ ??
+	- Basis cases:
+		- - When B = A
+			- - - $A \implies B$ is tautological Q.E.D
+		- - When B \neq A
+			- - - $B$ <(1) must be \Gamma axiomatic>
+			- - - $B \vdash A \implies B$ <(2) from (1) and Post's Tautology Theorem>
+			- - - $\Gamma \vdash A \implies B$ <(3) from Hypothesis Strengthening on (2) and (1)>
+	- Inductive cases:
+		- - Closed under the Modus Ponens Rule: let the inputs be $\Gamma \cup \{A\} \vdash C$ and $\Gamma \cup \{A\} \vdash C \implies B$: \\
+			- - - Inductive hypothesis: $\Gamma \vdash A \implies C$ and $\Gamma \vdash A \implies (C \implies B)$ \\
+			- - - Inductive step: \\
+				- - - - $\{A \implies C, A \implies (C \implies B)\} \vDash_{Taut} A \implies B$ <(1) tautological implication> \\
+				- - - - $\Gamma \vdash A \implies B$ <(2) Post's Tautology Theorem on (1) and Transitivity of vdash> \\
+		- - Closed under the E-Introduction Rule: let the inputs be $\Gamma \cup \{A\} \vdash (C \implies D)$ where $x$ is not free in $D$ \\
+			- - - Inductive hypothesis: $\Gamma \vdash A \implies (C \implies D)$ \\
+			- - - Inductive step:
+				- - - - $A \implies (C \implies D) \vDash_{Taut} C \implies (A \implies D)$ <(1) tautological implication> \\
+				- - - - $\exists_x(C) \implies (A \implies D)$ <(2) E-Introduction on (1) WITH Hypothesis ($A$ is closed) and x is not free in $D$> \\
+				- - - - $\exists_x(C) \implies (A \implies D) \vDash_{Taut} A \implies (\exists_x(C) \implies D)$ \\
+				- - - - $\Gamma \vdash A \implies (\exists_x(C) \implies D)$ <(3) from Post's Tautology theorem> \\
+	- The condition on $A$ must be closed in important to enable one to preserve semantic meaning
+	- - Suppose $A$ is not closed like $x \iff y$, then $x \iff y \vdash \forall_x(x \iff y)$ from Generalization, but this is a contradiction since there exists $y$ where $x \neq y$
+	======================================================================
+\subsection{(Metatheorem) Proof by contradiction}
+	- For any closed wff $A$, $\Gamma \vdash A$ iff $Thm_{\Gamma \cup \{\lnot A\}} = Wff$ \\
+	- When $\Gamma \vdash A$ \\
+		- - $\Gamma \cup \{\lnot A\} \vdash A$ <() Hypothesis Strengthening> \\
+		- - $\Gamma \cup \{\lnot A\} \vdash \lnot A$ <() nonlogical axiomed> \\
+		- - {A, \lnot A} \vDash_{Taut} B <() tautological implication> \\
+	- When $Thm_{\Gamma \cup \{\lnot A\}} = Wff$ \\
+		- - $\Gamma \cup \{\lnot A\} \vdash A$ <() hypothesis> \\
+		- - $\Gamma \vdash \lnot A \implies A$ <() Deduction theorem> \\
+		- - $\lnot A \implies A \vDash_{Taut} A$ <() tautological implication> \\
+		- - $\Gamma \vdash A$ <() Post's Tautology Theorem and Deduction theorem> \\
+	- A is closed necessary for Deduction theorem, add WITH in annotation <- TODO \\
+	======================================================================
+\subsection{(Metatheorem) Principle of Explosion}
+	- TODO: same tautological implication gimmick \\
+	======================================================================
+\subsection{(Metatheorem) Distributivity of exists and forall}
+	- For any variable $x$ and wff $A$ and wff $B$, $A \implies B \vdash \exists_x(A) \implies \exists_x(B)$ \\
+	- For any variable $x$ and wff $A$ and wff $B$, $A \implies B \vdash \forall_x(A) \implies \forall_x(B)$ \\
+	======================================================================
+\subsection{(Metatheorem) Leibniz rule}
+	- If $A \equiv B$, then $C[A] \equiv C[B]$ or maybe $C \equiv C'$ ?? \\
+	======================================================================
+\subsection{(Metatheorem) Proof by cases}
+	- If $\Gamma \vdash [A_i \lor]_{i=1}^{n-1} A_n$ and ????
+	======================================================================
+\subsection{(Metatheorem) Proof by auxiliary constant}
+	- ???? WIP lazy atm
+	======================================================================
+
+\section{Semantics}
+	======================================================================
+\subsection{(Definition) Structure}
+	- The structure $BM$ is defined by $BM = (M, I)$ + L \\
+	- The model $M$ is defined by a non-empty set of ??? universe model wat?? \\
+	- The intepretation $I$ is a function defined by $I: V \rightarrow M$ \\
+	======================================================================
+\subsection{(Remark) M L bla}
+	- how would you say BM is not L but is associated, TODO same with Theory T
+	======================================================================
+\subsection{(Definition) Extension and restriction of a language}
+	- The language $L'$ is the expansion of the language $L$ iff $LS'$ = $LS$ and $NLS \subseteq NLS'$ \\
+	- $L$ is the restriction of $L'$ \\
+	======================================================================
+\subsection{(Definition) Expansion and reduction of a structure}
+	- $\upharpoonright$ asdasdad
+
+\begin{comment}
+Hotkeys:
+Ctrl+R
+Ctrl+K, Ctrl+1
+Ctrl+K, Ctrl+J
+Ctrl+Shift+[
+Ctrl+Shift+[
+
+TODO:
+- fix hypothesis referencing - WITH Hypothesis (SOMETHING)
+- fix \vdash \vDash writing metaproofs - consistency
+- use cantor product + sequences instead kleene star 
+- closed terms are important in semantics ?? review dis
+\end{comment}
+
+\end{document}

@@ -1,0 +1,39 @@
+\contentsline {section}{\numberline {1}Basic Logic}{1}
+\contentsline {subsection}{\numberline {1.1}(Remark) Modern Logic}{2}
+\contentsline {subsection}{\numberline {1.2}(Remark) Bootstrapping}{2}
+\contentsline {section}{\numberline {2}First Order Languages}{2}
+\contentsline {subsection}{\numberline {2.1}(Remark) Notions in the metatheory are informal}{2}
+\contentsline {subsection}{\numberline {2.2}(Definition) Pre-requisite informal notions}{2}
+\contentsline {subsection}{\numberline {2.3}(Definition) Rule}{2}
+\contentsline {subsection}{\numberline {2.4}(Definition) Closed set under a rule}{2}
+\contentsline {subsection}{\numberline {2.5}(Definition) Rule-defined set}{2}
+\contentsline {subsection}{\numberline {2.6}(Definition) Formal theory}{3}
+\contentsline {subsection}{\numberline {2.7}(Definition) Formal language}{3}
+\contentsline {subsection}{\numberline {2.8}(Definition) Alphabet}{3}
+\contentsline {subsection}{\numberline {2.9}(Definition) Set of all terms}{3}
+\contentsline {subsection}{\numberline {2.10}(Definition) Set of all wffs}{3}
+\contentsline {subsection}{\numberline {2.11}(Definition) Set of all thms}{4}
+\contentsline {section}{\numberline {3}Constructs for Thm}{4}
+\contentsline {subsection}{\numberline {3.1}(Definition) Wff abbreviations}{4}
+\contentsline {subsection}{\numberline {3.2}(Definition) Free and bound variable in a wff}{4}
+\contentsline {subsection}{\numberline {3.3}(Definition) Closed and open wff}{4}
+\contentsline {subsection}{\numberline {3.4}(Definition) Variable occurrence notation}{4}
+\contentsline {subsection}{\numberline {3.5}(Definition) The set all prime wffs}{4}
+\contentsline {subsection}{\numberline {3.6}(Definition) Propositional valuation}{5}
+\contentsline {subsection}{\numberline {3.7}(Definition) Tautology}{5}
+\contentsline {subsection}{\numberline {3.8}(Definition) Satisfiable wff}{5}
+\contentsline {subsection}{\numberline {3.9}(Definition) Satisfiable set}{5}
+\contentsline {subsection}{\numberline {3.10}(Definition) Unsatisfiable wff}{5}
+\contentsline {subsection}{\numberline {3.11}(Definition) Unsatisfiable set}{5}
+\contentsline {subsection}{\numberline {3.12}(Definition) Tautological implication}{5}
+\contentsline {subsection}{\numberline {3.13}(Remark) Satisfiable and unsatisfiable}{5}
+\contentsline {subsection}{\numberline {3.14}(Definition) Substitution of a term for a variable in term}{5}
+\contentsline {subsection}{\numberline {3.15}(Metatheorem) Substituted terms are terms}{6}
+\contentsline {subsection}{\numberline {3.16}(Definition) Substitution of a term for a variable in wff}{6}
+\contentsline {subsection}{\numberline {3.17}(Metatheorem) Substituted wffs are wffs}{6}
+\contentsline {subsection}{\numberline {3.18}(Definition) Simultaneous substitution}{6}
+\contentsline {subsection}{\numberline {3.19}(Definition) Schemata}{6}
+\contentsline {subsection}{\numberline {3.20}(Definition) The set of all logical axioms}{6}
+\contentsline {subsection}{\numberline {3.21}(Definition) The set of all nonlogical axioms}{6}
+\contentsline {subsection}{\numberline {3.22}(Definition) Rules of inference}{7}
+\contentsline {subsection}{\numberline {3.23}(Definition) The set of all \Gamma -Theorems}{7}

@@ -1,0 +1,527 @@
+Git commands:
+
+git config credential.helper store
+
+git reset HEAD~1
+git commit --fixup eca0810
+
+git diff --cached > mypatch.patch
+git apply mypatch.patch
+then git add commit push
+
+git checkout 5c6bebc -- ./com.infor.colemanui.backend/rest-service/src/main/java/com/infor/colemanui/backend/rest/service/DatasetService.java
+
+git merge branch
+git reset --soft origin/master
+git commit -m "newcommit"
+git push
+
+git clean -dfx -e '*.project' -e '*.settings' -e '.classpath' -n
+
+git rev-list --left-right --count <BRANCH_LEFT>...<BRANCH_RIGHT>
+
+# Using git cherry-pick The command git cherry-pick commit applies the changes introduced by the named commit on the current branch.
+git cherry-pick <SHA-hash>
+
+git merge-file -p <current> <common> <other> > <dest>
+
+git merge <commit-id>
+
+# This will revert your project to a previous commit on a temporary branch // https://git-scm.com/docs/git-checkout
+git checkout -b <SHA_hash>
+
+# Remove all untracked files; d=recursive, f=force, x=ignore .gitignore
+git clean -dfx
+
+# Long path shenanigans, may require admin privileges
+git config --system core.longpaths true
+
+# Diff uncommitted changes to committed file
+git diff origin/master <._OR_FILE>
+
+# Diff all commited changes from N-th commit, latest commit is N=0
+git show HEAD~<N>
+
+# Rebase the last N commits on HEAD
+git rebase -i HEAD~<N>
+
+# force update remote commits, --force-with-lease checks if no one else if affected
+git push origin external-dataset-import --force-with-lease
+
+# reset to follow remote upstream
+git reset --hard @{u}
+
+# check commit
+git commit --dry-run -m "commit shenanigans"
+
+# remove unstaged files
+git stash
+
+# pull rebase: put local commits on top of new remote commits
+git pull origin external-dataset-import --rebase
+
+# don't rebase with shared commits, since the original commit will be detached
+https://medium.freecodecamp.org/git-rebase-and-the-golden-rule-explained-70715eccc372
+
+# get old files, if too lazy to reset build
+git pop
+
+# change git text editor
+git config --global core.editor <EDITING_PROGRAM>
+
+# store temporary changes
+git add <FILES>
+git checkout <TEMP_BRANCH>
+git commit -m "<COMMIT_MESSAGE>"
+git checkout <WORKING_BRANCH>
+git cherry-pick -n
+
+--strategy-option=theirs??
+
+########################################>>> How Git Works
+########################################>>> by Paolo Perrotta
+Source: https://app.pluralsight.com/library/courses/how-git-works/table-of-contents
+Install Git Bash in: https://git-scm.com/downloads
+
+########################################>>> Git Is Not What You Think
+$ mkdir LearnGit
+$ cd LearnGit
+
+## Git is a persistent map where the keys are SHA1 hashes and values are objects
+$ git init  ## creates a git repository
+> Initialized empty Git repository in C:/Users/jguzman2/gittest/.git/
+
+## Write a string object to the repository
+$ echo "Sup with it" | git hash-object --stdin -w
+> 86ceb1089b383ed86b547f10e6c984128b5552ae
+
+## Read the type of an object in the repository
+# git cat-file <HASH> -t
+$ git cat-file 86ceb1089b383ed86b547f10e6c984128b5552ae -t
+> blob
+
+## Read the contents of an object in the repository
+# git cat-file <HASH> -p
+$ git cat-file 86ceb1089b383ed86b547f10e6c984128b5552ae -p
+> Sup with it
+
+## Generate files
+$ mkdir recipes
+$ echo "my menu" > menu.txt
+$ echo "my readme" > recipes/README.txt
+$ echo "my applepie" > recipes/applepie.txt
+$ echo "delet this" > delet.txt
+
+## Stage files for commit
+# git add <FILES>
+$ git add menu.txt recipes/README.txt recipes/applepie.txt delet.txt
+
+## Unstage files for commit
+# git rm --cached <FILES>
+$ git rm --cached delet.txt
+
+## Displays current branch and commit head, staged, and unstaged files
+# git status
+
+## Commit staged files
+# git commit -m "<COMMIT_MESSAGE>"
+$ git commit -m "my commit"
+> commit 4f7d0ac43e4d8919bc865564eecf4719fa65db12 (HEAD -> master)
+> ...
+
+## Displays commit history info
+# git log
+
+$ git cat-file 4f7d0ac43e4d8919bc865564eecf4719fa65db12 -t
+> commit
+
+## A commit is just a special type of string that contains the commit info and a tree reference to the project root directory
+$ git cat-file 4f7d0ac43e4d8919bc865564eecf4719fa65db12 -p
+> tree 80e79e4f79226a69e88b0b940b43383568c75262
+> author John Paul Guzman <JohnPaul.Guzman@infor.com> 1529913342 +0800
+> committer John Paul Guzman <JohnPaul.Guzman@infor.com> 1529913342 +0800
+> 
+> my commit
+
+## Contents of the project root directory
+$ git cat-file 80e79e4f79226a69e88b0b940b43383568c75262 -p
+> 100644 blob 35a7b9ea655986d84852eccf9b115dde20e74f22    menu.txt
+> 040000 tree 5c9159a164ef02500eb3859f6dc65c3a0cd15d56    recipes
+
+## Blobs contain only the raw file contents. The file names and permissions are stored in the tree!
+$ git hash-object menu.txt
+> 35a7b9ea655986d84852eccf9b115dde20e74f22
+$ echo "my menu" | git hash-object --stdin -w
+> 35a7b9ea655986d84852eccf9b115dde20e74f22
+
+## Versioning
+$ echo "a new menu item" >> menu.txt
+$ git add menu.txt
+$ git commit -m "Added a new menu item"
+$ git log
+> commit f5d2a557e92c140512e4d6cc8cf7808ac088f23c (HEAD -> master)
+> Author: John Paul Guzman <JohnPaul.Guzman@infor.com>
+> Date:   Mon Jun 25 16:17:29 2018 +0800
+> 
+>     Added a new menu item
+> ...
+
+## New commit contents
+$ git cat-file f5d2a557e92c140512e4d6cc8cf7808ac088f23c -p
+> tree 1cea711bedc36293f02d0b30448068edffc2b4d1
+> parent 4f7d0ac43e4d8919bc865564eecf4719fa65db12
+> author John Paul Guzman <JohnPaul.Guzman@infor.com> 1529914649 +0800
+> committer John Paul Guzman <JohnPaul.Guzman@infor.com> 1529914649 +0800
+> 
+> Added a new menu item
+
+## Parent commit of new commit type and content
+$ git cat-file 4f7d0ac43e4d8919bc865564eecf4719fa65db12 -t
+> commit
+$ git cat-file 4f7d0ac43e4d8919bc865564eecf4719fa65db12 -p
+> tree 80e79e4f79226a69e88b0b940b43383568c75262
+> author John Paul Guzman <JohnPaul.Guzman@infor.com> 1529913342 +0800
+> committer John Paul Guzman <JohnPaul.Guzman@infor.com> 1529913342 +0800
+> 
+> my commit
+
+## Git generates new hashes for each commit and modified objects generate different hashes
+# New contents of the project root directory
+$ git cat-file 1cea711bedc36293f02d0b30448068edffc2b4d1 -p
+> 100644 blob a190f513ce614477bf434bf2f55e8096d99ec44d    menu.txt
+> 040000 tree 5c9159a164ef02500eb3859f6dc65c3a0cd15d56    recipes
+# Old contents of the project root directory
+$ git cat-file 80e79e4f79226a69e88b0b940b43383568c75262 -p
+> 100644 blob 35a7b9ea655986d84852eccf9b115dde20e74f22    menu.txt
+> 040000 tree 5c9159a164ef02500eb3859f6dc65c3a0cd15d56    recipes
+
+## Display Git repository size
+$ git count-objects
+> 10 objects, 0 kilobytes
+
+## The info and pack database helps with the implemented optimization techniques
+
+## Tags are references to commits that are unaffected by any tracking
+## Create a tag for the current commit
+# git tag <TAG_NAME>
+$ git tag test
+
+## Create an tag with annotations for the current commit
+$ git tag -a mytag -m "supwidit"
+
+## Display all tags
+$ git tag
+> mytag
+> test
+$ git cat-file mytag -p
+> object f5d2a557e92c140512e4d6cc8cf7808ac088f23c
+> type commit
+> tag mytag
+> tagger John Paul Guzman <JohnPaul.Guzman@infor.com> 1529916240 +0800
+> 
+> supwidit
+$ git cat-file f5d2a557e92c140512e4d6cc8cf7808ac088f23c -p
+> tree 1cea711bedc36293f02d0b30448068edffc2b4d1
+> parent 4f7d0ac43e4d8919bc865564eecf4719fa65db12
+> author John Paul Guzman <JohnPaul.Guzman@infor.com> 1529914649 +0800
+> committer John Paul Guzman <JohnPaul.Guzman@infor.com> 1529914649 +0800
+> 
+> Added a new menu item
+
+## Git objects so far: it act's like a versioned file system
+# Blobs - raw data
+# Trees - contains references to file blobs, and file metadata
+# Commits - contains references to the project tree, references to parent commits, and author detials
+# Tags - contains references to commits that are immutable and unaffected by any tracking
+########################################<<< Git Is Not What You Think
+
+########################################>>> Branches Demystified
+## Create a new branch
+$ git branch lisa
+
+## List branches where * is current branch
+$ git branch
+>   lisa
+> * master
+
+## Branches are references to commits that tracks new commits
+$ cat .git/refs/heads/lisa
+> f5d2a557e92c140512e4d6cc8cf7808ac088f23c
+$ cat .git/refs/heads/master
+> f5d2a557e92c140512e4d6cc8cf7808ac088f23c
+
+## The HEAD is a reference to the current branch
+$ cat .git/HEAD
+> ref: refs/heads/master
+
+## Current branch automatically updates references to newest commit
+$ echo "master item" >> menu.txt
+$ git add menu.txt
+$ git commit -m "Master item"
+$ git log
+> commit 61071024ede875795213ce8d0fa5e2601de77742 (HEAD -> master)
+> Author: John Paul Guzman <JohnPaul.Guzman@infor.com>
+> Date:   Tue Jun 26 09:16:57 2018 +0800
+> 
+>     Master item
+$ cat .git/refs/heads/master
+> 61071024ede875795213ce8d0fa5e2601de77742
+$ cat .git/refs/heads/lisa
+> f5d2a557e92c140512e4d6cc8cf7808ac088f23c
+
+## Change current branch and update files to reflect the branch commit reference
+# git checkout <BRANCH_NAME>
+$ git checkout lisa
+> Switched to branch 'lisa'
+$ cat .git/HEAD
+> ref: refs/heads/lisa
+$ cat menu.txt
+> my menu
+> a new menu item
+
+## New commit on new current branch
+$ echo "lisa item" >> menu.txt
+$ git add menu.txt
+$ git commit -m "Lisa item"
+$ echo "Mandatory text for all branches" > mandatory.txt
+$ git add mandatory.txt
+$ git commit -m "Added mandatory item"
+
+## Merge other branch to current branch
+$ git checkout master
+# git merge <BRANCH_NAME>
+$ git merge lisa
+> Auto-merging menu.txt
+> CONFLICT (content): Merge conflict in menu.txt
+> Automatic merge failed; fix conflicts and then commit the result.
+
+## Resolve conflicts
+$ vim menu.txt
+$ cat menu.txt
+> my menu
+> a new menu item
+> <<<<<<< HEAD
+> master item
+> =======
+> lisa item
+> >>>>>>> lisa
+$ vim menu.txt
+$ cat menu.txt
+> my menu
+> a new menu item
+> master AND lisa items
+
+## Stage resolutions and create merge commit 
+$ git add menu.txt
+$ git commit
+> [master de589dc] Merge branch 'lisa'
+$ git log
+> commit de589dc4a070a066c3a6da5248ebaca0b10011cc (HEAD -> master)
+> ...
+$ git cat-file de589dc4a070a066c3a6da5248ebaca0b10011cc -p
+> tree 11b5c27f97cf283c538f00b22256cc906a6542e7
+> parent 61071024ede875795213ce8d0fa5e2601de77742
+> parent c81525b43f9c092bd075619f59f6aecba03b6743
+> author John Paul Guzman <JohnPaul.Guzman@infor.com> 1529977259 +0800
+> committer John Paul Guzman <JohnPaul.Guzman@infor.com> 1529977259 +0800
+> 
+> Merge branch 'lisa'
+$ ls
+> delet.txt  mandatory.txt  menu.txt  recipes/
+$ cat menu.txt
+> my menu
+> a new menu item
+> master AND lisa items
+
+## When merging to a branch that has already resolved the error in a merge commit, Git simply fast-forwards
+$ git checkout lisa
+$ git merge master
+> Updating c81525b..de589dc
+> Fast-forward
+>  menu.txt | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+
+## The HEAD will become detached (to all branches) when checking out directly to a commit
+$ git log
+> commit de589dc4a070a066c3a6da5248ebaca0b10011cc (HEAD -> lisa, master)
+> ...
+$ git checkout de589dc4a070a066c3a6da5248ebaca0b10011cc
+$ cat .git/HEAD
+> de589dc4a070a066c3a6da5248ebaca0b10011cc
+$ git branch
+> *(HEAD detached at de589dc)
+> lisa
+> master
+
+## Creating new commits on a detached HEAD
+$ echo lolxDxD > degenerate_code.txt
+$ git add degenerate_code.txt
+$ git commit -m "Degenerate commit"
+$ git log
+> commit bc2753bd489c1f46f9e725eab2964920a40497e5 (HEAD)
+> Author: John Paul Guzman <JohnPaul.Guzman@infor.com>
+> Date:   Tue Jun 26 10:05:17 2018 +0800
+> 
+>     Degenerate commit
+
+## If you decide to save these detached commits, you can attach them to a new branch
+$ git checkout -b degenerate-branch
+> Switched to a new branch 'degenerate-branch'
+$ ls
+> degenerate_code.txt  delet.txt  mandatory.txt  menu.txt  recipes/
+$ git checkout master
+$ ls
+> delet.txt  mandatory.txt  menu.txt  recipes/
+
+## Three automated Git rules:
+# The current branch tracks new commits
+# When you move to another commit, Git updates your working directory
+# Unreachable objects (by HEAD, branches, or tags) are garbage collected
+########################################<<< Branches Demystified
+
+########################################>>> Rebasing Made Simple
+## Make changes to both master and lisa
+$ git checkout lisa
+$ echo "first change made by lisa" > first.txt
+$ git add first.txt
+$ git commit -m "first change made by lisa"
+> [lisa a366237] first change made by lisa
+> ...
+$ git checkout master
+$ echo "second change made by master" > second.txt
+$ git add second.txt
+$ git commit -m "second change made my master"
+> [master 44d48cf] second change made my master
+> ...
+
+## Rebasing rewinds to the commit where the current and rebasing branch diverged, then applies a copy of the current branch commits after the rebasing branch commits
+$ git checkout lisa
+$ git rebase master
+> First, rewinding head to replay your work on top of it...
+> Applying: first change made by lisa
+
+## In this case, even though the current branch (lisa) made the first change, the lisa branch changed its base (rebase) to reflect master branch commits first, before applying its own commits.
+## Note that this branch will not contain the original commit reference ([lisa a366237] first change made by lisa) since the commit reference has been altered as a side effect of changing its parent reference
+$ git log
+> commit 46332b06109902c52f77ddd2ca000649802c381f (HEAD -> lisa)
+> Author: John Paul Guzman <JohnPaul.Guzman@infor.com>
+> Date:   Tue Jun 26 10:40:16 2018 +0800
+> 
+>     first change made by lisa
+>  ...
+
+## Rebasing lies about the project history and makes it linear
+## In effect, it detaches references to the old commits and creates new ones
+## This will cause problems if you detach a commit that is being shared by someone else since their commit history will be based on a detached commit.
+
+## Git rebase also does fast-fowarding whenever appropriate
+$ git checkout master
+$ git rebase lisa
+> First, rewinding head to replay your work on top of it...
+> Fast-forwarded master to lisa.
+########################################<<< Rebasing Made Simple
+
+########################################>>> Distributed Version Control
+## Creating a reference to a remote repository
+# git remote add <REMOTE_NAME> <REMOTE_URL>
+$ git remote add origin https://github.com/johnpaulguzman/LearnGit.git
+
+## Pushing a branch to the remove repository, the -u flag sets the remote URL for the branches, the --all flag denotes all the branches
+# git push -u <REMOTE_NAME> <LOCAL_BRANCH>
+$ git push -u origin --all
+
+$ cd ..
+$ mkdir newfiles
+$ cd newfiles
+
+## Clone a new copy of the repository from the remote repository
+# git clone <REMOTE_URL>
+$ git clone https://github.com/johnpaulguzman/LearnGit.git
+> Cloning into 'LearnGit'...
+> remote: Counting objects: 27, done.
+> remote: Compressing objects: 100% (14/14), done.
+> remote: Total 27 (delta 3), reused 27 (delta 3), pack-reused 0
+> Unpacking objects: 100% (27/27), done.
+$ cd LearnGit
+
+## The cloned repo only contains the master branch and the remote branches, the -a flag denotes dispay remote branches as well
+$ git branch -a
+> * master
+>   remotes/origin/HEAD -> origin/master
+>   remotes/origin/degenerate-branch
+>   remotes/origin/lisa
+>   remotes/origin/master
+
+## Show repository properties
+$ cat .git/config
+> [core]
+>         repositoryformatversion = 0
+>         filemode = false
+>         bare = false
+>         logallrefupdates = true
+>         symlinks = false
+>         ignorecase = true
+> [remote "origin"]
+>         url = https://github.com/johnpaulguzman/LearnGit.git
+>         fetch = +refs/heads/*:refs/remotes/origin/*
+> [branch "master"]
+>         remote = origin
+>         merge = refs/heads/master
+
+## Show references of multiple branches
+# git show-ref <BRANCH_NAME>
+$ git show-ref master
+> 46332b06109902c52f77ddd2ca000649802c381f refs/heads/master
+> 46332b06109902c52f77ddd2ca000649802c381f refs/remotes/origin/master
+$ git show-ref lisa
+> 46332b06109902c52f77ddd2ca000649802c381f refs/remotes/origin/lisa
+
+## Make local changes
+$ echo "local changes" > local.txt
+$ git add local.txt
+$ git commit -m "local changes made by local master"
+$ git show-ref master
+> 022e301d9c1fd785f19127e1909d97ebe68fc87b refs/heads/master
+> 46332b06109902c52f77ddd2ca000649802c381f refs/remotes/origin/master
+
+## Push the local commits in current branch to remote repository, then update the remote branch to reflect the current remote repository
+$ git push
+> Counting objects: 3, done.
+> Delta compression using up to 4 threads.
+> Compressing objects: 100% (2/2), done.
+> Writing objects: 100% (3/3), 300 bytes | 100.00 KiB/s, done.
+> Total 3 (delta 1), reused 0 (delta 0)
+> remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+> To https://github.com/johnpaulguzman/LearnGit.git
+>    46332b0..022e301  master -> master
+$ git show-ref master
+> 022e301d9c1fd785f19127e1909d97ebe68fc87b refs/heads/master
+> 022e301d9c1fd785f19127e1909d97ebe68fc87b refs/remotes/origin/master
+
+## Overwrite remote history with local history
+# git push --force
+
+## Overwrite remote history with local history, only if there are no commits that will be dereferenced
+# git push --force-with-lease
+
+## Update remote branch, then merge with current local branch
+$ git checkout master
+$ git fetch
+# git merge <REMOTE_BRANCH>
+$ git merge origin/master
+$ git push
+
+## This is equivalent to git pull
+$ git checkout master
+$ git pull
+$ git push
+
+## Doing a git pull through rebasing instead of merging
+# git pull --rebase
+
+## A fork is a remote repository copy of some main repository
+## The main repository can only get acquire from a remote repository through a pull request
+########################################<<< Distributed Version Control
+
+########################################<<< How Git Works
+########################################<<< by Paolo Perrotta
