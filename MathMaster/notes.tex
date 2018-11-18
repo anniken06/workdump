@@ -89,6 +89,7 @@
 \subsection{(Metatheorem) Definition by recursion} TOFIX
 	- TODO: use/meaning/intent - Cl(J, R) from some unambiguous (J, R) has some nice unique mapping
 	- TODO: [ABSTRACTED]
+	- All inductive or recursive definitions must be unambiguous to be well-defined
 	======================================================================
 \subsection{(Remark) The state of the metatheory}
 	- The metatheory houses assumptions or axioms about behavior of theories \\
@@ -173,9 +174,17 @@
 		- - $\lnot, \land, \lor, \implies, \equiv$ \\
 		- - Equal precedence invokes right associativity \\
 	======================================================================
+\subsection{(Definition) Free variable in a term}
+	- TODO: use/meaning/intent - ????
+	- The variable $x$ is free in a term $t$ iff it $x$ occurs in $t$ \\
+	======================================================================
+\subsection{(Definition) Closed term}
+	- TODO: use/meaning/intent - ????
+	- The term $t$ is closed iff it contains no free variable \\
+	======================================================================
 \subsection{(Definition) Free and bound variable in a wff}
 	- TODO: use/meaning/intent - ????
-	- The variable $x$ is free in a wff $B$if it satisfies any of the following: \\
+	- The variable $x$ is free in a wff $B$ if it satisfies any of the following: \\
 		- - Iff $B$ is an atomic wff and $x$ occurs in $B$ \\
 		- - Iff $B$ is $\lnot C$ and $x$ is free in $C$ \\
 		- - Iff $B$ is $C \lor D$ and ($x$ is free in $C$ or $x$ is free in $D$) \\
@@ -317,7 +326,7 @@
 	- $\Gamma \vdash \Lambda $ is an abbreviation for for all $L \in \Lambda$, $L \in Thm_\Gamma$ \\
 	======================================================================
 \subsection{(Definition) Abstract formal theory}
-	- The formal theory $T$ is the set of wffs that are considered to be correct within a theory \\
+	- The formal theory $T_L$ appropriate for the language $L$ is the set of wffs $T_L \subseteq Wff$ that are considered to be correct within a theory \\
 	- The formal theory $T$ is defined by $T = Cl(J_{Thm}, R_{Thm})$ \\
 	- The formal theory $T$ is inconsistent if $T = Wff$ \\
 	- We often like to find the smallest set of set of axioms $\Gamma$ for axiomatizing $T$ such that $T = Thm_\Gamma$ \\
@@ -490,7 +499,7 @@
 	- If $A \equiv B$, then $C[A] \equiv C[B]$ or maybe $C \equiv C'$ ?? \\
 	======================================================================
 \subsection{(Metatheorem) Proof by cases}
-	- If $\Gamma \vdash [A_i \lor]_{i=1}^{n-1} A_n$ and ????
+	- If $\Gamma \vdash [A_i \lor]_{i=1}^{n}$ and ????
 	======================================================================
 \subsection{(Metatheorem) Proof by auxiliary constant}
 	- ???? WIP lazy atm
@@ -499,21 +508,55 @@
 \section{Semantics}
 	======================================================================
 \subsection{(Definition) Structure}
-	- The structure $BM$ is defined by $BM = (M, I)$ + L \\
-	- The model $M$ is defined by a non-empty set of ??? universe model wat?? \\
-	- The intepretation $I$ is a function defined by $I: V \rightarrow M$ \\
-	======================================================================
-\subsection{(Remark) M L bla}
-	- how would you say BM is not L but is associated, TODO same with Theory T
+	- TODO: meaning ??
+	- The structure $S$ appropriate for a language $L$ is defined by $S_L = (M, I)$ \\
+	- The model $M$ is defined by a non-empty set of concrete objects or the universe \\
+	- The intepretation $I$ is a function defined by $I: V + OTHER STUFF??? \rightarrow M$ that safisfies the following: \\
+		- For any $a \in Const$, $I(a) \in M$ \\
+		- For any $f \in Func$, $I(f): M^{Arity(f)} \rightarrow M$ and $I$ is total (defined everywhere) \\
+		- For any $p \in Pred$, $I(p): M^{Arity(p)} \rightarrow M$ and $I(p) \subseteq M^{Arity(p)}$ \\
 	======================================================================
 \subsection{(Definition) Extension and restriction of a language}
 	- The language $L'$ is the expansion of the language $L$ iff $LS'$ = $LS$ and $NLS \subseteq NLS'$ \\
 	- $L$ is the restriction of $L'$ \\
 	======================================================================
 \subsection{(Definition) Expansion and reduction of a structure}
-	- $\upharpoonright$ asdasdad
-
+	- The structure $S'$ is an expansion of the structure $S$ iff $L'$ is an extension of $L$ and for all $v \in V$, $I'(v) = I(v)$ \\
+	- $S$ is the reduct of $S'$ \\
+	- The restriction/reduct symbol can be used as $I = I' \upharpoonright L$ or $S = S' \upharpoonright L$ \\
+	======================================================================
+\subsection{(Definition) Model imported to the language}
+	- TODO: meaning ??
+	- The imported language $L(S)$ is defined by the language $L$ and the appropriate structure $S_L$ \\
+	- The imported alphabet $V(S)$ or S-Alphabet is defined by $V(S) = V \cup M$
+	- The imported set of all terms $Term(S)$ or S-Term is defined by $V(S)$ \\
+	- The imported set of all wffs $Wff(S)$ or S-Wff is defined by $Term(S)$ and $V(S)$ \\
+	- This allows formal substitutions on model objects \\
+	- Imported symbols are denoted by $\overline m$ and $I(\overline m) = I(m)$ \\ TODO $I$ will now accept new shit
+	======================================================================
+\subsection{(Definition) Interpretation on closed S-terms}
+	- TODO: use/meaning/intent - talkables
+	- The interpretation $I$ on closed S-terms is defined by the following: \\ TODO: a mapping into M
+		- If the term is $a \in Const$, then $I(a)$ from the definition of $I$ \\
+		- If the term is $f \in Func$ applied to the closed S-terms $[t_i]_{i=1}^{Arity(f)}$, then $I\left(f([t_i]_{i=1}^{Arity(f)})\right) = I(f)\left([I(t_i)]_{i=1}^{Arity(f)}\right)$ \\
+		- The overline counterparts are mapped to the same I mapped
+	======================================================================
+\subsection{(Definition) Interpretation on closed S-wffs}
+	- TODO: use/meaning/inten
+	- The interpretation $I$ on closed S-wffs is defined by the following: \\ TODO: a mapping into {t, f}
+		- If the wff is $t \equiv s$ on the closed S-terms $t$ and $s$, then $I(t \equiv s) = \top$ iff $I(t) = I(s)$ \\
+		- If the wff is $p \in Pred$ applied to the closed S-terms $[t_i]_{i=1}^{Arity(p)}$, then $I\left(p([t_i]_{i=1}^{Arity(p)})\right) = \top$ iff $I(p)\left(I(t_i)]_{i=1}^{Arity(p)}\right) = \top$ \\
+		- rule for operator
+		- rule for exists
+	======================================================================
+\subsection{(Definition) S-instance of a structure}
+	- The wff $A$ is an S-instance of the the structure $S$ iff for all the free variables $v$ that occur in A, $v \in M$, \\ TODO call imported by something!!!
+	- fuck foundations
 \begin{comment}
+\subsection{() }
+	- 
+	======================================================================
+
 Hotkeys:
 Ctrl+R
 Ctrl+K, Ctrl+1
@@ -522,6 +565,7 @@ Ctrl+Shift+[
 Ctrl+Shift+[
 
 TODO:
+- TODO REREAD STUFF AFTER DEFINITIONS ARE DONE, SKIPPED A LOT
 - fix hypothesis referencing - WITH Hypothesis (SOMETHING)
 - fix \vdash \vDash writing metaproofs - consistency
 - use cantor product + sequences instead kleene star 
