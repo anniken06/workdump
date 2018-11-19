@@ -551,10 +551,30 @@
 		- If the wff is $\exists_x(B)$ on the closed S-wff $B$ and the variable $x$, then $\bar I(\exists_x(B)) = \top$ iff there exists $i \in M$, $\bar I(B[x \leftarrow \bar i]) = \top$ \\
 	- We have imported constants from M into L in order to be able to state the semantics of (∃x)B above in the simple manner we just did (following Shoenﬁeld (1967)). TODO: wat ??? \\
 	======================================================================
-\subsection{(Definition) S-instance of a structure}
+\subsection{(Definition) S-instance of a structure + misc}
 	- The S-instance $A'$ of the wff $A$ on the structure $S$ is defined by the free variables $[x_i]_{i=1}^n$ of $A$ and the imported constants $[\bar y_i]_{i=1}^n$ and $A' = A[[x_i \leftarrow y_i]]_{i=1}^n$ \\
-	- The wff $A$ is valid for the structure $S$ or $S$ is a model of $A$ iff for any instance $A'$ of $A$, $\bar I(A') = \top$ \\
-	- The wff $A$ is universally valid if ...
+	- The wff $A$ is valid for the structure $S$ or $S$ is a model of $A$ $\vDash_S A$ iff for any instance $A'$ of $A$, $\bar I(A') = \top$ \\
+	- The structure $S$ is a model of the set of wffs $\Gamma$ $\vDash_S \Gamma$ iff for any $A \in \Gamma$, $\vDash_S A$ \\
+	- The wff $A$ is logically valid $\vDash A$ iff for any structure $S$ appropriate for the language, $\vDash_S A$ \\
+	- The set of wffs $\Gamma$ is Osatisfiable iff there exists a structure $S$, $\vDash_S \Gamma$ \\
+	- The set of wffs $\Gamma$ is finitely Osatisfiable iff for any finite subset $\Delta$, $\Delta$ is Osatisfiable \\
+		- Osatisfiable means the notion of satisfiable extended to open wffs \\
+	- The set of wffs $\Gamma$ logically implies the wff $A$ $\Gamma \vDash A$ iff for any structure $S$, if $\vDash_S \Gamma$, then $\vDash_S A$ \\
+	======================================================================
+\subsection{(Definition) Soundness}
+	- The theory $T$ is sound iff for any $A \in Wff$, if $\Gamma \vdash A$, then $\Gamma \vDash A$ \\
+	- The pure theory $PT$ is sound iff for any $A \in Wff$, if $\vdash_{PT} A$, then $\vDash A$ \\
+	======================================================================
+\subsection{(Metatheorem) Substitution swapping}
+	- 
+	======================================================================
+\subsection{(Metatheorem) Import swapping}
+	- 
+	======================================================================
+\subsection{(Metatheorem) Soundness}
+	- 
+	======================================================================
+
 \begin{comment}
 \subsection{() }
 	- 
