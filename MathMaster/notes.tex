@@ -511,10 +511,11 @@
 	- TODO: meaning ??
 	- The structure $S$ appropriate for a language $L$ is defined by $S_L = (M, I)$ \\
 	- The model $M$ is defined by a non-empty set of concrete objects or the universe \\
-	- The intepretation $I$ is a function defined by $I: V + OTHER STUFF??? \rightarrow M$ that safisfies the following: \\
+	- The intepretation $I$ is a function defined by $I: V \rightarrow M$ that safisfies the following: \\
 		- For any $a \in Const$, $I(a) \in M$ \\
 		- For any $f \in Func$, $I(f): M^{Arity(f)} \rightarrow M$ and $I$ is total (defined everywhere) \\
 		- For any $p \in Pred$, $I(p): M^{Arity(p)} \rightarrow M$ and $I(p) \subseteq M^{Arity(p)}$ \\
+	- The interpretation $\bar I$ is $I$ but to maps more stuff other than $V$
 	======================================================================
 \subsection{(Definition) Extension and restriction of a language}
 	- The language $L'$ is the expansion of the language $L$ iff $LS'$ = $LS$ and $NLS \subseteq NLS'$ \\
@@ -532,26 +533,28 @@
 	- The imported set of all terms $Term(S)$ or S-Term is defined by $V(S)$ \\
 	- The imported set of all wffs $Wff(S)$ or S-Wff is defined by $Term(S)$ and $V(S)$ \\
 	- This allows formal substitutions on model objects \\
-	- Imported symbols are denoted by $\overline m$ and $I(\overline m) = I(m)$ \\ TODO $I$ will now accept new shit
+	- Imported symbols are denoted by $\overline m$ and $\bar I(\overline m) = I(m)$ \\
 	======================================================================
 \subsection{(Definition) Interpretation on closed S-terms}
 	- TODO: use/meaning/intent - talkables
-	- The interpretation $I$ on closed S-terms is defined by the following: \\ TODO: a mapping into M
-		- If the term is $a \in Const$, then $I(a)$ from the definition of $I$ \\
-		- If the term is $f \in Func$ applied to the closed S-terms $[t_i]_{i=1}^{Arity(f)}$, then $I\left(f([t_i]_{i=1}^{Arity(f)})\right) = I(f)\left([I(t_i)]_{i=1}^{Arity(f)}\right)$ \\
-		- The overline counterparts are mapped to the same I mapped
+	- The interpretation $\bar I$ on closed S-terms is the function $\bar I: S-Term \rightarrow M$ defined by the following: \\
+		- If the term is $a \in Const$, then $\bar I(a) = I(a)$ \\
+		- If the term is $f \in Func$ applied to the closed S-terms $[t_i]_{i=1}^{Arity(f)}$, then $\bar I\left(f([t_i]_{i=1}^{Arity(f)})\right) = I(f)\left([\bar I(t_i)]_{i=1}^{Arity(f)}\right)$ \\
 	======================================================================
 \subsection{(Definition) Interpretation on closed S-wffs}
-	- TODO: use/meaning/inten
-	- The interpretation $I$ on closed S-wffs is defined by the following: \\ TODO: a mapping into {t, f}
-		- If the wff is $t \equiv s$ on the closed S-terms $t$ and $s$, then $I(t \equiv s) = \top$ iff $I(t) = I(s)$ \\
-		- If the wff is $p \in Pred$ applied to the closed S-terms $[t_i]_{i=1}^{Arity(p)}$, then $I\left(p([t_i]_{i=1}^{Arity(p)})\right) = \top$ iff $I(p)\left(I(t_i)]_{i=1}^{Arity(p)}\right) = \top$ \\
-		- rule for operator
-		- rule for exists
+	- TODO: use/meaning/intent
+	- The interpretation $I$ on closed S-wffs is the function $\bar I: S-Wff \rightarrow \{\top, \bot\}$ defined by the following: \\
+		- If the wff is $t \equiv s$ on the closed S-terms $t$ and $s$, then $\bar I(t \equiv s) = \top$ iff $\bar I(t) = \bar I(s)$ \\
+		- If the wff is $p \in Pred$ applied to the closed S-terms $[t_i]_{i=1}^{Arity(p)}$, then $\bar I\left(p([t_i]_{i=1}^{Arity(p)})\right) = \top$ iff $I(p)\left(\bar I(t_i)]_{i=1}^{Arity(p)}\right) = \top$ \\
+		- If the wff is $\lnot A$ on the closed S-wff $A$, then $\bar I(\lnot A) = F_\lnot(\bar I(A))$ \\
+		- If the wff is $A \lor B$ on the closed S-wffs $A$ and $B$, then $\bar I(A \lor B) = F_\lor(\bar I(A), \bar I(B))$ \\
+		- If the wff is $\exists_x(B)$ on the closed S-wff $B$ and the variable $x$, then $\bar I(\exists_x(B)) = \top$ iff there exists $i \in M$, $\bar I(B[x \leftarrow \bar i]) = \top$ \\
+	- We have imported constants from M into L in order to be able to state the semantics of (∃x)B above in the simple manner we just did (following Shoenﬁeld (1967)). TODO: wat ??? \\
 	======================================================================
 \subsection{(Definition) S-instance of a structure}
-	- The wff $A$ is an S-instance of the the structure $S$ iff for all the free variables $v$ that occur in A, $v \in M$, \\ TODO call imported by something!!!
-	- fuck foundations
+	- The S-instance $A'$ of the wff $A$ on the structure $S$ is defined by the free variables $[x_i]_{i=1}^n$ of $A$ and the imported constants $[\bar y_i]_{i=1}^n$ and $A' = A[[x_i \leftarrow y_i]]_{i=1}^n$ \\
+	- The wff $A$ is valid for the structure $S$ or $S$ is a model of $A$ iff for any instance $A'$ of $A$, $\bar I(A') = \top$ \\
+	- The wff $A$ is universally valid if ...
 \begin{comment}
 \subsection{() }
 	- 
