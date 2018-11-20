@@ -268,7 +268,7 @@
 		- - If $A$ is $s \equiv r$ on the terms $s$ and $r$, then the substitution outputs $s[x \leftarrow t] \equiv r[x \leftarrow t]$ \\
 		- - If $A$ is a predicate $p$ applied to the terms $[t_i]_{i=1}^{Arity(p)}$, then the substitution outputs $p [t_i[x \leftarrow t]]_{i=1}^{Arity(p)}$ \\
 		- - If $A$ is $\lnot B$ on the wff $B$, then the substitution outputs $\lnot B[x \leftarrow t]$ \\
-		- - If $A$ is $(B \lor C)$ on the wffs $B$ and $C$, then the substitution outputs $(B[x \leftarrow t] \lor C[x \leftarrow t])$\\
+		- - If $A$ is $(B \lor C)$ on the wffs $B$ and $C$, then the substitution outputs $(B[x \leftarrow t] \lor C[x \leftarrow t])$\\ TODO: RETYPE THIS EXPLICIT IS BETTER THAN IMPLICIT
 		- - If $A$ is $\exists_x(B)$ on the wff $B$, then the substitution outputs $A$ \\
 		- - If $A$ is $\exists_y(B)$ on the variable $y$ and the wff $B$ and $y$ is not $x$ and $y$ does not occur in $t$, then the substitution outputs $\exists_y(B[x \leftarrow t])$\\
 	- If $x$ is not quantified over, then all variables in the term $t$ must not be quantified over to allow the wff to preserve its intended meaning \\
@@ -349,7 +349,7 @@
 \subsection{(Metatheorem) Transitivity of vdash}
 	- If $\Gamma \vdash \Delta$ and $\Delta \vdash B$, then $\Gamma \vdash B$ \\
 	- The existing Gamma-proofs can be concatinated to form the Gamma-proof for $B$ \\
-	- This allows us to re-use collections of previously established theorems
+	- This allows us to re-use collections of previously established theorems \\
 	======================================================================
 \subsection{(Metatheorem) Hypothesis strengthening}
 	- If $\Gamma \subseteq \Delta$ and $\Gamma \vdash A$, then $\Delta \vdash A$ \\
@@ -584,13 +584,22 @@
 	- Proof by induction of the wff $A$ \\
 	- Basis cases: \\
 		- - If $A$ is $r \equiv s$ on the terms $r$ and $s$, then $A[x \leftarrow t][y \leftarrow a] \equiv (r[x \leftarrow t][y \leftarrow a] \equiv s[x \leftarrow t][y \leftarrow a]) \equiv (r[y \leftarrow a][x \leftarrow t] \equiv s[y \leftarrow a][x \leftarrow t]) \equiv A[y \leftarrow a][x \leftarrow t]$ from Import swapping on terms \\
-		- - If $A$ is $p([r_i]_{i=1}^{Arity(p)})$ on the the predicate $p$ and the terms $[r_i]_{i=1}^{Arity(p)}$, then ...
-	- Inductive cases: %WIP
-		- - Closed under term generating rule: Let $s$ be $f([r_i]_{i=1}^{Arity(f)})$ \\
-			- - - Inductive hypothesis: $[(r_i[x \leftarrow t][y \leftarrow a] \equiv r_i[y \leftarrow a][x \leftarrow t])]_{i=1}^{Arity(f)}$ \\
+		- - If $A$ is $p([r_i]_{i=1}^{Arity(p)})$ on the the predicate $p$ and the terms $[r_i]_{i=1}^{Arity(p)}$, then $A[x \leftarrow t][y \leftarrow a] = p([r_i[x \leftarrow t][y \leftarrow a]]_{i=1}^{Arity(p)}) \equiv p([r_i[y \leftarrow a][x \leftarrow t]]_{i=1}^{Arity(p)}) \equiv A[y \leftarrow a][x \leftarrow t]$ from Import swapping on terms \\
+	- Inductive cases: \\
+		- - Closed under lnot rule: Let $A$ be $\lnot B$ \\
+			- - - Inductive hypothesis: $(B[x \leftarrow t][y \leftarrow a] \equiv B[y \leftarrow a][x \leftarrow t])$ \\
+			- - - Inductive step: $A[x \leftarrow t][y \leftarrow a] \equiv (\lnot B)[x \leftarrow t][y \leftarrow a] \equiv (\lnot B)[y \leftarrow a][x \leftarrow t] \equiv A[y \leftarrow a][x \leftarrow t]$ from tautological implication and Post's tautology theorem on (Inductive hypothesis) \\
+		- - Closed under lor rule: Let $A$ be $(B \lor C)$ TODO: same propagation as before \\
+		- - Closed under exists rule: Let $A$ be $\exists_w(B)$ \\
+			- - - Inductive hypothesis: $(B[x \leftarrow t][y \leftarrow a] \equiv B[y \leftarrow a][x \leftarrow t])$ \\
 			- - - Inductive step: \\
-				- - - - $f([r_i[x \leftarrow t][y \leftarrow a]]_{i=1}^{Arity(f)}) \equiv f([r_i[y \leftarrow a][x \leftarrow t]]_{i=1}^{Arity(f)})$ <(1) Inductive hypothesis> \\
-				- - - - $s[x \leftarrow t][y \leftarrow a] \equiv $ <(2) from (1) and Transitivity of equiv (tautological implication and Post's Tautology Theorem)> \\
+				- - - - If $w = x$, then one substitution dies
+				- - - - If $w = y$, then then te other substitution dies
+				- - - - If $x \neq w \neq y$, then expand, swap, unexpand p57
+%%%%% WIP
+ 		- - If $A$ is $\exists_x(B)$ on the wff $B$, then the substitution outputs $A$ \\
+		- - If $A$ is $\exists_y(B)$ on the variable $y$ and the wff $B$ and $y$ is not $x$ and $y$ does not occur in $t$, then the substitution outputs $\exists_y(B[x \leftarrow t])$\\
+%%%%%%%
 	======================================================================
 \subsection{(Metatheorem) Soundness}
 	- 

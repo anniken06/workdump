@@ -1,0 +1,18 @@
+Properties constructor called
+TRANSLATIONS_DIR: Loading translation file "qterminal_en_AU.qm" from dir /usr/share/qterminal/translations
+load success: false
+Icon theme "breeze-dark" not found.
+QDir::exists: Empty or null file name
+QDir::exists: Empty or null file name
+Canot open file "/home/jpj/.config/qterminal.org/qterminal_bookmarks.xml"
+Trying to load translation file from dir "/usr/share/Lubuntu"
+Trying to load translation file from dir "/usr/local/share"
+Trying to load translation file from dir "/usr/share"
+Trying to load translation file from dir "/var/lib/snapd/desktop"
+Trying to load translation file from dir "/usr/share/qtermwidget5/translations"
+default KB_LAYOUT_DIR:  "/usr/share/qtermwidget5/kb-layouts"
+loadAllColorSchemes
+Shell program: "/bin/bash"
+("/bin/bash")
+Icon theme "breeze-dark" not found.
+! SyncTeX Error : No file?
