@@ -152,8 +152,7 @@
 		- - If $A \in Wff$, then $\lnot A \in Wff$ \\
 		- - If $\{A, B\} \subseteq Wff$, then $\lor A B \in Wff$ \\
 		- - If $x \in Var$ and $A \in Wff$, then $\exists_x A \in Wff$ \\
-	- Allowing only variables to be quantified is what makes the language “first-order” \\
-	- First-order languages ...
+	- First-order languages are languages that only allows quantification over variables \\
 	======================================================================
 \subsection{(Definition) Set of all thms}
 	- TODO: use/meaning/intent - truths
@@ -451,11 +450,11 @@
 	======================================================================
 \subsection{(Metatheorem) Deduction theorem}
 	- For any closed wff $A$ and wff $B$ and set of wffs $\Gamma$, if $\Gamma \cup \{A\} \vdash B$, then $\Gamma \vdash A \implies B$ \\
-	- The following is a proof by induction on $\vdash$ ??
+	- Proof by induction on $Thm$
 	- Basis cases:
-		- - When B = A
+		- - If $B = A$
 			- - - $A \implies B$ is tautological Q.E.D
-		- - When B \neq A
+		- - If $B \neq A$
 			- - - $B$ <(1) must be \Gamma axiomatic>
 			- - - $B \vdash A \implies B$ <(2) from (1) and Post's Tautology Theorem>
 			- - - $\Gamma \vdash A \implies B$ <(3) from Hypothesis Strengthening on (2) and (1)>
@@ -558,23 +557,51 @@
 	- The wff $A$ is logically valid $\vDash A$ iff for any structure $S$ appropriate for the language, $\vDash_S A$ \\
 	- The set of wffs $\Gamma$ is Osatisfiable iff there exists a structure $S$, $\vDash_S \Gamma$ \\
 	- The set of wffs $\Gamma$ is finitely Osatisfiable iff for any finite subset $\Delta$, $\Delta$ is Osatisfiable \\
-		- Osatisfiable means the notion of satisfiable extended to open wffs \\
+		- - Osatisfiable means the notion of satisfiable extended to open wffs \\
 	- The set of wffs $\Gamma$ logically implies the wff $A$ $\Gamma \vDash A$ iff for any structure $S$, if $\vDash_S \Gamma$, then $\vDash_S A$ \\
 	======================================================================
 \subsection{(Definition) Soundness}
 	- The theory $T$ is sound iff for any $A \in Wff$, if $\Gamma \vdash A$, then $\Gamma \vDash A$ \\
 	- The pure theory $PT$ is sound iff for any $A \in Wff$, if $\vdash_{PT} A$, then $\vDash A$ \\
 	======================================================================
-\subsection{(Metatheorem) Substitution swapping}
-	- 
+\subsection{(Metatheorem) Substitution swapping on terms}
+	- For any term $s$ and term $t$ and constant $a$ and variable $x$ and variable $y$, if $y \neq x$ and $y$ does not occur in $A$, then $s[x \leftarrow t][y \leftarrow a] \equiv s[y \leftarrow a][x \leftarrow t]$ \\
+	- Proof by induction on the term $s$
+	- Basis cases:
+		- - If $s$ is $x$, then $s[x \leftarrow t][y \leftarrow a] \equiv t \equiv s[y \leftarrow a][x \leftarrow t]$ \\
+		- - If $s$ is $y$, then $s[x \leftarrow t][y \leftarrow a] \equiv a \equiv s[y \leftarrow a][x \leftarrow t]$ \\
+		- - If $s$ is the variable $z$ and $x \neq z \neq y$, then $s[x \leftarrow t][y \leftarrow a] \equiv z \equiv s[y \leftarrow a][x \leftarrow t]$ \\
+		- - If $s$ is the constant $b$, then $s[x \leftarrow t][y \leftarrow a] \equiv b \equiv s[y \leftarrow a][x \leftarrow t]$ \\
+	- Inductive cases:
+		- - Closed under term generating rule: Let $s$ be $f([r_i]_{i=1}^{Arity(f)})$ \\
+			- - - Inductive hypothesis: $[(r_i[x \leftarrow t][y \leftarrow a] \equiv r_i[y \leftarrow a][x \leftarrow t])]_{i=1}^{Arity(f)}$ \\
+			- - - Inductive step: \\
+				- - - - $f([r_i[x \leftarrow t][y \leftarrow a]]_{i=1}^{Arity(f)}) \equiv f([r_i[y \leftarrow a][x \leftarrow t]]_{i=1}^{Arity(f)})$ <(1) Inductive hypothesis> \\
+				- - - - $s[x \leftarrow t][y \leftarrow a] \equiv $ <(2) from (1) and Transitivity of equiv (tautological implication and Post's Tautology Theorem)> \\
 	======================================================================
-\subsection{(Metatheorem) Import swapping}
-	- 
+\subsection{(Metatheorem) Substitution swapping on wffs}
+	- For any wff $A$ and term $t$ and constant $a$ and variable $x$ and variable $y$, if $y \neq x$ and $y$ does not occur in $A$, then $A[x \leftarrow t][y \leftarrow a] \equiv A[y \leftarrow a][x \leftarrow t]$ \\
+	- Proof by induction of the wff $A$ \\
+	- Basis cases: \\
+		- - If $A$ is $r \equiv s$ on the terms $r$ and $s$, then $A[x \leftarrow t][y \leftarrow a] \equiv (r[x \leftarrow t][y \leftarrow a] \equiv s[x \leftarrow t][y \leftarrow a]) \equiv (r[y \leftarrow a][x \leftarrow t] \equiv s[y \leftarrow a][x \leftarrow t]) \equiv A[y \leftarrow a][x \leftarrow t]$ from Import swapping on terms \\
+		- - If $A$ is $p([r_i]_{i=1}^{Arity(p)})$ on the the predicate $p$ and the terms $[r_i]_{i=1}^{Arity(p)}$, then ...
+	- Inductive cases: %WIP
+		- - Closed under term generating rule: Let $s$ be $f([r_i]_{i=1}^{Arity(f)})$ \\
+			- - - Inductive hypothesis: $[(r_i[x \leftarrow t][y \leftarrow a] \equiv r_i[y \leftarrow a][x \leftarrow t])]_{i=1}^{Arity(f)}$ \\
+			- - - Inductive step: \\
+				- - - - $f([r_i[x \leftarrow t][y \leftarrow a]]_{i=1}^{Arity(f)}) \equiv f([r_i[y \leftarrow a][x \leftarrow t]]_{i=1}^{Arity(f)})$ <(1) Inductive hypothesis> \\
+				- - - - $s[x \leftarrow t][y \leftarrow a] \equiv $ <(2) from (1) and Transitivity of equiv (tautological implication and Post's Tautology Theorem)> \\
 	======================================================================
 \subsection{(Metatheorem) Soundness}
 	- 
 	======================================================================
-
+		- - Closed under the E-Introduction Rule: let the inputs be $\Gamma \cup \{A\} \vdash (C \implies D)$ where $x$ is not free in $D$ \\
+			- - - Inductive hypothesis: $\Gamma \vdash A \implies (C \implies D)$ \\
+			- - - Inductive step:
+				- - - - $A \implies (C \implies D) \vDash_{Taut} C \implies (A \implies D)$ <(1) tautological implication> \\
+				- - - - $\exists_x(C) \implies (A \implies D)$ <(2) E-Introduction on (1) WITH Hypothesis ($A$ is closed) and x is not free in $D$> \\
+				- - - - $\exists_x(C) \implies (A \implies D) \vDash_{Taut} A \implies (\exists_x(C) \implies D)$ \\
+				- - - - $\Gamma \vdash A \implies (\exists_x(C) \implies D)$ <(3) from Post's Tautology theorem> \\
 \begin{comment}
 \subsection{() }
 	- 
@@ -588,6 +615,8 @@ Ctrl+Shift+[
 Ctrl+Shift+[
 
 TODO:
+- = vs \equiv metaproofs
+- Arity bf ArityR
 - TODO REREAD STUFF AFTER DEFINITIONS ARE DONE, SKIPPED A LOT
 - fix hypothesis referencing - WITH Hypothesis (SOMETHING)
 - fix \vdash \vDash writing metaproofs - consistency
