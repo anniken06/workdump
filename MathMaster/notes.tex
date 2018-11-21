@@ -600,10 +600,26 @@
 				- - - - If $x \neq w \neq y$, then expand, swap I.H., unexpand p.57
 	======================================================================
 \subsection{(Metatheorem) Imported interpretation on terms}
-	- TODO IMPLEMENT AFTER SOUNDNESS
+	- For any structure $S = (M, I)$ and term $s$ over $L(S)$, if $s$ has at most 1 free variable $x$, then $\bar I(s[x \leftarrow t]) = I(s[x \leftarrow \overline t])$
+	- Proof by induction on $s \in Term$ \\
+	- Basis cases: \\
+		- reduces to s \\
+		- If $s = x$, then $I(s[x \leftarrow t]) = I(x[x \leftarrow t]) = I(t) = \overline t = I(x[x \leftarrow \overline t]) =I(s[x \leftarrow \overline t])$ \\
+	- Inductive cases:
+		- - Closed under term generating rule: Let $s = f([r_i]_{i=1}^{Arity(f)})$ \\
+			- - - Inductive hypothesis: $[(r_i[x \leftarrow t] = r_i[x \leftarrow \overline t])]_{i=1}^{Arity(f)}$ \\
+			- - - Inductive step: expand, swap I.H. unexpand p.57 \\
 	======================================================================
 \subsection{(Metatheorem) Imported interpretation on wffs}
-	- 
+	- For any structure $S = (M, I)$ and wff $A$ over $L(S)$, if $A$ has at most 1 free variable $x$, then $\bar I(A[x \leftarrow t]) = I(A[x \leftarrow \overline t])$
+	- Proof by induction on $A \in Wff$ \\ % WIP CONTINUE HERE
+	- Basis cases: \\
+		- reduces to s \\
+		- If $s = x$, then $I(s[x \leftarrow t]) = I(x[x \leftarrow t]) = I(t) = \overline t = I(x[x \leftarrow \overline t]) =I(s[x \leftarrow \overline t])$ \\
+	- Inductive cases:
+		- - Closed under term generating rule: Let $s = f([r_i]_{i=1}^{Arity(f)})$ \\
+			- - - Inductive hypothesis: $[(r_i[x \leftarrow t] = r_i[x \leftarrow \overline t])]_{i=1}^{Arity(f)}$ \\
+			- - - Inductive step: expand, swap I.H. unexpand p.57 \\
 	======================================================================
 \subsection{(Metatheorem) Soundness}
 	- 
