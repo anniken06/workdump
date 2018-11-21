@@ -614,13 +614,30 @@
 	- For any structure $S = (M, I)$ and wff $A$ over $L(S)$, if $A$ has at most 1 free variable $x$, then $\bar I(A[x \leftarrow t]) = I(A[x \leftarrow \overline t])$
 	- Proof by induction on $A \in Wff$ \\ % WIP CONTINUE HERE
 	- Basis cases: \\
-		- reduces to s \\
-		- If $s = x$, then $I(s[x \leftarrow t]) = I(x[x \leftarrow t]) = I(t) = \overline t = I(x[x \leftarrow \overline t]) =I(s[x \leftarrow \overline t])$ \\
-	- Inductive cases:
-		- - Closed under term generating rule: Let $s = f([r_i]_{i=1}^{Arity(f)})$ \\
-			- - - Inductive hypothesis: $[(r_i[x \leftarrow t] = r_i[x \leftarrow \overline t])]_{i=1}^{Arity(f)}$ \\
-			- - - Inductive step: expand, swap I.H. unexpand p.57 \\
+		- If $A = r \equiv s$, then \\
+	- Inductive cases: \\
+		- - Closed under lnot rule: Let $A$ be $\lnot B$ \\
+			- - - Inductive hypothesis: $(B[x \leftarrow t][y \leftarrow a] \equiv B[y \leftarrow a][x \leftarrow t])$ \\
+			- - - Inductive step: $A[x \leftarrow t][y \leftarrow a] \equiv (\lnot B)[x \leftarrow t][y \leftarrow a] \equiv (\lnot B)[y \leftarrow a][x \leftarrow t] \equiv A[y \leftarrow a][x \leftarrow t]$ from tautological implication and Post's tautology theorem on (Inductive hypothesis) \\
+		- - Closed under lor rule: Let $A$ be $(B \lor C)$ TODO: same propagation as before \\
+		- - Closed under exists rule: Let $A$ be $\exists_w(B)$ \\
+			- - - Inductive hypothesis: $(B[x \leftarrow t][y \leftarrow a] \equiv B[y \leftarrow a][x \leftarrow t])$ \\
+			- - - Inductive step: \\
+				- - - - If $w = x$, then one substitution dies
+				- - - - If $w = y$, then then the other substitution dies
+				- - - - If $x \neq w \neq y$, then expand, swap I.H., unexpand p.57
 	======================================================================
+%%%% =========================
+	- The set of all wffs $Wff$ is defined by $Wff = Cl(J_{Wff}, R_{Wff})$ \\
+	- The set of all base (or atomic) wffs $J_{Wff}$ is the set of all predicates that take only terms as arguments and it is defined by the rules: \\
+		- - If $\{t, s\} \subseteq Term$, then $(t \equiv s) \in J_{Wff}$ \\
+		- - If $p \in Pred$ and $\{[t_i]_{i=1}^{Ar(p)}\} \subseteq Term$, then $p [t_i]_{i=1}^{Ar(f)} \in J_{Wff}$ \\
+	- The set of wff generating rules $R_{Wff}$ is defined by the rules: \\
+		- - If $A \in Wff$, then $\lnot A \in Wff$ \\
+		- - If $\{A, B\} \subseteq Wff$, then $\lor A B \in Wff$ \\
+		- - If $x \in Var$ and $A \in Wff$, then $\exists_x A \in Wff$ \\
+	- First-order languages are languages that only allows quantification over variables \\
+%%%% =========================
 \subsection{(Metatheorem) Soundness}
 	- 
 	======================================================================
