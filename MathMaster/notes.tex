@@ -40,18 +40,20 @@
 		- - It cannot remember what it generates nor state the properties of some given string \\
 	======================================================================
 \subsection{(Definition) Pre-requisite informal notions}
+	- Set $\{ \}$
+	- Ordered tuple $\langle \rangle$
+	- Cantor product $\times S^n$
+	- Fucntion: $f: A \rightarrow B$
 	- Subset $X \subseteq Y$ for sets $X$ and $Y$ iff for all $x \in X$, $x \in Y$ \\
 	- Union $X \cup Y$ for sets $X$ and $Y$ iff for all $x \in X$ and $y \in Y$, $x \in X \cup Y$ and $y \in X \cup Y$ \\
-	- Kleene star $S^*$ is the set of all sequences that can be made from the elements of set $S$ \\
-	- The string $S$ from a set $V$ is defined by $S \in V^*$ \\
+	- The string $S$ from a set $V$ is defined by $S \in V^n$ \\
 	- String concatenation $A * B$ for strings $A$ and $B$ is defined by $A$ appended with $B$ \\
 	- The empty string $\lambda$ is defined by for all strings $S$, $S = \lambda * S = S * \lambda$ \\
 	- String $A$ occurs in string $B$ iff there exists strings $C$ and $D$, $B = C * A * D$ \\
 	- Variadic notation $[a_i]_{i=1}^n$ is an abbreviation for $a_1, a_2, a_3, ..., a_n$ \\
-	- TODO: rules + rule metatheorems, schema subsitution
 	======================================================================
 \subsection{(Definition) Rule}
-	- The rule $Q$ is a metatheoretical function that takes in a sequence of strings and outputs strings \\
+	- The rule $Q$ is a informal (metatheoretical) function that takes in a sequence of strings and outputs strings $Q: String^n \rightarrow String$ \\
 	- The rule with $n$ arguments and an output is called $(n+1)$-ary \\
 	- The rule has an associated function $Arity$ which outputs the number of arguments for a given function or relation \\
 	- The function $ArityR$ outputs the arity of given a given rule
@@ -86,7 +88,7 @@
 		- - There exists $P \in R$ and $Q \in R$ where $P([s_i]_{i=1}^n, d)$ and $Q([s_i]_{i=1}^n, d)$ and $P \neq Q$ \\
 		- - There exists $Q \in R$ where $Q([s_i]_{i=1}^n, d)$ and $d \in J$ \\
 	======================================================================
-\subsection{(Metatheorem) Definition by recursion} TOFIX
+\subsection{(Metatheorem) Definition by recursion} TODO: FIX
 	- TODO: use/meaning/intent - Cl(J, R) from some unambiguous (J, R) has some nice unique mapping
 	- TODO: [ABSTRACTED]
 	- All inductive or recursive definitions must be unambiguous to be well-defined
@@ -254,26 +256,26 @@
 	======================================================================
 \subsection{(Definition) Substitution of a term for a variable in term}
 	- TODO: use/meaning/intent - nifty rule dependency
-	- The substitution ($s[x \leftarrow t]$) of the variable $x$ by the term $t$ in the term $s$ is defined as following rule: \\
-		- - If $s$ is $x$, then the substitution outputs $t$ \\
-		- - If $s$ is a constant or a variable that is not $x$, then the substitution outpust $s$ \\
-		- - If $s$ is a function $f$ applied to the terms $[t_i]_{i=1}^n$, then the substitution outputs $f [t_i[x \leftarrow t]]_{i=1}^{Arity(f)}$ \\
+	- The substitution of the variable $x$ by the term $t$ in the term $s$ ($s[x \leftarrow t]$) is defined as following rule: \\
+		- - If $s = x$, then $s[x \leftarrow t] = x[x \leftarrow t] = t$ \\
+		- - If $s = y$ on the variable $y$ and $y \neq x$, then $s[x \leftarrow t] = y[x \leftarrow t] = y$ \\
+		- - If $s = a$ on the constant $a$, then $s[x \leftarrow t] = a[x \leftarrow t] = a$ \\
+		- - If $s = f([t_i]_{i=1}^{Arity(f)})$ on the function $f$ and the terms $[t_i]_{i=1}^{Arity(f)}$, then the substitution outputs $s[x \leftarrow t] = (f([t_i]_{i=1}^{Arity(f)}))[x \leftarrow t] = f([t_i[x \leftarrow t]]_{i=1}^{Arity(f)})$ \\
 	======================================================================
 \subsection{(Metatheorem) Substituted terms are terms}
 	- By induction, this is true for B.S. terms and joining terms I.H. implies joined is also a term I.S. \\
 	======================================================================
 \subsection{(Definition) Substitution of a term for a variable in wff}
 	- TODO: use/meaning/intent - nifty rule
-	- The substitution ($A[x \leftarrow t]$) of the variable $x$ by the term $t$ in the wff $A$ is defined as following rule: \\
-		- - If $A$ is $s \equiv r$ on the terms $s$ and $r$, then the substitution outputs $s[x \leftarrow t] \equiv r[x \leftarrow t]$ \\
-		- - If $A$ is a predicate $p$ applied to the terms $[t_i]_{i=1}^{Arity(p)}$, then the substitution outputs $p [t_i[x \leftarrow t]]_{i=1}^{Arity(p)}$ \\
-		- - If $A$ is $\lnot B$ on the wff $B$, then the substitution outputs $\lnot B[x \leftarrow t]$ \\
-		- - If $A$ is $(B \lor C)$ on the wffs $B$ and $C$, then the substitution outputs $(B[x \leftarrow t] \lor C[x \leftarrow t])$\\ TODO: RETYPE THIS EXPLICIT IS BETTER THAN IMPLICIT
-		- - If $A$ is $\exists_x(B)$ on the wff $B$, then the substitution outputs $A$ \\
-		- - If $A$ is $\exists_y(B)$ on the variable $y$ and the wff $B$ and $y$ is not $x$ and $y$ does not occur in $t$, then the substitution outputs $\exists_y(B[x \leftarrow t])$\\
+	- The substitution of the variable $x$ by the term $t$ in the wff $A$ ($A[x \leftarrow t]$) is defined as following rule: \\
+		- - If $A = s \equiv r$ on the terms $s$ and $r$, then $A[x \leftarrow t] = (s \equiv r)[x \leftarrow t] = (s[x \leftarrow t] \equiv r[x \leftarrow t])$ \\
+		- - If $A = p([t_i]_{i=1}^{Arity(p)})$ on the predicate $p$ and terms $[t_i]_{i=1}^{Arity(p)}$, then $A[x \leftarrow t] = (p([t_i]_{i=1}^{Arity(p)}))[x \leftarrow t] = p([t_i[x \leftarrow t]]_{i=1}^{Arity(p)})$ \\
+		- - If $A = \lnot B$ on the wff $B$, $A[x \leftarrow t] = (\lnot B)[x \leftarrow t] = \lnot B[x \leftarrow t]$ \\
+		- - If $A = (B \lor C)$ on the wffs $B$ and $C$, then $A[x \leftarrow t] = (B \lor C)[x \leftarrow t] = (B[x \leftarrow t] \lor C[x \leftarrow t])$\\
+		- - If $A = \exists_x(B)$ on the wff $B$, then $A[x \leftarrow t] = (\exists_x(B))[x \leftarrow t] = \exists_x(B)$ \\
+		- - If $A = \exists_y(B)$ on the wff $B$ and the variable $y$ and $y$ is not $x$ and $y$ does not occur in $t$, then $A[x \leftarrow t] = (\exists_y(B))[x \leftarrow t] = \exists_y(B[x \leftarrow t])$ \\
 	- If $x$ is not quantified over, then all variables in the term $t$ must not be quantified over to allow the wff to preserve its intended meaning \\
-	- The substitution is defined iff it satisfies a defined condition in the rule \\
-		- - Using the substitution notation immediately implies that the substitution output is defined \\
+	- The substitution is defined iff it satisfies a defined condition in the rule thus, using the substitution notation immediately implies that the substitution output is defined \\
 	- The symbols $[$, $]$, $\leftarrow$ are symbols in the metatheory and they have the higher precedence compared to formal symbols \\
 	- The variable $x$ is substitutable by the term $t$ in the wff $A$ iff $A[x \leftarrow t]$ is defined 
 	======================================================================
@@ -566,7 +568,7 @@
 	======================================================================
 \subsection{(Metatheorem) Substitution swapping on terms}
 	- For any term $s$ and term $t$ and constant $a$ and variable $x$ and variable $y$, if $y \neq x$ and $y$ does not occur in $A$, then $s[x \leftarrow t][y \leftarrow a] \equiv s[y \leftarrow a][x \leftarrow t]$ \\
-	- Proof by induction on the term $s$
+	- Proof by induction on $s \in Term$ \\
 	- Basis cases:
 		- - If $s$ is $x$, then $s[x \leftarrow t][y \leftarrow a] \equiv t \equiv s[y \leftarrow a][x \leftarrow t]$ \\
 		- - If $s$ is $y$, then $s[x \leftarrow t][y \leftarrow a] \equiv a \equiv s[y \leftarrow a][x \leftarrow t]$ \\
@@ -581,7 +583,7 @@
 	======================================================================
 \subsection{(Metatheorem) Substitution swapping on wffs}
 	- For any wff $A$ and term $t$ and constant $a$ and variable $x$ and variable $y$, if $y \neq x$ and $y$ does not occur in $A$, then $A[x \leftarrow t][y \leftarrow a] \equiv A[y \leftarrow a][x \leftarrow t]$ \\
-	- Proof by induction of the wff $A$ \\
+	- Proof by induction on $A \in Wff$ \\
 	- Basis cases: \\
 		- - If $A$ is $r \equiv s$ on the terms $r$ and $s$, then $A[x \leftarrow t][y \leftarrow a] \equiv (r[x \leftarrow t][y \leftarrow a] \equiv s[x \leftarrow t][y \leftarrow a]) \equiv (r[y \leftarrow a][x \leftarrow t] \equiv s[y \leftarrow a][x \leftarrow t]) \equiv A[y \leftarrow a][x \leftarrow t]$ from Import swapping on terms \\
 		- - If $A$ is $p([r_i]_{i=1}^{Arity(p)})$ on the the predicate $p$ and the terms $[r_i]_{i=1}^{Arity(p)}$, then $A[x \leftarrow t][y \leftarrow a] = p([r_i[x \leftarrow t][y \leftarrow a]]_{i=1}^{Arity(p)}) \equiv p([r_i[y \leftarrow a][x \leftarrow t]]_{i=1}^{Arity(p)}) \equiv A[y \leftarrow a][x \leftarrow t]$ from Import swapping on terms \\
@@ -594,12 +596,14 @@
 			- - - Inductive hypothesis: $(B[x \leftarrow t][y \leftarrow a] \equiv B[y \leftarrow a][x \leftarrow t])$ \\
 			- - - Inductive step: \\
 				- - - - If $w = x$, then one substitution dies
-				- - - - If $w = y$, then then te other substitution dies
-				- - - - If $x \neq w \neq y$, then expand, swap, unexpand p57
-%%%%% WIP
- 		- - If $A$ is $\exists_x(B)$ on the wff $B$, then the substitution outputs $A$ \\
-		- - If $A$ is $\exists_y(B)$ on the variable $y$ and the wff $B$ and $y$ is not $x$ and $y$ does not occur in $t$, then the substitution outputs $\exists_y(B[x \leftarrow t])$\\
-%%%%%%%
+				- - - - If $w = y$, then then the other substitution dies
+				- - - - If $x \neq w \neq y$, then expand, swap I.H., unexpand p.57
+	======================================================================
+\subsection{(Metatheorem) Imported interpretation on terms}
+	- TODO IMPLEMENT AFTER SOUNDNESS
+	======================================================================
+\subsection{(Metatheorem) Imported interpretation on wffs}
+	- 
 	======================================================================
 \subsection{(Metatheorem) Soundness}
 	- 
