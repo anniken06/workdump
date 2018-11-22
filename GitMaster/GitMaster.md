@@ -1,108 +1,121 @@
 [TOC]
 
 
-
 # What is Git
-	- Git = file system + versioning + branching & merging
-	- Git is a persistent map where the keys are SHA1 hashes and they reference primitive objects
+- Git = File system + Versioning + Branching & merging
+- Git is a persistent map where the keys are SHA1 hashes and they reference primitive objects
 
-# Primitive objects in Git
-	- Blob - raw data
-	- Tree (folder) - contains:
-		- references to file blobs and metadata like filename, permissions, etc.
-		- references to subtrees (subfolders)
-			- this is what emulates the folder/directory structure
-	- Commit - contains:
-		- reference to the root tree
-			- a snapshot of the root directory at the time of commit
-		- references to parent commits
-			- a way to trace the history
-				- non-merge commits have exactly 1 parent commit
-				- merge commits have multiple parent commits
-		- commit message, time of commit, author name & email
+# Primitive objects in Git (File system + Versioning)
+- Blob: raw data
+- Tree (folder): contains
+	- References to file blobs and metadata like filename, permissions, etc.
+	- References to subtrees (subfolders): This is emulates the folder/directory structure of a file system
+- Commit: contains
+	- Reference to the root tree: A snapshot of the root directory at the time of commit
+	- References to parent commits: A way to trace the history
+		- Non-merge commits have exactly 1 parent commit
+		- Merge commits have multiple parent commits
+	- Commit message, time of commit, author name & email
+
+# Branching & merging
+- Branching: Enables the development of different versions of a repository simultaneously
+- Merging: Integrates the changes from one branch into another branch
 
 # How Git tracks changes
-	- When the changes of some file is tracked:
-		1. it's blob conents changes
-		2. the blob's reference changes
-		3. it's tree contents changes (to reference the new blob)
-		4. the tree's reference changes
-		5. the tree's supertrees has to update as well (to reference the new tree) until the root tree
-	- A new commit has to be made to track the reference to the new root tree
+- When the changes of some file is tracked:
+	1. It's blob conents changes
+	2. The blob's reference changes
+	3. It's tree contents changes (to reference the new blob)
+	4. The tree's reference changes
+	5. The tree's supertrees has to update as well (to reference the new tree) until the root tree
+- A new commit has to be made to track the reference to the new root tree
+- Important corollary: Simple changes to an existing commit will cause the history to diverge
+	- Simply changing the commit message (while keeping all the files & versions exactly the same) would change the commit hash and subsequent commit hashes causing a divergence
+	- This merging / pulling from a similar divergent branch would result in duplicated commits
 
 # Other objects in Git
-	- Named reference - a name associated with an actual reference (SHA1 hash)
-	- HEAD - a named reference to the latest commit in the current branch
-	- Branch - a named reference to some commit
-		- New commits to a branch will automatically update its referenced commit
-	- Tag - a named reference to some commit, but no auto updates
-		- Useful for saving unfinished work or creating backups
-	- Remote - a named remote reference to remote repository (default name: origin)
-	- Remote-tracking branch - a local copy of a branch in the remote (default name: origin/<BRANCH_NAME>)
-	- Remote branch - the branch that exists in the remote (default name: origin <BRANCH_NAME>)
-	- Working tree - the local directory of the repository / the folder in your hard drive
-	- Index / Staging area - contains all the changes to be tracked
-	- Upstream - where to pull from
-	- Downstream - where to push to
-	- gitignore: Specifies intentionally untracked files to ignore
-	- detached HEAD: Occurs whenever HEAD does not refer to a branch
-	- patch: Stored file diffs
+- Named reference: A name associated with an actual reference (SHA1 hash)
+- HEAD: A named reference to the latest commit in the current branch
+- Branch: A named reference to some commit
+	- New commits to a branch will automatically update its referenced commit
+- Tag: A named reference to some commit, but no auto updates
+	- Useful for saving unfinished work or creating backups
+- Remote: A named reference to remote repository (default name: origin)
+- Remote-tracking branch: A local copy of a branch in the remote (default name: origin/<BRANCH_NAME>)
+- Remote branch: The branch that exists in the remote (default name: origin <BRANCH_NAME>)
+- Working tree: The local directory of the repository / the folder in your hard drive
+- Index / Staging area: Contains all the changes to be tracked
+- Upstream: Where to pull from
+- Downstream: Where to push to
+- gitignore: Specifies intentionally untracked files to ignore
+- detached HEAD: Occurs whenever HEAD does not refer to a branch
+- patch: Stored file diffs
 
 # Revisions
-	- [Revisions](https://git-scm.com/docs/gitrevisions) are ways of specifying commits
-	- Revisions are specified using any of following:
-		- Commit hash: `<COMMIT_HASH>`
-		- Named reference (REF_NAME) with an optional suffix (REF_NAME_SUFFIX):
-			- Reference name without suffix: `<REF_NAME>`
-			- Reference name with suffix: `<REF_NAME><REF_NAME_SUFFIX>`
-			- Reference name suffixes (REF_NAME_SUFFIX):
-				- From time: `@{'<NUMBER> <seconds|minutes|hours|days|weeks|months> ago'}`
-				- From upstream: `@{upstream}`
-				- From downstream: `@{push}`
-		- Revisions from other revisions (REV) with an optional suffix (REV_SUFFIX):
-			- Revision without suffix: `<REV>`
-			- Revision with suffix: `<REV><REV_SUFFIX>`
-			- Revision suffixes (REV_SUFFIX):
-				- From N-th parent: `^{N}`
-				- From N-th generation ancestor (takes the first parents only): `~{N}` 
-		- Revision ranges from other revisions:
-			- All commits from REV_2 that are not in REV_1: `<REV_1>..<REV_2>`
-	- Examples:
-		- The current head: `HEAD`
-		- The commit on my-branch 10 minutes ago: `my-branch@{'10 minutes ago'}`
-		- The commit on the master branch in the remote: `master@{upstream}`
-		- The 2nd parent of the 1st parent of my-tag: `my-tag^1^2`
-		- The 3rd generation ancestor of c4470d0d5: `c4470d0d5~3` or `c4470d0d5^1^1^1`
-		- The commits in HEAD that are not in master: `master..HEAD`
+[Revisions](https://git-scm.com/docs/gitrevisions) are ways of specifying commits
+- Revisions are specified using any of following:
+	- Commit hash: `<COMMIT_HASH>`
+	- Named reference (REF_NAME) with an optional suffix (REF_NAME_SUFFIX):
+		- Reference name without suffix: `<REF_NAME>`
+		- Reference name with suffix: `<REF_NAME><REF_NAME_SUFFIX>`
+		- Reference name suffixes (REF_NAME_SUFFIX):
+			- From time: `@{'<NUMBER> <seconds|minutes|hours|days|weeks|months> ago'}`
+			- From upstream: `@{upstream}`
+			- From downstream: `@{push}`
+	- Revisions from other revisions (REV) with an optional suffix (REV_SUFFIX):
+		- Revision without suffix: `<REV>`
+		- Revision with suffix: `<REV><REV_SUFFIX>`
+		- Revision suffixes (REV_SUFFIX):
+			- From N-th parent: `^{N}`
+			- From N-th generation ancestor (takes the first parents only): `~{N}` 
+	- Revision ranges from other revisions:
+		- All commits from REV_2 that are not in REV_1: `<REV_1>..<REV_2>`
+- Examples:
+	- The current head: `HEAD`
+	- The commit on my-branch 10 minutes ago: `my-branch@{'10 minutes ago'}`
+	- The commit on the master branch in the remote: `master@{upstream}`
+	- The 2nd parent of the 1st parent of my-tag: `my-tag^1^2`
+	- The 3rd generation ancestor of c4470d0d5: `c4470d0d5~3` or `c4470d0d5^1^1^1`
+	- The commits in HEAD that are not in master: `master..HEAD`
 
 # ..., Pathspec, Resolution strategy, Reflog
-	- `...` denotes a repeatable argument (space separated)  
-	- Pathspecs are ways of specifiying paths that to be passed to certain Git commands
-		- Pathspecs are usually preceded by two dashes: `<GIT_COMMAND> -- <PATHSPEC>`
-		- Pathspecs are specified using any of following:
-			- Individual file path/s: `<FILE_i>...`
-			- File paths in the glob pattern: `lib/*.js`
-		- Examples:
-			- `git add -- file1.txt file2.txt file3.txt`
-			- `git rm -- file*.txt`
-	- Resolution strategy is a rule that automatically resolves conflicts
-		- `ours`: Forces conflicting hunks to be auto-resolved cleanly by favoring our version
-		- `theirs`: Opposite of ours
-	- Reference logs (reflogs) record when references were updated in the local repository
-		- This includes the previous states of HEAD - good for reverting bad resets, checkouts, merges
+- `...` denotes a repeatable argument (space separated)  
+- Pathspecs are ways of specifiying paths that to be passed to certain Git commands
+	- Pathspecs are usually preceded by two dashes: `<GIT_COMMAND> -- <PATHSPEC>`
+	- Pathspecs are specified using any of following:
+		- Individual file path/s: `<FILE_i>...`
+		- File paths in the glob pattern: `lib/*.js`
+	- Examples:
+		- `git add -- file1.txt file2.txt file3.txt`
+		- `git rm -- file*.txt`
+- Resolution strategy is a rule that automatically resolves conflicts
+	- `ours`: Forces conflicting hunks to be auto-resolved cleanly by favoring our version
+	- `theirs`: Opposite of ours
+- Reference logs (reflogs) record when references were updated in the local repository
+	- This includes the previous states of HEAD - good for reverting bad resets, checkouts, merges
 
-# [WIP] Git commands
+# Git commands
 A non-exhaustive list of Git commands and command options
-- Preferably GUI commands:
+- Preferably GUI commands: 
 	- [add](https://git-scm.com/docs/git-add.html): Add file contents to the index
-		- `git add <FILE>`
-		- `git add -- <PATHSPEC>`
+		- `git add <OPTIONS> <FILE>`
+		- `git add <OPTIONS> -- <PATHSPEC>`
+		- `git add <OPTIONS> .`: Stage all files in the current directory
+		- Options:
+			- `<-f|--force>`: Allow the adding of otherwise ignored files 
+Allow adding otherwise ignored files.
 	- [blame](https://git-scm.com/docs/git-blame.html): Show what revision and author last modified each line of a file
 		- `git blame <FILE>`
 		- `git blame -- <PATHSPEC>`
 	- [cat-file](https://git-scm.com/docs/git-cat-file): Provide content or type and size information for repository objects
-		- Try `git cat-file -p HEAD` to see the contents of HEAD commit file
+		- `git cat-file -p HEAD`: Will show the contents of the HEAD commit file (try it)
 	- [diff](https://git-scm.com/docs/git-diff.html): Show changes between commits, commit and working tree, etc
+		- `git diff <OPTIONS> <REV_1> <REV_2>`
+		- `git diff <OPTIONS> <REV_1> <REV_2> -- <PATHSPEC>`
+		- If REV_2 is not given, then REV_2 defaults to HEAD
+		- Options:
+			- `--stat`: Display the files changed and diffstats
+			- `--cached`: Diff starting from the index, i.e. REV_1 will be the index
 	- [cherry](https://git-scm.com/docs/git-cherry.html): Find commits yet to be applied to upstream
 	- [diff-tree](https://git-scm.com/docs/git-diff-tree.html): Compares the content and mode of blobs found via two tree objects
 	- [gui](https://git-scm.com/docs/git-gui.html): A portable graphical interface to Git
@@ -173,13 +186,13 @@ A non-exhaustive list of Git commands and command options
 		- `git pull`: An abbreviation for `git fetch` then `git merge origin/<CURRENT_BRANCH>`
 		- `git pull <OPTIONS> <REMOTE> <BRANCH_NAME>`
 		- Options:
-			- `-f`: Forcefully pull when existing commits are overridden by rebased remote commits
+			- `-f`: Forcefully pull when existing commits are overridden, by default Git only accepts commits that are on top of existing commits
 			- `--rebase`: An abbreviation for `git fetch` then `git rebase` rather than `git merge`
 			- `--strategy=<RESOLUTION_STRATEGY>`
 	- [push](https://git-scm.com/docs/git-push.html): Update remote refs along with associated objects
 		- `git push <OPTIONS> <REMOTE> <BRANCH_NAME>`
 		- Options:
-			- `-f`: Forcefully push when existing commits in the remote are overridden by rebased local commits 
+			- `-f`: Forcefully push when existing commits in the remote are overridden, by default Git only accepts commits that are on top of existing commits
 	- [rebase](https://git-scm.com/docs/git-rebase.html): Reapply commits on top of another base tip
 		- `git rebase <OPTIONS> <REV_i>...`
 		- Options:
@@ -208,14 +221,14 @@ A non-exhaustive list of Git commands and command options
 		- `git stash`
 		- `git stash pop`: Applies the lastest stashed changes on the current working tree
 	- [status](https://git-scm.com/docs/git-status.html): Show the working tree status
-	- [tag](https://git-scm.com/docs/git-tag.html): Create, list, delete or verify a tag object signed with GPG
+	- [tag](https://git-scm.com/docs/git-tag.html): Create, list, delete or verify a tag object
 		- `git tag <TAG_NAME>`: Creates a new tag
 		- `git tag <OPTIONS> <TAG_NAME>`
 		- Options:
 			- `-d`: Delete a tag
 			- `-l`: List all tags
 
-# [WIP] Git + Unix commands
+# Git + Unix commands
 Git works well with Unix commands
 - Creating a patch from  a diff
 	- Example: `git diff HEAD~1 > last_change.patch`: Redirect the output of diff to a file
@@ -224,4 +237,7 @@ Git works well with Unix commands
 		- `git ls-tree -r origin/master --name-only`: Display all the filenames in the tree of origin/master, then pipe out
 		- `xargs -I{} git blame {}`: Take the piped filenames and passes it to git blame, then pipe out
 		- `grep '2018-11-'`: Take the piped blame and keep only the rows that contain "2018-11-"
-- etcetc.
+- etcetcetica.
+
+# Common mistakes
+- Nika
