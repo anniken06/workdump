@@ -17,6 +17,14 @@
 		- Merge commits have multiple parent commits
 	- Commit message, time of commit, author name & email
 
+<details> <summary>Git diagrams</summary>
+
+TODO: Text1
+![Git primitives graph](https://git-scm.com/figures/18333fig0301-tn.png)
+TODO: Text2
+![Git commit graph](https://git-scm.com/figures/18333fig0302-tn.png)
+</details>
+
 # Branching & merging
 - Branching: Enables the development of different versions of a repository simultaneously
 - Merging: Integrates the changes from one branch into another branch
@@ -241,3 +249,7 @@ Git works well with Unix commands
 
 # Common mistakes
 - Nika
+
+
+
+
