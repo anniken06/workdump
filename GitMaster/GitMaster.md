@@ -2,8 +2,9 @@
 
 
 # What is Git
-- Git = File system + Versioning + Branching & merging
+- Git = File system + Versioning + Branching & merging  @nika : can be described as modern version control system
 - Git is a persistent map where the keys are SHA1 hashes and they reference primitive objects
+
 
 # Primitive objects in Git (File system + Versioning)
 - Blob: raw data
