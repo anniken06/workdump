@@ -77,6 +77,60 @@ A non-exhaustive list of Git commands and command options
 <!-- ########################################################################################## -->
 <!-- ########################################################################################## -->
 
+## Initialize Setup
+- [init](https://git-scm.com/docs/git-init.html): Create an empty Git repository or reinitialize an existing one
+- [remote](https://git-scm.com/docs/git-remote.html): Manage set of tracked repositories
+- [clone](https://git-scm.com/docs/git-clone.html): Clone a repository into a new directory
+- [config](https://git-scm.com/docs/git-config.html): Get and set repository or global options
+		- `git config <OPTIONS>`
+		- Options:
+			- `--list`: List all variables set in config file along with their values
+			- `--global <KEY> <VALUE>`: Write to global config file rather than the repository config file
+				- `--global user.name 'John Paul Guzman'`
+				- `--global user.email 'JohnPaul.Guzman@infor.com'`
+				- `--global core.editor 'notepad'`: Sets the text editor used by Git from vim to notepad.
+
+## Get Info
+- [blame](https://git-scm.com/docs/git-blame.html): Show what revision and author last modified each line of a file
+		- `git blame <FILE>`
+		- `git blame -- <PATHSPEC>`
+- [diff](https://git-scm.com/docs/git-diff.html): Show changes between commits, commit and working tree, etc
+		- `git diff <OPTIONS> <REV_1> <REV_2>`
+		- `git diff <OPTIONS> <REV_1> <REV_2> -- <PATHSPEC>`
+		- If REV_2 is not given, then REV_2 defaults to HEAD
+		- Options:
+			- `--stat`: Display the files changed and diffstats
+			- `--cached`: Diff starting from the index, i.e. REV_1 will be the index
+- [diff-tree](https://git-scm.com/docs/git-diff-tree.html): Compares the content and mode of blobs found via two tree objects
+- [help](https://git-scm.com/docs/git-help.html): Display help information about Git
+- [log](https://git-scm.com/docs/git-log.html): Show commit logs
+		- `git log`
+		- `git log <OPTIONS>`
+		- Options:
+			- `--oneline`: Shows abbreviated single line version of commit logs
+- [ls-files](https://git-scm.com/docs/git-ls-files.html): Show information about files in the index and the working tree
+- [ls-tree](https://git-scm.com/docs/git-ls-tree.html): List the contents of a tree object	
+- [status](https://git-scm.com/docs/git-status.html): Show the working tree status
+
+## Branch
+- [branch](https://git-scm.com/docs/git-branch.html): Enables the development of different versions of a repository simultaneously
+		- `git branch <OPTIONS>`
+		- Options:
+			- `--list`: List branches
+			- `-d`: Delete branch
+- [checkout](https://git-scm.com/docs/git-checkout.html): Switch branches or restore working tree files
+		- `git checkout <OPTIONS> <BRANCH_NAME>`: Switch branches
+		- `git checkout <REV> -- <PATHSPEC>`: Resets the files in the pathspec to the version from the specified revision 
+		- Options:
+			- `-f`: Proceed even if the index or the working tree differs from HEAD and throw away local changes
+			- `-b`: Create a new branch then switch
+- [show-branch](https://git-scm.com/docs/git-show-branch.html): Show branches and their commits
+	- [show-ref](https://git-scm.com/docs/git-show-ref.html): List references in a local repository
+	- [show](https://git-scm.com/docs/git-show.html): Show various types of objects
+
+## Merging
+- Merging: Integrates the changes from one branch into another branch
+
 ## Revision syntax
 - [Revisions](https://git-scm.com/docs/gitrevisions) are specified using any of following:
 	- Commit hash: `<COMMIT_HASH>`
@@ -117,9 +171,7 @@ A non-exhaustive list of Git commands and command options
 	- `ours`: Forces conflicting hunks to be auto-resolved cleanly by favoring our version
 	- `theirs`: Opposite of ours
 
-## Branching & merging
-- Branching: Enables the development of different versions of a repository simultaneously
-- Merging: Integrates the changes from one branch into another branch
+
 
 <!-- ########################################################################################## -->
 <!-- ########################################################################################## -->
@@ -132,23 +184,14 @@ A non-exhaustive list of Git commands and command options
 		- Options:
 			- `<-f|--force>`: Allow the adding of otherwise ignored files 
 Allow adding otherwise ignored files.
-	- [blame](https://git-scm.com/docs/git-blame.html): Show what revision and author last modified each line of a file
-		- `git blame <FILE>`
-		- `git blame -- <PATHSPEC>`
+	
 	- [cat-file](https://git-scm.com/docs/git-cat-file): Provide content or type and size information for repository objects
 		- `git cat-file -p HEAD`: Will show the contents of the HEAD commit file (try it)
-	- [diff](https://git-scm.com/docs/git-diff.html): Show changes between commits, commit and working tree, etc
-		- `git diff <OPTIONS> <REV_1> <REV_2>`
-		- `git diff <OPTIONS> <REV_1> <REV_2> -- <PATHSPEC>`
-		- If REV_2 is not given, then REV_2 defaults to HEAD
-		- Options:
-			- `--stat`: Display the files changed and diffstats
-			- `--cached`: Diff starting from the index, i.e. REV_1 will be the index
+	
 	- [cherry](https://git-scm.com/docs/git-cherry.html): Find commits yet to be applied to upstream
-	- [diff-tree](https://git-scm.com/docs/git-diff-tree.html): Compares the content and mode of blobs found via two tree objects
+	
 	- [gui](https://git-scm.com/docs/git-gui.html): A portable graphical interface to Git
-	- [ls-files](https://git-scm.com/docs/git-ls-files.html): Show information about files in the index and the working tree
-	- [ls-tree](https://git-scm.com/docs/git-ls-tree.html): List the contents of a tree object
+	
 	- [rm](https://git-scm.com/docs/git-rm.html): Remove files from the working tree and from the index
 		- `git rm <OPTIONS> <FILE>`
 		- `git rm <OPTIONS> -- <PATHSPEC>`
@@ -156,25 +199,18 @@ Allow adding otherwise ignored files.
 		- Options:
 			- `-r`: Allows recursive removal when passing a folder
 			- `--cached`: Remove file from the index but keep it in the working tree
-	- [show-branch](https://git-scm.com/docs/git-show-branch.html): Show branches and their commits
-	- [show-ref](https://git-scm.com/docs/git-show-ref.html): List references in a local repository
-	- [show](https://git-scm.com/docs/git-show.html): Show various types of objects
+	
 - Preferably CLI commands:
 	- [apply](https://git-scm.com/docs/git-apply.html): Apply a patch to files and/or to the index
 	- [bisect](https://git-scm.com/docs/git-bisect.html): Use binary search to find the commit that introduced a bug
-	- [checkout](https://git-scm.com/docs/git-checkout.html): Switch branches or restore working tree files
-		- `git checkout <OPTIONS> <BRANCH_NAME>`: Switch branches
-		- `git checkout <REV> -- <PATHSPEC>`: Resets the files in the pathspec to the version from the specified revision 
-		- Options:
-			- `-f`: Proceed even if the index or the working tree differs from HEAD and throw away local changes
-			- `-b`: Create a new branch then switch
+	
 	- [cherry-pick](https://git-scm.com/docs/git-cherry-pick.html): Apply the changes introduced by some existing commits and create a new commit
 		- `git cherry-pick <OPTIONS> <REV_i>...`: Apply diffs from the specified revisions
 		- `git cherry-pick --<continue|quit|abort>`
 		- Options:
 			- `--no-commit`: Apply the changes but keep them in the index
 	- [clean](https://git-scm.com/docs/git-clean.html): Remove untracked files from the working tree
-	- [clone](https://git-scm.com/docs/git-clone.html): Clone a repository into a new directory
+	
 	- [commit](https://git-scm.com/docs/git-commit.html): Record changes to the repository
 		- `git commit`: Create a new commit via text editor
 		- `git commit <OPTIONS>`
@@ -182,27 +218,14 @@ Allow adding otherwise ignored files.
 			- `-m <MESSAGE>`: Specifies the commit message
 			- `--fixup=<REV>`: Creates a commit that is fixup-able to the specified revision
 				- By default, you can only create fixup commits applicable to the HEAD
-	- [config](https://git-scm.com/docs/git-config.html): Get and set repository or global options
-		- `git config <OPTIONS>`
-		- Options:
-			- `--list`: List all variables set in config file along with their values
-			- `--global <KEY> <VALUE>`: Write to global config file rather than the repository config file
-				- `--global user.name 'John Paul Guzman'`
-				- `--global user.email 'JohnPaul.Guzman@infor.com'`
-				- `--global core.editor 'notepad'`: Sets the text editor used by Git from vim to notepad
+	
 	- [fetch](https://git-scm.com/docs/git-fetch.html): Download objects and refs from another repository then update the remote-tracking branch
 		- `git fetch`: Fetch current branch
 		- `git fetch <OPTIONS>`
 		- Options:
 			- `--all`: Fetch all remotes
 	- [gc](https://git-scm.com/docs/git-gc.html): Cleanup unnecessary files and optimize the local repository
-	- [help](https://git-scm.com/docs/git-help.html): Display help information about Git
-	- [init](https://git-scm.com/docs/git-init.html): Create an empty Git repository or reinitialize an existing one
-	- [log](https://git-scm.com/docs/git-log.html): Show commit logs
-		- `git log`
-		- `git log <OPTIONS>`
-		- Options:
-			- `--oneline`: Shows abbreviated single line version of commit logs
+
 	- [merge-base](https://git-scm.com/docs/git-merge-base.html): Find as good common ancestors as possible for a merge
 	- [merge](https://git-scm.com/docs/git-merge.html): Join two or more development histories together
 		- `git merge <OPTIONS> <REV_i>...`
@@ -237,7 +260,7 @@ Allow adding otherwise ignored files.
 		- `git reflog <OPTIONS>`
 		- Options:
 			- `--all`: Process the reflogs of all references including the individual steps within rebase/merge
-	- [remote](https://git-scm.com/docs/git-remote.html): Manage set of tracked repositories
+	
 	- [reset](https://git-scm.com/docs/git-reset.html): Reset current HEAD to the specified state
 		- `git reset <MODE> <REV>`
 		- Modes:
@@ -248,7 +271,7 @@ Allow adding otherwise ignored files.
 	- [stash](https://git-scm.com/docs/git-stash.html): Stash the changes in a dirty working directory away
 		- `git stash`
 		- `git stash pop`: Applies the lastest stashed changes on the current working tree
-	- [status](https://git-scm.com/docs/git-status.html): Show the working tree status
+	
 	- [tag](https://git-scm.com/docs/git-tag.html): Create, list, delete or verify a tag object
 		- `git tag <TAG_NAME>`: Creates a new tag
 		- `git tag <OPTIONS> <TAG_NAME>`
