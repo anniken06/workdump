@@ -82,13 +82,13 @@ A non-exhaustive list of Git commands and command options
 - [remote](https://git-scm.com/docs/git-remote.html): Manage set of tracked repositories
 - [clone](https://git-scm.com/docs/git-clone.html): Clone a repository into a new directory
 - [config](https://git-scm.com/docs/git-config.html): Get and set repository or global options
-		- `git config <OPTIONS>`
-		- Options:
-			- `--list`: List all variables set in config file along with their values
-			- `--global <KEY> <VALUE>`: Write to global config file rather than the repository config file
-				- `--global user.name 'John Paul Guzman'`
-				- `--global user.email 'JohnPaul.Guzman@infor.com'`
-				- `--global core.editor 'notepad'`: Sets the text editor used by Git from vim to notepad.
+	- `git config <OPTIONS>`
+	- Options:
+		- `--list`: List all variables set in config file along with their values
+		- `--global <KEY> <VALUE>`: Write to global config file rather than the repository config file
+			- `--global user.name 'John Paul Guzman'`
+			- `--global user.email 'JohnPaul.Guzman@infor.com'`
+			- `--global core.editor 'notepad'`: Sets the text editor used by Git from vim to notepad.
 
 ## Pathspec syntax
 - Pathspecs are usually preceded by two dashes: `<GIT_COMMAND> -- <PATHSPEC>`
@@ -134,25 +134,25 @@ A non-exhaustive list of Git commands and command options
 ## Get Info
 - [bisect](https://git-scm.com/docs/git-bisect.html): Use binary search to find the commit that introduced a bug
 - [blame](https://git-scm.com/docs/git-blame.html): Show what revision and author last modified each line of a file
-		- `git blame <FILE>`
-		- `git blame -- <PATHSPEC>`
+	- `git blame <FILE>`
+	- `git blame -- <PATHSPEC>`
 - [cat-file](https://git-scm.com/docs/git-cat-file): Provide content or type and size information for repository objects
-		- `git cat-file -p HEAD`: Will show the contents of the HEAD commit file
+	- `git cat-file -p HEAD`: Will show the contents of the HEAD commit file
 - [cherry](https://git-scm.com/docs/git-cherry.html): Find commits yet to be applied to upstream
 - [diff](https://git-scm.com/docs/git-diff.html): Show changes between commits, commit and working tree, etc
-		- `git diff <OPTIONS> <REV_1> <REV_2>`
-		- `git diff <OPTIONS> <REV_1> <REV_2> -- <PATHSPEC>`
-		- If REV_2 is not given, then REV_2 defaults to HEAD
-		- Options:
-			- `--stat`: Display the files changed and diffstats
-			- `--cached`: Diff starting from the index, i.e. REV_1 will be the index
+	- `git diff <OPTIONS> <REV_1> <REV_2>`
+	- `git diff <OPTIONS> <REV_1> <REV_2> -- <PATHSPEC>`
+	- If REV_2 is not given, then REV_2 defaults to HEAD
+	- Options:
+		- `--stat`: Display the files changed and diffstats
+		- `--cached`: Diff starting from the index, i.e. REV_1 will be the index
 - [diff-tree](https://git-scm.com/docs/git-diff-tree.html): Compares the content and mode of blobs found via two tree objects
 - [help](https://git-scm.com/docs/git-help.html): Display help information about Git
 - [log](https://git-scm.com/docs/git-log.html): Show commit logs
-		- `git log`
-		- `git log <OPTIONS>`
-		- Options:
-			- `--oneline`: Shows abbreviated single line version of commit logs
+	- `git log`
+	- `git log <OPTIONS>`
+	- Options:
+		- `--oneline`: Shows abbreviated single line version of commit logs
 - [ls-files](https://git-scm.com/docs/git-ls-files.html): Show information about files in the index and the working tree
 - [ls-tree](https://git-scm.com/docs/git-ls-tree.html): List the contents of a tree object
 - [reflog](https://git-scm.com/docs/git-reflog.html): Manage reflog information
@@ -164,15 +164,15 @@ A non-exhaustive list of Git commands and command options
 
 ## Branch
 - [branch](https://git-scm.com/docs/git-branch.html): Enables the development of different versions of a repository simultaneously
-		- `git branch <OPTIONS>`
-		- Options:
-			- `--list`: List branches
-			- `-d`: Delete branch
+	- `git branch <OPTIONS>`
+	- Options:
+		- `--list`: List branches
+		- `-d`: Delete branch
 - [checkout](https://git-scm.com/docs/git-checkout.html): Switch branches or restore working tree files
-		- `git checkout <OPTIONS> <BRANCH_NAME>`: Switch branches
-		- Options:
-			- `-f`: Proceed even if the index or the working tree differs from HEAD and throw away local changes
-			- `-b`: Create a new branch then switch
+	- `git checkout <OPTIONS> <BRANCH_NAME>`: Switch branches
+	- Options:
+		- `-f`: Proceed even if the index or the working tree differs from HEAD and throw away local changes
+		- `-b`: Create a new branch then switch
 - [show-branch](https://git-scm.com/docs/git-show-branch.html): Show branches and their commits
 	- [show-ref](https://git-scm.com/docs/git-show-ref.html): List references in a local repository
 	- [show](https://git-scm.com/docs/git-show.html): Show various types of objects
@@ -208,21 +208,21 @@ A non-exhaustive list of Git commands and command options
 		
 ## Upstream Repository
 - [fetch](https://git-scm.com/docs/git-fetch.html): Download objects and refs from another repository then update the remote-tracking branch
-		- `git fetch`: Fetch current branch
-		- `git fetch <OPTIONS>`
-		- Options:
-			- `--all`: Fetch all remotes
+	- `git fetch`: Fetch current branch
+	- `git fetch <OPTIONS>`
+	- Options:
+		- `--all`: Fetch all remotes
 - [pull](https://git-scm.com/docs/git-pull.html): Fetch from and integrate with another repository or a local branch
-		- `git pull`: An abbreviation for `git fetch` then `git merge origin/<CURRENT_BRANCH>`
-		- `git pull <OPTIONS> <REMOTE> <BRANCH_NAME>`
-		- Options:
-			- `-f`: Forcefully pull when existing commits are overridden, by default Git only accepts commits that are on top of existing commits
-			- `--rebase`: An abbreviation for `git fetch` then `git rebase` rather than `git merge`
-			- `--strategy=<RESOLUTION_STRATEGY>`
+	- `git pull`: An abbreviation for `git fetch` then `git merge origin/<CURRENT_BRANCH>`
+	- `git pull <OPTIONS> <REMOTE> <BRANCH_NAME>`
+	- Options:
+		- `-f`: Forcefully pull when existing commits are overridden, by default Git only accepts commits that are on top of existing commits
+		- `--rebase`: An abbreviation for `git fetch` then `git rebase` rather than `git merge`
+		- `--strategy=<RESOLUTION_STRATEGY>`
 - [push](https://git-scm.com/docs/git-push.html): Update remote refs along with associated objects
-		- `git push <OPTIONS> <REMOTE> <BRANCH_NAME>`
-		- Options:
-			- `-f`: Forcefully push when existing commits in the remote are overridden, by default Git only accepts commits that are on top of existing commits
+	- `git push <OPTIONS> <REMOTE> <BRANCH_NAME>`
+	- Options:
+		- `-f`: Forcefully push when existing commits in the remote are overridden, by default Git only accepts commits that are on top of existing commits
 
 ## Merge
 - Merging: Integrates the changes from one branch into another branch
@@ -235,16 +235,16 @@ A non-exhaustive list of Git commands and command options
 
 ## Rebase
 - [rebase](https://git-scm.com/docs/git-rebase.html): Reapply commits on top of another base tip
-		- `git rebase <OPTIONS> <REV_i>...`
-		- Options:
-			- `--strategy=<RESOLUTION_STRATEGY>`
-			- `<-i|--interactive>`: Make a list of the commits which are about to be rebased and lets the user edit the history using the following commands
-				- `<p|pick>`: use commit
-				- `<r|reword>`: use commit, but edit the commit message
-				- `<e|edit>`: use commit, but stop for amending
-				- `<s|squash>`: use commit, but meld into previous commit
-				- `<f|fixup>`: like "squash", but discard this commit's log message
-				- `<d|drop>`: remove commit
+	- `git rebase <OPTIONS> <REV_i>...`
+	- Options:
+		- `--strategy=<RESOLUTION_STRATEGY>`
+		- `<-i|--interactive>`: Make a list of the commits which are about to be rebased and lets the user edit the history using the following commands
+			- `<p|pick>`: use commit
+			- `<r|reword>`: use commit, but edit the commit message
+			- `<e|edit>`: use commit, but stop for amending
+			- `<s|squash>`: use commit, but meld into previous commit
+			- `<f|fixup>`: like "squash", but discard this commit's log message
+			- `<d|drop>`: remove commit
 
 ## Fixing Common Mistakes
 - Remove files from the working tree and from the index
@@ -269,11 +269,11 @@ A non-exhaustive list of Git commands and command options
 			- `--no-commit`: Apply the changes but keep them in the index
 - Reset changes
 	- [reset](https://git-scm.com/docs/git-reset.html): Reset current HEAD to the specified state
-			- `git reset <MODE> <REV>`
-			- Modes:
-				- `--hard`: Reset the index and working tree
-				- `--soft`: Keep the index and working tree
-				- `--mixed`: Reset the index and keep the working tree (default)
+		- `git reset <MODE> <REV>`
+		- Modes:
+			- `--hard`: Reset the index and working tree
+			- `--soft`: Keep the index and working tree
+			- `--mixed`: Reset the index and keep the working tree (default)
 - Remove untracked files
 	- [clean](https://git-scm.com/docs/git-clean.html): Remove untracked files from the working tree
 - Wrong git reset
